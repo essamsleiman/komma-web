@@ -1,0 +1,10 @@
+/* media query to give the page a set width above a certain screen width */
+@media (min-width: 1285px) {
+  .container-fluid {
+    max-width: 1280px;
+  }
+}
+
+body {
+  overflow-x: hidden;
+}

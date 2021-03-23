@@ -1,0 +1,108 @@
+/*
+  Page Display
+*/
+
+/* media query to give the page a set width above a certain screen width */
+@media (min-width: 1285px) {
+  .container-fluid {
+    max-width: 1280px;
+  }
+}
+body {
+  overflow-x: hidden;
+}
+.background {
+  background-color: var(--verylightblue);
+}
+
+/*
+  Typography
+*/
+
+* {
+  font-family: 'Lato';
+}
+h1 {
+  font-size: 4rem;
+}
+h2 {
+  font-size: 3rem;
+}
+h3 {
+  font-size: 1.5rem;
+}
+h4 {
+  font-size: 1.25rem;
+}
+p {
+  font-size: 1rem;
+}
+.label {
+  font-size: 0.75rem;
+}
+.tiny {
+  font-size: 0.625rem;
+}
+.bold {
+  font-weight: 700;
+}
+.black {
+  font-weight: 900;
+}
+.italic {
+  font-style: italic;
+}
+
+/*
+  Colors & Effects
+*/
+
+:root {
+  --kommablack: #333333;
+  --kommapurple: #9F84EA;
+  --verylightgray: #E7E7E7;
+  --lightgray: #C4C4C4;
+  --mediumgray: #999999;
+  --kommagreen: #47CB6C;
+  --kommared: #FF6E6E;
+  --verylightblue: #F9FBFC;
+  --lightred: #FFDEDE;
+  --white: #FFFFFF;
+  --gradient: linear-gradient(253.87deg, #9F84EA 23.87%, #78CEFF 101.41%);
+  --drop_shadow: 2px 4px 20px rgba(64, 64, 64, 0.05);
+  --purple_shadow: 2px 4px 10px rgba(159, 132, 234, 0.5);
+  --small_drop_shadow: 1px 1px 5px rgba(64, 64, 64, 0.15);
+  --small_purple_shadow: 1px 2px 5px rgba(159, 132, 234, 0.5);
+}
+
+/*
+  Components
+*/
+
+.solid_button, .hollow_button, .disabled_button {
+  border: 0px;
+  border-radius: 4px;
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  width: 156px;
+  height: 40px;
+}
+
+.solid_button {
+  background-color: var(--kommapurple);
+  color: var(--white);
+  box-shadow: var(--purple_shadow);
+}
+
+.hollow_button {
+  border: 1px solid var(--mediumgray); 
+  background: var(--white);
+  color: var(--mediumgray); 
+}
+
+.disabled_button {
+  background: var(--verylightgray);
+  color: var(--lightgray); 
+}
