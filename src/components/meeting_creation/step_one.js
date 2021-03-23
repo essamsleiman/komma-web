@@ -10,9 +10,9 @@ function StepOne(props) {
 
     return props.activeStep == 1 && (
         <div>
-            <button className="solid_button" onClick={next}>Next</button> <br /><br />
-            <button className="hollow_button" onClick={next}>Back</button> <br /><br />
-            <button className="disabled_button" onClick={next}>Disabled</button>
+            <button className="solid-button" onClick={next}>Next</button> <br /><br />
+            <button className="hollow-button" onClick={next}>Back</button> <br /><br />
+            <button className="disabled-button" onClick={next}>Disabled</button>
         </div>
     );
 }
