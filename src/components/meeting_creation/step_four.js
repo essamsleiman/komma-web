@@ -14,9 +14,6 @@ function StepFour(props) {
 
     return props.activeStep == 4 && (
         <div>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style={{width: '100%'}} aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
             <button>Step Four</button>
         </div>
     );

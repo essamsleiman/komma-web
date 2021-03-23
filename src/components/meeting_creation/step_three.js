@@ -15,9 +15,6 @@ function StepThree(props) {
 
     return props.activeStep == 3 && (
         <div>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style={{width: '75%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
             <button>Step Three</button>
         </div>
     );

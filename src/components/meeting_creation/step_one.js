@@ -10,9 +10,6 @@ function StepOne(props) {
 
     return props.activeStep == 1 && (
         <div>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style={{width: '25%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
             <button className="solid_button" onClick={next}>Next</button> <br /><br />
             <button className="hollow_button" onClick={next}>Back</button> <br /><br />
             <button className="disabled_button" onClick={next}>Disabled</button>

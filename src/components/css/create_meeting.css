@@ -1,3 +1,20 @@
 .content-padding {
     margin-top: 3rem;
 }
+
+.progress-bar {
+    background-color: var(--kommapurple);
+    border-radius: 50px;
+}
+
+.progress-bar-text-container {
+    padding-left: 1rem; 
+    padding-right: 1rem; 
+    display: flex;
+    justify-content: space-between; 
+}
+
+.progress-bar-text {
+    color: var(--kommapurple);
+    display: inline-block;
+}
