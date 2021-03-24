@@ -12,7 +12,8 @@ body {
   overflow-x: hidden;
 }
 .background {
-  background-color: var(--verylightblue);
+  background-color: var(--verylightblue); 
+  min-height: 100vh; 
 }
 
 /*

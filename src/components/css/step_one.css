@@ -1,0 +1,39 @@
+@media (min-width: 580px) {
+  .container-fluid {
+    max-width: 575
+  }
+}
+
+.container { 
+  background-color: white;
+  box-shadow: 2px 4px 20px rgba(64, 64, 64, 0.05); 
+  border-radius: 4px; 
+}
+
+.content { 
+  padding: 30px;
+  padding-bottom: 70px;
+}
+
+.name-box, .description-box { 
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.description-box { 
+  width: 100%; 
+}
+
+.label-spacing { 
+  margin-bottom: 0.4rem; 
+} 
+
+.question-spacing { 
+  margin-top: 40px; 
+} 
+
+.button-spacing { 
+  margin-top: 12px; 
+  float: right; 
+}
