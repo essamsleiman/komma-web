@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Step_one from './meeting_creation/step_one'
@@ -7,11 +7,12 @@ import Step_three from './meeting_creation/step_three'
 import Step_four from './meeting_creation/step_four'
 import './css/create_meeting.css'
 
+
 function CreateMeeting() {
 
     const [activeStep, setActiveStep] = useState(1)
     const [data, setData] = useState({}) 
-    
+
     return (
         <div className="container-fluid p-0">
             <div className="row no-gutters justify-content-center">

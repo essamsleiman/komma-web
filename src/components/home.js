@@ -9,7 +9,13 @@ function Home() {
 
     return (
         <div> 
-            <button onClick={signin}>Sign in with Google</button>
+            <button  
+                onClick={() => {
+                    window.open("http://localhost:5000/auth/google", "_self");
+                }}
+                >
+              Sign in with Google
+              </button>
         </div>
     );
 }

@@ -20,7 +20,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   GoogleUser.findById(id)
     .then((user) => {
-      console.log("PASSPORTUSER", user)
+      // console.log("PASSPORTUSER", user)
       done(null, user);
     })
     .catch((e) => {
@@ -37,7 +37,7 @@ passport.use(
     },
 
     async (accessToken, refreshToken, profile, done) => {
-      console.log("Profile", profile)
+      // console.log("Profile", profile)
       const newUser = {
         googleId: profile.id,
         firstName: profile.name.givenName,
@@ -77,14 +77,18 @@ passport.use(new BearerStrategy(
   // key in the schema and users are given one by Google
   GoogleUser.find({ accessToken: token }, (err, user) => {
       if (err) {
+        console.log("in error")
         return done(null, false);
       }
       
       // if no user is found with that accesstoken, 
       // return the done function with false
       if (!user.length) {
+        console.log("in if")
+
         return done(null, false);
       }
+      console.log("in else", user)
       
       // otherwise, return the first user in the user
       // array because the user array should only have 1

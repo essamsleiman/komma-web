@@ -32,7 +32,7 @@ router.get(
   }),
   function (req, res, next) {
     // res.send(req.user);
-    res.redirect("http://localhost:3000/myprofile/");
+    res.redirect("http://localhost:3000/create/");
   }
 );
 
@@ -41,6 +41,7 @@ router.get(
 var userId = "";
 var staffOfOrgsArr;
 router.get("/success", passport.authenticate('bearer', { session: false }), (req, res) => {
+
   if (req.user) {
     console.log("REQEssam", req.user);
     return req.user
