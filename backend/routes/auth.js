@@ -10,6 +10,8 @@ const mongoose = require("mongoose");
 router.get("/", (req, res) => res.send("hi"));
 router.get("/failed", (req, res) => res.send("failure"));
 
+// Calls google auth api
+
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -19,6 +21,8 @@ router.get(
     ],
   })
 );
+
+//Callback for google auth api
 
 router.get(
   "/google/callback",
@@ -31,6 +35,20 @@ router.get(
     res.redirect("http://localhost:3000/myprofile/");
   }
 );
+
+// rerouted here after callback
+
+var userId = "";
+var staffOfOrgsArr;
+router.get("/success", passport.authenticate('bearer', { session: false }), (req, res) => {
+  if (req.user) {
+    console.log("REQEssam", req.user);
+    return req.user
+  } else {
+    console.log("FAIL IN REQ");
+    return null
+  }
+});
 
 
 
