@@ -18,6 +18,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "googleapis": "^39.2.0",
     "mongoose": "^5.10.2",
     "mongoose-findorcreate": "^3.0.0",
     "passport": "^0.4.1",
