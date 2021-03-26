@@ -4,15 +4,40 @@ import '../css/step_one.css'
 
 function StepOne(props) {
 
+    const [meetingName, setMeetingName] = useState('');
+    const [description, setDescription] = useState(''); 
+
+    function handleMeetingNameChange(event) { 
+        setMeetingName(event.target.value); 
+    }
+
+    function handleDescriptionChange(event) { 
+        setDescription(event.target.value);
+    }
+
     function next() {
         props.setActiveStep(2) 
+        console.log(meetingName);
+        console.log(description);
     }
 
     return props.activeStep == 1 && (
-        <div>
-            <button className="solid-button" onClick={next}>Next</button> <br /><br />
-            <button className="hollow-button" onClick={next}>Back</button> <br /><br />
-            <button className="disabled-button" onClick={next}>Disabled</button>
+        <div className="container-fluid p-0">
+            <div className="row no-gutters">
+                <div className="col-sm-7 container">
+                    <div className="content"> 
+                        <h3 className="bold">🤝Hello there! What is your meeting about?</h3>
+                        <p className="label label-spacing">Meeting Title</p> 
+                        <input className="name-box" type="text" value={meetingName} onChange={handleMeetingNameChange} /> 
+                        <div className="question-spacing" /> 
+
+                        <h3 className="bold">✅Any agenda items?</h3>
+                        <p className="label label-spacing">Description</p> 
+                        <textarea className="description-box" type="text" rows="6" value={description} onChange={handleDescriptionChange} />
+                        <button className="solid-button button-spacing" onClick={next}>Next</button>
+                    </div> 
+                </div>
+            </div>
         </div>
     );
 }
