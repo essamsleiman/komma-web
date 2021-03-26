@@ -36,7 +36,7 @@ function CreateMeeting() {
     }, [activeStep]) 
     
     return (
-        <div className="container-fluid p-0">
+        <div>
             <div className="row no-gutters justify-content-center">
                 <div className="col-sm-6">
                     <div className="progress-bar-text-container content-padding"> 
@@ -47,7 +47,7 @@ function CreateMeeting() {
                         <div class="progress-bar" role="progressbar" style={{width: stepPercentage}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
-                <div className="col-sm-10">
+                <div className="steps col-sm-12" style={{marginTop: '1rem'}}>
                     <Step_one activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
                     <Step_two activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
                     <Step_three activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />

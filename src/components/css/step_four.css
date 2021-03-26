@@ -1,0 +1,9 @@
+.card p {
+  margin-bottom: 0.5rem;
+}
+.card label {
+  font-size: 1rem;
+}
+.when-send, .options {
+  margin-bottom: 2rem;
+}

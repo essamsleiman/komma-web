@@ -1,20 +1,79 @@
 import react, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import '../css/step_two.css' 
+import "../css/step_two.css"
+import google_meet_logo from "../../img/google_meet_logo.png"
+import location_icon from "../../img/location_icon.png"
 
 function StepTwo(props) {
+    const [googleMeetSelected, setGoogleMeetSelected] = useState(false);
+    const [inPersonSelected, setInPersonSelected] = useState(false);
 
     function next() {
-        props.setActiveStep(3) 
+
+        props.setData({...props.data, "location": getLocation()});
+        props.setActiveStep(3);
     }
 
     function back() {
-        props.setActiveStep(1) 
+        props.setData({...props.data, "location": getLocation()});
+        props.setActiveStep(1);
+    }
+
+    function getLocation() {
+        if (googleMeetSelected)
+            return "google"
+        else
+            return "in person"
     }
 
     return props.activeStep == 2 && (
-        <div>
-            <button>Step Two</button>
+        <div className="row no-gutters justify-content-center">
+            <div className="col-md-8">
+                <div className="card">
+                    <h3 className="bold">📍 Where is your meeting?</h3>
+                    <p>For online meetings, we'll generate the link for you!</p>
+
+                    <button type="button" 
+                            className={"loc-option " + (googleMeetSelected ? " active" : "")} 
+                            onClick={() => {setGoogleMeetSelected(true);
+                                            setInPersonSelected(false);}}
+                    >
+                        <div className="row align-items-center">
+                            <div className="loc-name col-12">
+                                <img src={google_meet_logo}/>
+                                <p>Google Meet</p>
+                            </div>
+                        </div>
+                    </button>
+                    <button type="button"
+                            className={"loc-option " + (inPersonSelected ? " active" : "")} 
+                            onClick={() => {setGoogleMeetSelected(false);
+                                            setInPersonSelected(true);}}
+                    >
+                        <div className="left">
+                            <img src={location_icon}/>
+                        </div>
+                        <div className="right row no-gutters">
+                            <div className="col-12">
+                                <p>In Person</p>
+                            </div>
+                            <div className="loc-field col-12">
+                                <p className="label">Location</p>
+                                <input className="field" type="text" onChange={props.setData}/>
+                            </div>
+                        </div>
+                    </button>
+
+                    <div className="nav-buttons row no-gutters">
+                        <div className="col">
+                            <button className="hollow-button" onClick={back}>Back</button>
+                        </div>
+                        <div className="col d-flex justify-content-end">
+                            <button className="solid-button" onClick={next}>Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

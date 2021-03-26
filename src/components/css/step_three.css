@@ -1,0 +1,110 @@
+/* General Page CSS */
+@media (min-width: 1125px) {
+    .container-fluid {
+      max-width: 1120px;
+    }
+  }
+  
+.container { 
+  background-color: white;
+  box-shadow: 2px 4px 20px rgba(64, 64, 64, 0.05); 
+  border-radius: 4px; 
+}
+
+.content { 
+  padding: 30px;
+  padding-bottom: 70px;
+}
+
+/* Switch Button CSS */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  margin-top: 16px; 
+  width: 37px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--lightgray);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--white);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--kommapurple);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--komapurple);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Custom Class CSS */ 
+
+.advanced-select-text-wrapper {
+  position: relative;
+  top: -3px;
+  left: 7px;
+  height: 37px;
+  display: inline-block;
+  text-align: top;
+  color: var(--mediumgray);
+}
+
+.left-inline-text { 
+  display: inline-block;
+  padding-right: 10px;
+}
+
+.middle-inline-text {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px; 
+}
+
+.dropdown-wrapper { 
+  display: inline-block;
+}
+
+.button-display {
+  display: inline-block;
+}
