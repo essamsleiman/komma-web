@@ -14,7 +14,7 @@ function StepTwo(props) {
 
     return props.activeStep == 2 && (
         <div>
-            <button>Step Two</button>
+            <button onClick={next}>Step Two</button>
         </div>
     );
 }
