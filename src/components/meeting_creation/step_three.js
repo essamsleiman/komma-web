@@ -14,8 +14,13 @@ function StepThree(props) {
     }
 
     return props.activeStep == 3 && (
-        <div>
-            <button>Step Three</button>
+        <div className="nav-buttons row no-gutters">
+            <div className="col">
+                <button className="hollow-button" onClick={back}>Back</button>
+            </div>
+            <div className="col d-flex justify-content-end">
+                <button className="solid-button" onClick={next}>Next</button>
+            </div>
         </div>
     );
 }
