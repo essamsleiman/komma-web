@@ -37,18 +37,20 @@ passport.use(
     },
 
     async (accessToken, refreshToken, profile, done) => {
-      // console.log("Profile", profile)
+      console.log("Profile", profile)
       const newUser = {
         googleId: profile.id,
         firstName: profile.name.givenName,
         lastName: profile.name.familyName,
         accessToken,
+        refreshToken,
         email: profile.emails[0].value,
       };
 
       try {
         let user = await GoogleUser.findOne({ googleId: profile.id });
-        console.log("accessToken", accessToken)
+        console.log("accessToken", accessToken);
+        console.log("refreshToken", refreshToken);
         if (user) {
           console.log("USER ALREADY IN DB");
           // console.log(`USER: ${user}`);
