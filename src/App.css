@@ -12,8 +12,18 @@ body {
   overflow-x: hidden;
 }
 .background {
-  background-color: var(--verylightblue); 
-  min-height: 100vh; 
+  z-index: -2;
+  position: static;
+  background-color: var(--verylightblue);
+}
+#bg-circle {
+  position: absolute;
+  margin-top: 20rem;
+  margin-left: -15rem;
+  height: 55rem;
+  width: 55rem;
+  border-radius: 50%;
+  background: var(--gradient);
 }
 
 /*
@@ -55,6 +65,30 @@ p {
 }
 
 /*
+  Other HTML Components
+*/
+input[type="radio"] {
+  height: 20px;
+  width: 20px;
+  color: var(--kommapurple);
+}
+input[type="radio"]:checked {
+  height: 20px;
+  width: 20px;
+  background-color: var(--kommapurple);
+}
+input[type="checkbox"] {
+  height: 20px;
+  width: 20px;
+  color: var(--kommapurple);
+}
+input[type="checkbox"]:checked {
+  height: 20px;
+  width: 20px;
+  background-color: var(--kommapurple);
+}
+
+/*
   Colors & Effects
 */
 
@@ -69,6 +103,8 @@ p {
   --verylightblue: #F9FBFC;
   --lightred: #FFDEDE;
   --white: #FFFFFF;
+  --highlightpurple: rgba(159, 132, 234, 0.08);
+  --highlightred: rgba(255, 110, 110, 0.08);
   --gradient: linear-gradient(253.87deg, #9F84EA 23.87%, #78CEFF 101.41%);
   --drop-shadow: 2px 4px 20px rgba(64, 64, 64, 0.05);
   --purple-shadow: 2px 4px 10px rgba(159, 132, 234, 0.5);
@@ -90,20 +126,24 @@ p {
   width: 156px;
   height: 40px;
 }
-
 .solid-button {
   background-color: var(--kommapurple);
   color: var(--white);
   box-shadow: var(--purple-shadow);
 }
-
 .hollow-button {
   border: 1px solid var(--mediumgray); 
   background: var(--white);
   color: var(--mediumgray); 
 }
-
 .disabled-button {
   background: var(--verylightgray);
   color: var(--lightgray); 
+}
+.field {
+  box-sizing: border-box;
+  width: 15rem;
+  background: var(--white);
+  border: 1px solid var(--lightgray);
+  border-radius: 4px;
 }

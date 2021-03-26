@@ -10,6 +10,7 @@ function App() {
   return (
     <div class="background">
       <div class="container-fluid">
+        <div id="bg-circle"></div>
         <Navbar />
         <Router>
           <Switch>
