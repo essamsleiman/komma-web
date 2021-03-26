@@ -14,6 +14,7 @@ function StepTwo(props) {
 
     return props.activeStep == 2 && (
         <div>
+            <button type="submit" class="btn btn-primary">Submit</button>
             <button onClick={next}>Step Two</button>
         </div>
     );
