@@ -8,8 +8,8 @@ import Navbar from "./components/navbar"
 function App() {
 
   return (
-    <div class="background">
-      <div class="container-fluid">
+    <div id="background">
+      <div id="content-container">
         <div id="bg-circle"></div>
         <Navbar />
         <Router>
