@@ -31,13 +31,20 @@ class Dropdown extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { isListOpen } = this.state;
 
     setTimeout(() => {
       if (isListOpen) {
         window.addEventListener('click', this.close);
       } else {
+        if (this.props.name == "meetingDuration" || this.props.name == "meetingEndTime") { 
+          if (prevProps.title != this.props.title) {
+            this.setState({
+              title: this.props.title
+            })
+          }
+        }
         window.removeEventListener('click', this.close);
       }
     }, 0);

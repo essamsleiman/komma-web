@@ -16,6 +16,7 @@ body {
   z-index: -2;
   position: static;
   background-color: var(--verylightblue);
+  min-height: 100vh;
 }
 #bg-circle {
   position: absolute;
