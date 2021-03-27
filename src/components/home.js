@@ -11,8 +11,20 @@ function Home() {
     return (
         <div> 
             <button  
+                // onClick={() => {
+                //     window.open("http://localhost:5000/auth/google", "_self");
+                // }}
+
                 onClick={() => {
-                    window.open("http://localhost:5000/auth/google", "_self");
+                  axios.get("http://localhost:5000/auth/google").then((response) => {
+
+                      if (response) {
+                        console.log("ESSAM RESPONSE: ",response)
+                      } else {
+                        console.log("no response from server");
+                      }
+                    });
+              //window.open("http://localhost:5000/auth/events", "_self");
                 }}
                 >
               Sign in with Google
