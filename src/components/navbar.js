@@ -9,11 +9,11 @@ function Navbar() {
       <div className="nav-bar row no-gutters">
         <div className="left col">
           <a>
-            <img src={komma_logo}/>
+            <img style={{cursor: "pointer"}} onClick={() => window.location="/"} src={komma_logo}/>
           </a>
         </div>
         <div className="right col">
-          <a href="">+ New Meeting</a>
+          <a href="/create">+ New Meeting</a>
         </div>
       </div>
     </nav>

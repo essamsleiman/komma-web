@@ -16,9 +16,15 @@ function StepOne(props) {
     }
 
     function next() {
+        saveData()
         props.setActiveStep(2) 
-        console.log(meetingName);
-        console.log(description);
+    }
+
+    function saveData() {
+        let data = props.data
+        data.meetingName = meetingName;
+        data.description = description;
+        props.setData(data);
     }
 
     return props.activeStep == 1 && (

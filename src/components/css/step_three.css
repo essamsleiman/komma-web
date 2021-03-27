@@ -101,6 +101,24 @@ input:checked + .slider:before {
   padding-right: 10px; 
 }
 
+.advanced-inline-text {
+  display: inline-block;
+  line-height: 0px;
+}
+
+.advanced-text-padding { 
+  padding-left: 68px; 
+}
+
+.advanced-middle-vertical-text {
+  padding-top: 10px;
+  line-height: 0px;
+}
+
+.double-dropdown-padding { 
+  padding-left: 20px; 
+}
+
 .dropdown-wrapper { 
   display: inline-block;
 }

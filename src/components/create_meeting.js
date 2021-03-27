@@ -10,7 +10,8 @@ function CreateMeeting() {
 
     const [activeStep, setActiveStep] = useState(1); 
     const [stepPercentage, setStepPercentage] = useState('25%'); 
-    const [stepText, setStepText] = useState('About'); 
+    const [stepText, setStepText] = useState('About');
+    const [showAdvanced, setShowAdvanced] = useState(false);  
     const [data, setData] = useState({}); 
 
     useEffect(() => {
@@ -51,7 +52,7 @@ function CreateMeeting() {
                 <div className="steps col-12" style={{marginTop: '1rem'}}>
                     <StepOne activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
                     <StepTwo activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
-                    <StepThree activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
+                    <StepThree activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} showAdvanced={showAdvanced} setShowAdvanced={setShowAdvanced} />
                     <StepFour activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
                 </div>
             </div>

@@ -207,7 +207,6 @@ function StepThree(props) {
         },
     ]
 
-    const [showAdvanced, setShowAdvanced] = useState(false); 
     const [meetingLength, setMeetingLength] = useState('60 minute'); 
     const [meetingStartTime, setMeetingStartTime] = useState('9am'); 
     const [meetingEndTime, setMeetingEndTime] = useState('5pm');
@@ -220,10 +219,8 @@ function StepThree(props) {
     const [selectedDays, setSelectedDays] = useState([]); 
 
     function changeAdvancedDisplay() {
-        console.log('click triggered')
-        let isVisible = showAdvanced
-        setShowAdvanced(!isVisible);
-        console.log(showAdvanced);
+        let isVisible = props.showAdvanced
+        props.setShowAdvanced(!isVisible);
     }
 
     function onMeetingLengthChange(item, name) {
@@ -275,28 +272,41 @@ function StepThree(props) {
     }
 
     function next() {
-        props.setActiveStep(4) 
+        saveData(); 
+        props.setActiveStep(4); 
+    }
+
+    function saveData() {
+        let data = props.data;
+        data.meetingLength = props.showAdvanced ? '' : meetingLength;
+        data.meetingRange = props.showAdvanced ? '' : meetingRange; 
+        data.meetingDuration = props.showAdvanced ? meetingDuration : '';
+        data.meetingDurationUnit = props.showAdvanced ? meetingDurationUnit : ''; 
+        data.meetingStartTime = meetingStartTime;
+        data.meetingEndTime = meetingEndTime;
+        data.timeZone = timeZone;
+        props.setData(data); 
     }
 
     function back() {
-        props.setActiveStep(2) 
+        props.setActiveStep(2); 
     }
 
     return props.activeStep == 3 && (
         <div className="container-fluid p-0">
             <div className="row no-gutters">
-                <div className="col-sm-12 container">
+                <div className="col-sm-10 container">
                     <div className="content"> 
                         <h3 className="bold">⏰What general time range would be best?</h3>
                         <label class="switch">
-                            <input type="checkbox" onClick={changeAdvancedDisplay} />
+                            <input type="checkbox" checked={props.showAdvanced} onClick={changeAdvancedDisplay} />
                             <span class="slider round" ></span>
                         </label>
                         <div className="advanced-select-text-wrapper">
                             <p className="label">Advanced Date Selection</p> 
                         </div>
                         <br />
-                        { !showAdvanced && 
+                        { !props.showAdvanced && 
                         <>
                             <p className="left-inline-text">A</p>
                             <div className="dropdown-wrapper">
@@ -347,7 +357,7 @@ function StepThree(props) {
                                 />
                             </div>
                         </>}
-                        { showAdvanced && 
+                        { props.showAdvanced && 
                         <>
                             <div className="row no-gutters">
                                 <div className="col-sm-8">
@@ -362,7 +372,8 @@ function StepThree(props) {
                                     /> 
                                 </div>
                                 <div className="col-sm-4">
-                                    <p className="label">Earliest Time</p>
+                                    <p className="label advanced-inline-text">Earliest Time</p>
+                                    <p className="label advanced-inline-text advanced-text-padding">Latest Time</p> <br/>
                                     <div className="dropdown-wrapper">
                                         <Dropdown
                                             name="length"
@@ -386,6 +397,7 @@ function StepThree(props) {
                                             onChange={onMeetingEndTimeChange}
                                         />
                                     </div>
+                                    <p className="label advanced-middle-vertical-text">Time Zone</p>
                                     <div className="dropdown-wrapper">
                                         <Dropdown
                                             name="length"
@@ -396,7 +408,8 @@ function StepThree(props) {
                                             enableScroll="dd-scroll"
                                             onChange={onTimeZoneChange}
                                         />
-                                    </div> <br />
+                                    </div> 
+                                    <p className="label advanced-middle-vertical-text" style={{paddingTop: "20px"}}>Meeting Duration</p>
                                     <div className="dropdown-wrapper">
                                         <Dropdown
                                             name="meetingDuration"
@@ -408,7 +421,7 @@ function StepThree(props) {
                                             onChange={onMeetingDurationChange}
                                         />
                                     </div>
-                                    <div className="dropdown-wrapper">
+                                    <div className="dropdown-wrapper double-dropdown-padding">
                                         <Dropdown
                                             name="meetingDurationUnit"
                                             title={meetingDurationUnit}
@@ -422,7 +435,7 @@ function StepThree(props) {
                                 </div>
                             </div>
                         </>}
-                        {!showAdvanced && <br />}
+                        {!props.showAdvanced && <br />}
                         <br />
                         <button className="hollow-button" style={{float: 'left'}} onClick={back}>Back</button>
                         <button className="solid-button" style={{float: 'right'}} onClick={next}>Next</button>

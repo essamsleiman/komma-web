@@ -12,7 +12,7 @@ function StepFour(props) {
 
     function next() {
         saveData();
-        // change the URL  
+        window.location = "/";  
     }
 
     function back() {
