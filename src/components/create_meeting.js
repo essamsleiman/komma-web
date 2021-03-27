@@ -1,10 +1,9 @@
 import react, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Step_one from './meeting_creation/step_one'
-import Step_two from './meeting_creation/step_two'
-import Step_three from './meeting_creation/step_three'
-import Step_four from './meeting_creation/step_four'
+import StepOne from './meeting_creation/step_one'
+import StepTwo from './meeting_creation/step_two'
+import StepThree from './meeting_creation/step_three'
+import StepFour from './meeting_creation/step_four'
 import './css/create_meeting.css'
 
 function CreateMeeting() {
@@ -32,13 +31,15 @@ function CreateMeeting() {
                 setStepPercentage('100%');
                 setStepText('Confirm');
                 break;
+            default:
+                break;
         }
     }, [activeStep]) 
     
     return (
         <div>
             <div className="row no-gutters justify-content-center">
-                <div className="col-sm-6">
+                <div className="col-md-6">
                     <div className="progress-bar-text-container content-padding"> 
                         <p className="bold progress-bar-text">{stepText}</p>
                         <p className="bold progress-bar-text" align="right">{activeStep}/4</p>
@@ -47,11 +48,11 @@ function CreateMeeting() {
                         <div class="progress-bar" role="progressbar" style={{width: stepPercentage}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
-                <div className="col-sm-12" style={{marginTop: '1rem'}}>
-                    <Step_one activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
-                    <Step_two activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
-                    <Step_three activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
-                    <Step_four activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
+                <div className="steps col-12" style={{marginTop: '1rem'}}>
+                    <StepOne activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
+                    <StepTwo activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
+                    <StepThree activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
+                    <StepFour activeStep={activeStep} setActiveStep={setActiveStep} data={data} setData={setData} />
                 </div>
             </div>
         </div>

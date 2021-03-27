@@ -1,43 +1,153 @@
-import react, { useState } from 'react';
+import { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import '../css/step_four.css' 
+import "../css/step_four.css";
 
 function StepFour(props) {
+    const [numDaysSelected, setNumDaysSelected] = useState(true);
+    const [numResponsesSelected, setNumResponsesSelected] = useState(false);
+    const [numDays, setNumDays] = useState(7);
+    const [numResponses, setNumResponses] = useState(5);
+    const [notifyMeSelected, setNotifyMeSelected] = useState(false);
+    const [keepHiddenSelected, setKeepHiddenSelected] = useState(false);
 
     function next() {
+        saveData();
         // change the URL  
     }
 
     function back() {
-        props.setActiveStep(3) 
+        saveData();
+        props.setActiveStep(3);
+    }
+
+    function saveData() {
+        let data = props.data;
+        data.num_days = numDaysSelected ? numDays : 0;
+        data.num_responses = numResponsesSelected ? numResponses : 0;
+        data.notify_me = notifyMeSelected;
+        data.keep_hidden = keepHiddenSelected;
+        props.setData(data);
+        console.log(props.data);
+    }
+
+    function changeNotifyMeSelected() {
+        if (notifyMeSelected)
+            setNotifyMeSelected(false);
+        else
+            setNotifyMeSelected(true)
+    }
+
+    function changeKeepHiddenSelected() {
+        if (keepHiddenSelected)
+            setKeepHiddenSelected(false);
+        else
+            setKeepHiddenSelected(true);
+    }
+
+    function handleNumDaysChange(event) {
+        const re = /^[0-9\b]+$/;  // Only allow positive integer input
+        if (re.test(event.target.value) && event.target.value[0] != 0)
+            setNumDays(event.target.value);
+    }
+
+    function handleNumResponsesChange(event) {
+        const re = /^[0-9\b]+$/;  // Only allow positive integer input
+        if (re.test(event.target.value) && event.target.value[0] != 0)
+            setNumResponses(event.target.value);
     }
 
     return props.activeStep == 4 && (
         <div className="row no-gutters justify-content-center">
-            <div className="col-md-8">
-                <div className="card">
+            <div className="col-md-7">
+                <div className="shadow-card">
                     <div className="when-send">
                         <h3 className="bold">💌️ When would you like us to send out invites?</h3>
                         <p>Your guests will be asked for their emails when responding.</p>
-                        <input type="radio" id="num-days" name="whenSend"/>
-                        <label for="num-days">In days</label><br/>
-                        <input type="radio" id="num-responses" name="whenSend"/>
-                        <label for="num-responses">After people respond, other than you</label><br/>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" 
+                                   className="custom-control-input" 
+                                   id="num-days" 
+                                   name="whenSend"
+                                   checked={numDaysSelected}
+                                   onChange={() => { setNumDaysSelected(true);
+                                                    setNumResponsesSelected(false); }}
+                            />
+                            <label className="custom-control-label" for="num-days">
+                                &nbsp;&nbsp;In
+                                <input type="number" 
+                                       className="form-control" 
+                                       min="1"
+                                       value={numDays}
+                                       disabled={!numDaysSelected}
+                                       onChange={handleNumDaysChange}
+                                />
+                                days
+                            </label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" 
+                                   className="custom-control-input" 
+                                   id="num-responses" 
+                                   name="whenSend"
+                                   checked={numResponsesSelected}
+                                   onChange={() => { setNumDaysSelected(false);
+                                                    setNumResponsesSelected(true); }}
+                            />
+                            <label className="custom-control-label" for="num-responses">
+                                &nbsp;&nbsp;After
+                                <input type="number" 
+                                       className="form-control" 
+                                       min="1"
+                                       value={numResponses}
+                                       disabled={!numResponsesSelected}
+                                       onChange={handleNumResponsesChange}
+                                />
+                                people respond, other than you
+                            </label>
+                        </div>
                     </div>
                     
                     <div className="options">
                         <h3 className="bold">⚡️ Additional Options</h3>
                         <p>Enable some super powered features.</p>
-                        <input type="checkbox" className="" id="notify"/>
-                        <label className="" for="notify">Notify me each time someone responds</label><br/>
-                        <input type="checkbox" className="" id="hidden"/>
-                        <label className="" for="hidden">Keep my availability hidden from respondents</label><br/>
+                        <div className="custom-control custom-checkbox">
+                            <input type="checkbox" 
+                                   className="custom-control-input" 
+                                   id="notify"
+                                   onClick={changeNotifyMeSelected}
+                            />
+                            <label className="custom-control-label" for="notify">
+                                &nbsp;&nbsp;Notify me each time someone responds
+                            </label>
+                        </div>
+                        <div className="custom-control custom-checkbox">
+                            <input type="checkbox" 
+                                   className="custom-control-input" 
+                                   id="hidden"
+                                   onClick={changeKeepHiddenSelected}
+                            />
+                            <label className="custom-control-label" for="hidden">
+                                &nbsp;&nbsp;Keep my availability hidden from respondents
+                            </label>
+                        </div>
                     </div>
 
                     <div className="next">
                         <h3 className="bold">😄️️ So what’s next?</h3>
                         <p>Share the link on the next page with your guests.</p>
-                        <p>We’ll send out meeting invites in 7 days.</p>
+                        <p>
+                            We’ll send out meeting invites
+                            {(() => {
+                                if (numDaysSelected) {
+                                    if (numDays == 1)
+                                        return " in 1 day."
+                                    else
+                                        return " in " + numDays + " days."
+                                } else {
+                                    return " after " + numResponses + " people respond."
+                                }
+                            })()}
+                        </p>
                         <p>Be sure to add your availability as well!</p>
                     </div>
 
@@ -49,7 +159,6 @@ function StepFour(props) {
                             <button className="solid-button" onClick={next}>Confirm Meeting</button>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary">Primary</button>
                 </div>
             </div>
         </div>

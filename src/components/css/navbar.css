@@ -4,7 +4,30 @@
     max-width: 1280px;
   }
 }
-
 body {
   overflow-x: hidden;
+}
+
+.nav-bar {
+  padding: 1.5rem;
+}
+.left img {
+  width: 2rem;
+  transition: all 0.3s;
+}
+.left img:hover {
+  opacity: 0.8;
+}
+.right {
+  display: flex;
+  justify-content: flex-end;
+}
+.right a {
+  color: var(--kommablack) !important;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+.right a:hover {
+  color: var(--kommapurple) !important;
+  text-decoration: none;
 }

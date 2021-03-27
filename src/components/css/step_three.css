@@ -1,9 +1,9 @@
 /* General Page CSS */
 @media (min-width: 1125px) {
-    .container-fluid {
-      max-width: 1120px;
-    }
+  .container-fluid {
+    max-width: 1120px;
   }
+}
   
 .container { 
   background-color: white;
