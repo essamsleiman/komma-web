@@ -1,9 +1,9 @@
 /* General Page CSS */
 @media (min-width: 1125px) {
-    .container-fluid {
-      max-width: 1120px;
-    }
+  .container-fluid {
+    max-width: 1120px;
   }
+}
   
 .container { 
   background-color: white;
@@ -99,6 +99,24 @@ input:checked + .slider:before {
   display: inline-block;
   padding-left: 10px;
   padding-right: 10px; 
+}
+
+.advanced-inline-text {
+  display: inline-block;
+  line-height: 0px;
+}
+
+.advanced-text-padding { 
+  padding-left: 68px; 
+}
+
+.advanced-middle-vertical-text {
+  padding-top: 10px;
+  line-height: 0px;
+}
+
+.double-dropdown-padding { 
+  padding-left: 20px; 
 }
 
 .dropdown-wrapper { 

@@ -1,5 +1,5 @@
 .DayPicker { 
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     font-family: 'Lato';
     color: var(--kommablack);
     font-weight: 700;
@@ -9,11 +9,11 @@
 }
 
 .DayPicker-TodayButton { 
-    color: var(--kommaapurple);
+    color: var(--kommapurple);
 }
 
 .DayPicker-Day--today {
-    color: var(--kommaapurple);
+    color: var(--kommapurple);
 }
 
 .DayPicker-Day--disabled {
@@ -31,6 +31,10 @@
   }
 
   .DayPicker-Months {
+    font-weight: 700;
+  }
+
+  .DayPicker-Caption {
     font-weight: 700;
   }
 

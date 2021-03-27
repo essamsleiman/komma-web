@@ -23,6 +23,7 @@ export default class  extends React.Component {
       selectedDays.push(day);
     }
     this.setState({ selectedDays });
+    this.props.setSelectedDays({ selectedDays }); 
   }
 
   render() {

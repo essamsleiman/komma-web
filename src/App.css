@@ -4,17 +4,19 @@
 
 /* media query to give the page a set width above a certain screen width */
 @media (min-width: 1285px) {
-  .container-fluid {
+  #content-container {
     max-width: 1280px;
+    margin: auto;
   }
 }
 body {
   overflow-x: hidden;
 }
-.background {
+#background {
   z-index: -2;
   position: static;
   background-color: var(--verylightblue);
+  min-height: 100vh;
 }
 #bg-circle {
   position: absolute;
@@ -34,58 +36,49 @@ body {
   font-family: 'Lato';
 }
 h1 {
-  font-size: 4rem;
+  font-size: 4rem !important;
 }
 h2 {
-  font-size: 3rem;
+  font-size: 3rem !important;
 }
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.5rem !important;
 }
 h4 {
-  font-size: 1.25rem;
+  font-size: 1.25rem !important;
 }
 p {
-  font-size: 1rem;
+  font-size: 1rem !important;
 }
 .label {
-  font-size: 0.75rem;
+  font-size: 0.75rem !important;
 }
 .tiny {
-  font-size: 0.625rem;
+  font-size: 0.625rem !important;
 }
 .bold {
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 .black {
-  font-weight: 900;
+  font-weight: 900 !important;
 }
 .italic {
-  font-style: italic;
+  font-style: italic !important;
 }
 
 /*
   Other HTML Components
 */
-input[type="radio"] {
-  height: 20px;
-  width: 20px;
-  color: var(--kommapurple);
+input[type="text"], input[type="number"] {
+  box-sizing: border-box !important;
+  height: 2rem !important;
+  border: 1px solid var(--lightgray) !important;
+  border-radius: 4px !important;
 }
-input[type="radio"]:checked {
-  height: 20px;
-  width: 20px;
-  background-color: var(--kommapurple);
-}
-input[type="checkbox"] {
-  height: 20px;
-  width: 20px;
-  color: var(--kommapurple);
-}
-input[type="checkbox"]:checked {
-  height: 20px;
-  width: 20px;
-  background-color: var(--kommapurple);
+input[type="text"]:disabled, input[type="number"]:disabled {
+  color: var(--lightgray) !important;
+  background-color: var(--disabledgray) !important;
+  border: 1px solid var(--lightgray) !important;
 }
 
 /*
@@ -95,6 +88,7 @@ input[type="checkbox"]:checked {
 :root {
   --kommablack: #333333;
   --kommapurple: #9F84EA;
+  --disabledgray: #F7F7F7;
   --verylightgray: #E7E7E7;
   --lightgray: #C4C4C4;
   --mediumgray: #999999;

@@ -14,13 +14,10 @@
 .progress {
   margin-bottom: 2rem;
   border-radius: 50px;
-  height: 0.75rem;
+  height: 0.75rem !important;
 }
 .progress-bar {
   background-color: var(--kommapurple);
   border-radius: 50px;
   height: 0.75rem;
-}
-.steps {
-  margin-bottom: 30rem;
-}
+} 

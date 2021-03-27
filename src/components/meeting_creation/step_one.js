@@ -16,15 +16,21 @@ function StepOne(props) {
     }
 
     function next() {
+        saveData()
         props.setActiveStep(2) 
-        console.log(meetingName);
-        console.log(description);
+    }
+
+    function saveData() {
+        let data = props.data
+        data.meetingName = meetingName;
+        data.description = description;
+        props.setData(data);
     }
 
     return props.activeStep == 1 && (
         <div className="container-fluid p-0">
             <div className="row no-gutters">
-                <div className="col-sm-7 container">
+                <div className="col-md-7 container">
                     <div className="content"> 
                         <h3 className="bold">🤝Hello there! What is your meeting about?</h3>
                         <p className="label label-spacing">Meeting Title</p> 

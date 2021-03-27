@@ -7,29 +7,41 @@ import location_icon from "../../img/location_icon.png"
 function StepTwo(props) {
     const [googleMeetSelected, setGoogleMeetSelected] = useState(false);
     const [inPersonSelected, setInPersonSelected] = useState(false);
+    const [address, setAddress] = useState("");
 
     function next() {
-
-        props.setData({...props.data, "location": getLocation()});
+        saveData();
         props.setActiveStep(3);
     }
 
     function back() {
-        props.setData({...props.data, "location": getLocation()});
+        saveData();
         props.setActiveStep(1);
+    }
+
+    function saveData() {
+        let data = props.data;
+        data.location = getLocation();
+        data.address = address;
+        props.setData(data);
+        console.log(props.data);
     }
 
     function getLocation() {
         if (googleMeetSelected)
-            return "google"
+            return "google";
         else
-            return "in person"
+            return "in person";
+    }
+
+    function handleAddressChange(event) {
+        setAddress(event.target.value);
     }
 
     return props.activeStep == 2 && (
         <div className="row no-gutters justify-content-center">
-            <div className="col-md-8">
-                <div className="card">
+            <div className="col-md-7">
+                <div className="shadow-card">
                     <h3 className="bold">📍 Where is your meeting?</h3>
                     <p>For online meetings, we'll generate the link for you!</p>
 
@@ -59,7 +71,7 @@ function StepTwo(props) {
                             </div>
                             <div className="loc-field col-12">
                                 <p className="label">Location</p>
-                                <input className="field" type="text" onChange={props.setData}/>
+                                <input className="field" type="text" onChange={handleAddressChange}/>
                             </div>
                         </div>
                     </button>
