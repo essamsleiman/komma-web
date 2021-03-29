@@ -43,7 +43,9 @@ function listEvents(auth) {
       }
     });
 
+    // this is the event generation template:
     var newevent = {
+      // summary is the name of the event
       'summary': 'Google I/O 2015',
       'description': 'A chance to hear more about Google\'s developer products.',
       'start': {
@@ -54,43 +56,36 @@ function listEvents(auth) {
         'dateTime': '2021-04-01T09:00:00-09:00',
         'timeZone': 'America/Los_Angeles',
       },
+      // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
       'attendees': [
         {'email': 'komma.app@gmail.com'},
       ],
-      // "conferenceData": {
-      //   "conferenceSolution" : {
-      //     "key" : {
-      //       "type": "hangoutsMeet"
-      //     }
-      //   },
-      //   "createRequest": {
-      //     "requestId": "a random string",
-      //     "conferenceSolutionKey": {
-      //       "type": "hangoutsMeet"
-      //     },
-      //   },
-      // }
+      // this field is to create the google meet things (don't edit this its really senitive for some)
+      conferenceData: {
+        createRequest: {
+          // request ID is just a randomly generated string
+          requestId: "sample123",
+          conferenceSolutionKey: { type: "hangoutsMeet" },
+        },
+      },
     };
 
+    // this line inserts the event into the calendar
     calendar.events.insert({
+      // auth is auth details
       auth: auth,
+      // we want the primary calendar
       calendarId: 'primary',
+      // resource field is the template up above
       resource: newevent,
+      // this should be set to 1 to allow for meet creation
       conferenceDataVersion: 1,
-      conferenceData: {
-        "createRequest": {
-          "conferenceSolutionKey": {
-            "type": "hangoutsMeet"
-          },
-          "requestId": "some-random-string1"
-        }
-      },
     }, function(err, event) {
       if (err) {
       console.log("there was an error with inserting an event: ", + err);
       return;
     }
-    console.log('Event created : %s', newevent.htmlLink);
+    console.log('Event created!' );
     })
   }
 
