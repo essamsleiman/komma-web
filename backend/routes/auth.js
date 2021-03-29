@@ -13,10 +13,10 @@ const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 // let Org = require("../models/org.model");
 
 // we can grab these keys from .env file
-const oAuth2Client = new OAuth2(
-  '619278648051-qiilealfrh111ajs6ujvn2kam92qevtq.apps.googleusercontent.com',
-  'dhdDPzuhWGs1vz5q1xzts6AM'
-)
+// const oAuth2Client = new OAuth2(
+//   '619278648051-qiilealfrh111ajs6ujvn2kam92qevtq.apps.googleusercontent.com',
+//   'dhdDPzuhWGs1vz5q1xzts6AM'
+// )
 
 
 const mongoose = require("mongoose");
@@ -34,7 +34,7 @@ router.get(
     scope: [
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/calendar.readonly",
+      "https://www.googleapis.com/auth/calendar",
     ],
   })
 );

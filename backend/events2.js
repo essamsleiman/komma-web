@@ -1,4 +1,5 @@
-const { google } = require('googleapis')
+const { google } = require('googleapis');
+const { calendar } = require('googleapis/build/src/apis/calendar');
 
 // Require oAuth2 from our google instance.
 const { OAuth2 } = google.auth
@@ -12,8 +13,8 @@ const oAuth2Client = new OAuth2(
 // these are the credentials from the quickstart code:
 
 oAuth2Client.setCredentials({
-    access_token: 'ya29.a0AfH6SMA8bk-qXY2-ZdaiE4tf881ejNn0KYvCkcmBuxjZL9AfjcSc6bXJaKjMj-81NLUWSqWahTDTayZbhwew-xq21YqBnPy7mjvwLzEF-cGdZvu5g0XnvYh-K5Fzizn5zh4I3C3aR9oL7Uz2CiUGBZnuRqC5',
-    refresh_token: '1//06swNZn0rj7tVCgYIARAAGAYSNwF-L9IrrdCMKpcw40wpHAe5gvQvywo_kfDJNfkgb3UbP0cRE9ruw3NPXnpoNLGkdA7aTxEBs6M',
+    access_token: 'ya29.a0AfH6SMA_O-KVhlIS0l-zj8fpcSKeSUWxjYf-OS6zmDr8SMx2U7fvOyIbdgXlhO5mgkwTCrx-Ho2uRNCY6IDjctkHeLqNA78-74oIb3veqJI6bl7lo73M-X0Tm5r6TTNs2tGgzHGd78eRX5LQoic1uPKHupLU',
+    refresh_token: '1//06XNJz_XXs9myCgYIARAAGAYSNwF-L9IrDOXmQaaVJGMNNSfDRJ0kwUxSBSPffO-j3nYZMUJxi4zrpTNaMYV0N5wpzStRivj0ocA',
 })
 
 
@@ -41,7 +42,58 @@ function listEvents(auth) {
         console.log('No upcoming events found.');
       }
     });
+
+    var newevent = {
+      'summary': 'Google I/O 2015',
+      'description': 'A chance to hear more about Google\'s developer products.',
+      'start': {
+        'dateTime': '2021-04-01T09:00:00-07:00',
+        'timeZone': 'America/Los_Angeles',
+      },
+      'end': {
+        'dateTime': '2021-04-01T09:00:00-09:00',
+        'timeZone': 'America/Los_Angeles',
+      },
+      'attendees': [
+        {'email': 'komma.app@gmail.com'},
+      ],
+      // "conferenceData": {
+      //   "conferenceSolution" : {
+      //     "key" : {
+      //       "type": "hangoutsMeet"
+      //     }
+      //   },
+      //   "createRequest": {
+      //     "requestId": "a random string",
+      //     "conferenceSolutionKey": {
+      //       "type": "hangoutsMeet"
+      //     },
+      //   },
+      // }
+    };
+
+    calendar.events.insert({
+      auth: auth,
+      calendarId: 'primary',
+      resource: newevent,
+      conferenceDataVersion: 1,
+      conferenceData: {
+        "createRequest": {
+          "conferenceSolutionKey": {
+            "type": "hangoutsMeet"
+          },
+          "requestId": "some-random-string1"
+        }
+      },
+    }, function(err, event) {
+      if (err) {
+      console.log("there was an error with inserting an event: ", + err);
+      return;
+    }
+    console.log('Event created : %s', newevent.htmlLink);
+    })
   }
+
 
 // // Create a new event start date instance for temp uses in our calendar.
 // const eventStartTime = new Date()
