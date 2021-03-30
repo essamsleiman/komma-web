@@ -33,7 +33,7 @@ function StepOne(props) {
                 <div className="col-md-7">
                     <div className="shadow-card"> 
                         <h3 className="bold">🤝 Hello there! What is your meeting about?</h3>
-                        <p className="label label-spacing">Meeting Title</p> 
+                        <p className="label label-spacing">Meeting Title<span className="asterisk bold"> *</span></p> 
                         <input className="name-box form-control" type="text" placeholder="Weekly Meeting ..." value={meetingName} onChange={handleMeetingNameChange} /> 
                         <div className="question-spacing" /> 
 

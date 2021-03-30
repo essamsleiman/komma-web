@@ -5,6 +5,9 @@
   border: none;
   border-radius: 4px;
 }
+.asterisk {
+  color: var(--kommapurple);
+}
 .name-box, .description-box { 
   border: 1px solid #C4C4C4;
   box-sizing: border-box;
