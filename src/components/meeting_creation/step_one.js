@@ -29,18 +29,22 @@ function StepOne(props) {
 
     return props.activeStep == 1 && (
         <div className="container-fluid p-0">
-            <div className="row no-gutters">
-                <div className="col-md-7 container">
-                    <div className="content"> 
-                        <h3 className="bold">🤝Hello there! What is your meeting about?</h3>
+            <div className="row no-gutters justify-content-center">
+                <div className="col-md-7">
+                    <div className="shadow-card"> 
+                        <h3 className="bold">🤝 Hello there! What is your meeting about?</h3>
                         <p className="label label-spacing">Meeting Title</p> 
-                        <input className="name-box" type="text" value={meetingName} onChange={handleMeetingNameChange} /> 
+                        <input className="name-box form-control" type="text" placeholder="Weekly Meeting ..." value={meetingName} onChange={handleMeetingNameChange} /> 
                         <div className="question-spacing" /> 
 
-                        <h3 className="bold">✅Any agenda items?</h3>
+                        <h3 className="bold">✅ Any agenda items?</h3>
                         <p className="label label-spacing">Description</p> 
-                        <textarea className="description-box" type="text" rows="6" value={description} onChange={handleDescriptionChange} />
-                        <button className="solid-button button-spacing" onClick={next}>Next</button>
+                        <textarea className="description-box form-control" type="text" placeholder="1. Get the ducks in a row&#x0a;2. Boil the ocean&#x0a;..." rows="6" value={description} onChange={handleDescriptionChange} />
+                        <div className="nav-buttons row no-gutters">
+                            <div className="col d-flex justify-content-end">
+                                <button className={meetingName ? "solid-button" : "disabled-button"} onClick={meetingName && next}>Next</button>
+                            </div>
+                        </div>
                     </div> 
                 </div>
             </div>

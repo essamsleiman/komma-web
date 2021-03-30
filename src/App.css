@@ -3,9 +3,9 @@
 */
 
 /* media query to give the page a set width above a certain screen width */
-@media (min-width: 1285px) {
+@media (min-width: 1200px) {
   #content-container {
-    max-width: 1280px;
+    max-width: 1195px;
     margin: auto;
   }
 }
@@ -16,7 +16,7 @@ body {
   z-index: -2;
   position: static;
   background-color: var(--verylightblue);
-  min-height: 100vh;
+  min-height: 200vh;
 }
 #bg-circle {
   position: absolute;

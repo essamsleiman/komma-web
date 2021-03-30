@@ -22,7 +22,11 @@ function StepThree(props) {
         {
             label: '60 minute',
             value: '60m'
-        }
+        },
+        {
+            label: '90 minute',
+            value: '90m'
+        },
     ]
 
     const meetingTimes = [
@@ -175,6 +179,10 @@ function StepThree(props) {
             label: '60',
             value: '60',
         },
+        {
+            label: '90',
+            value: '90',
+        },
     ]
 
     const meetingDurationsHours = [
@@ -295,9 +303,9 @@ function StepThree(props) {
     return props.activeStep == 3 && (
         <div className="container-fluid p-0">
             <div className="row no-gutters">
-                <div className="col-sm-10 container">
-                    <div className="content"> 
-                        <h3 className="bold">⏰What general time range would be best?</h3>
+                <div className="col-sm-11 container">
+                    <div className="shadow-card"> 
+                        <h3 className="bold">⏰ What general time range would be best?</h3>
                         <label class="switch">
                             <input type="checkbox" checked={props.showAdvanced} onClick={changeAdvancedDisplay} />
                             <span class="slider round" ></span>
@@ -435,10 +443,14 @@ function StepThree(props) {
                                 </div>
                             </div>
                         </>}
-                        {!props.showAdvanced && <br />}
-                        <br />
-                        <button className="hollow-button" style={{float: 'left'}} onClick={back}>Back</button>
-                        <button className="solid-button" style={{float: 'right'}} onClick={next}>Next</button>
+                        <div className="nav-buttons row no-gutters">
+                            <div className="col">
+                                <button className="hollow-button" onClick={back}>Back</button>
+                            </div>
+                            <div className="col d-flex justify-content-end">
+                                <button className="solid-button" onClick={next}>Next</button>
+                            </div>
+                        </div>
                     </div> 
                 </div>
             </div>

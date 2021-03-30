@@ -71,7 +71,7 @@ function StepTwo(props) {
                             </div>
                             <div className="loc-field col-12">
                                 <p className="label">Location</p>
-                                <input className="field" type="text" onChange={handleAddressChange}/>
+                                <input className="field form-control" type="text" placeholder="Tatooine ..." onChange={handleAddressChange}/>
                             </div>
                         </div>
                     </button>
@@ -81,7 +81,12 @@ function StepTwo(props) {
                             <button className="hollow-button" onClick={back}>Back</button>
                         </div>
                         <div className="col d-flex justify-content-end">
-                            <button className="solid-button" onClick={next}>Next</button>
+                            {(() => {
+                                if (googleMeetSelected || (inPersonSelected && address))
+                                    return <button className="solid-button" onClick={next}>Next</button>
+                                else
+                                    return <button className="disabled-button">Next</button>
+                            })()}
                         </div>
                     </div>
                 </div>
