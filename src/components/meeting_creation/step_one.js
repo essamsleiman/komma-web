@@ -42,7 +42,10 @@ function StepOne(props) {
                         <textarea className="description-box form-control" type="text" placeholder="1. Get the ducks in a row&#x0a;2. Boil the ocean&#x0a;..." rows="6" value={description} onChange={handleDescriptionChange} />
                         <div className="nav-buttons row no-gutters">
                             <div className="col d-flex justify-content-end">
-                                <button className={meetingName ? "solid-button" : "disabled-button"} onClick={meetingName && next}>Next</button>
+                                {meetingName ? 
+                                    <button className={"solid-button"} onClick={meetingName && next}>Next</button> : 
+                                    <button disabled className={"disabled-button"} onClick={meetingName && next}>Next</button> 
+                                }
                             </div>
                         </div>
                     </div> 

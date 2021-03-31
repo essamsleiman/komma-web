@@ -239,7 +239,10 @@ function StepThree(props) {
         setMeetingStartTime(item.label);
         let time = meetingTimes.find(time => time.label == item.label); 
         let startPosition = meetingTimes.indexOf(time);
-        if (startPosition != -1) { 
+        if (startPosition == meetingTimes.length - 1) {
+            setMeetingEndTimes(meetingTimes.slice(0, meetingTimes.length - 1));
+            setMeetingEndTime(meetingTimes[0].label); 
+        } else if (startPosition != -1) { 
             setMeetingEndTimes(meetingTimes.slice(startPosition + 1));
             let time = meetingTimes.find(time => time.label == meetingEndTime); 
             let endPosition = meetingTimes.indexOf(time);

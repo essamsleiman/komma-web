@@ -85,7 +85,7 @@ function StepTwo(props) {
                                 if (googleMeetSelected || (inPersonSelected && address))
                                     return <button className="solid-button" onClick={next}>Next</button>
                                 else
-                                    return <button className="disabled-button">Next</button>
+                                    return <button disabled className="disabled-button">Next</button>
                             })()}
                         </div>
                     </div>

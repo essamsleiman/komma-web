@@ -132,7 +132,7 @@ input[type="text"]:disabled, input[type="number"]:disabled {
 }
 .disabled-button {
   background: var(--verylightgray);
-  color: var(--lightgray); 
+  color: var(--lightgray);
 }
 .field {
   box-sizing: border-box;
