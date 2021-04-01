@@ -2,6 +2,7 @@
   margin-top: 3rem;
 }
 .shadow-card {
+  position: relative;
   padding: 2.5rem 2rem;
   background: var(--white);
   box-shadow: var(--drop-shadow); 

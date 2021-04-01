@@ -1,0 +1,54 @@
+.left-bar {
+  padding-right: 1rem;
+}
+.left-bar p {
+  margin-bottom: 0;
+}
+.left-bar h4 {
+  margin-bottom: 0.25rem;
+}
+.left-bar .label {
+  color: var(--mediumgray);
+}
+.details, .respondents{
+  margin-bottom: 1.5rem;
+}
+.invite {
+  margin-bottom: 2.5rem;
+}
+
+.details h4 {
+  margin-bottom: 0.75rem;
+}
+.details .emoji {
+  font-size: 1.25rem;
+}
+.details .label {
+  margin-left: 1.65rem;
+}
+
+.respondents .label {
+  margin-bottom: 0.5rem;
+}
+
+.invite .label {
+  margin-bottom: 0.75rem;
+}
+.input-group .invite-field {
+  border-radius: 4px 0 0 4px !important;
+  font-size: 0.75rem;
+}
+.copy-button {
+  z-index: 1;
+  width: 2rem;
+  height: 2rem;
+  padding-bottom: 4px;
+  border-radius: 0 4px 4px 0;
+  border: none;
+  background: var(--kommapurple);
+}
+
+
+.availability-button {
+  width: 100%;
+}
