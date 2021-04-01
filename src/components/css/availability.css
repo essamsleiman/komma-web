@@ -1,0 +1,15 @@
+.top-margin {
+  margin-top: 3rem;
+}
+.shadow-card {
+  padding: 2.5rem 2rem;
+  background: var(--white);
+  box-shadow: var(--drop-shadow); 
+  border: none;
+  border-radius: 4px;
+}
+.vertical-bar {
+  height: 100%;
+  float: left;
+  border-left: solid 1px var(--verylightgray);
+}

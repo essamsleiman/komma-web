@@ -3,9 +3,9 @@
 */
 
 /* media query to give the page a set width above a certain screen width */
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
   #content-container {
-    max-width: 1195px;
+    max-width: 1295px;
     margin: auto;
   }
 }
