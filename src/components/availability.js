@@ -5,7 +5,16 @@ import TopBar from "./availability/top_bar"
 import "./css/availability.css";
 
 function Availability() {
-  const [viewingGroup, setViewingGroup] = useState(false);
+  const [viewingGroup, setViewingGroup] = useState(false); 
+  const [userInfo, setUserInfo] = useState(
+    {
+      signedIn: false,
+      name: '',
+      email: '',
+      googleName: 'Edward Chew',
+      googleEmail: 'edward@email.com',
+    }
+  )
 
   return (
     <div>
@@ -15,7 +24,11 @@ function Availability() {
             </div>
             <div className="col-9">
                 <div className="vertical-bar"></div>
-                <TopBar />
+                <TopBar 
+                  userInfo={userInfo}
+                  setUserInfo={setUserInfo}
+                  meetingHostName={'Omid'}  
+                />
             </div>
         </div>
     </div>

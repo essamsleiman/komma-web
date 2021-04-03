@@ -33,12 +33,12 @@ function StepOne(props) {
                 <div className="col-md-7">
                     <div className="shadow-card"> 
                         <h3 className="bold">🤝 Hello there! What is your meeting about?</h3>
-                        <p className="label label-spacing">Meeting Title<span className="asterisk bold"> *</span></p> 
+                        <p className="label field-spacing">Meeting Title<span className="asterisk bold"> *</span></p> 
                         <input className="name-box form-control" type="text" placeholder="Weekly Meeting ..." value={meetingName} onChange={handleMeetingNameChange} /> 
                         <div className="question-spacing" /> 
 
                         <h3 className="bold">✅ Any agenda items?</h3>
-                        <p className="label label-spacing">Description</p> 
+                        <p className="label field-spacing">Description</p> 
                         <textarea className="description-box form-control" type="text" placeholder="1. Get the ducks in a row&#x0a;2. Boil the ocean&#x0a;..." rows="6" value={description} onChange={handleDescriptionChange} />
                         <div className="nav-buttons row no-gutters">
                             <div className="col d-flex justify-content-end">

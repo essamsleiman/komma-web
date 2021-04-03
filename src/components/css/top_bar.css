@@ -1,0 +1,66 @@
+.content-container {
+    margin-left: 25px; 
+}
+
+.backdrop {
+    background: var(--kommablue); 
+    box-shadow: var(--blue-shadow);  
+    border-radius: 4px;
+    z-index: 3;
+    margin-top: 25px; 
+    /* need a better method to do the following or else it will look bad on mobile/smaller screen sizes */
+    margin-right: -55px; 
+}
+
+.backdrop-content {
+    padding-left: 25px;
+    padding-top: 20px; 
+    padding-bottom: 20px;
+    color: var(--white); 
+}
+
+.white {
+    color: var(--white); 
+}
+
+.google-button {
+    color: var(--kommablue); 
+}
+
+.alt-choice-text { 
+    display: inline-block;
+    vertical-align: baseline;
+    cursor: pointer;
+    text-decoration: underline;  
+    margin-left: 20px;  
+} 
+
+.input-container {
+    display: inline-block;
+}
+
+.second-container {
+    margin-left: 20px; 
+}
+
+input[type="text"], input[type="number"] {
+    width: 15rem !important;
+    background: rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-sizing: border-box !important;
+    border-radius: 4px !important; 
+}
+
+.login-info {
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.profile-pic {
+    display: inline-block; 
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    background: var(--lightgray); 
+    box-sizing: border-box;
+}
