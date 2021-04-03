@@ -3,9 +3,9 @@
 */
 
 /* media query to give the page a set width above a certain screen width */
-@media (min-width: 1285px) {
+@media (min-width: 1300px) {
   #content-container {
-    max-width: 1280px;
+    max-width: 1295px;
     margin: auto;
   }
 }
@@ -16,7 +16,7 @@ body {
   z-index: -2;
   position: static;
   background-color: var(--verylightblue);
-  min-height: 100vh;
+  min-height: 200vh;
 }
 #bg-circle {
   position: absolute;
@@ -34,6 +34,9 @@ body {
 
 * {
   font-family: 'Lato';
+}
+h1, h2, h3, h4, p {
+  color: var(--kommablack);
 }
 h1 {
   font-size: 4rem !important;
@@ -110,7 +113,7 @@ input[type="text"]:disabled, input[type="number"]:disabled {
   Components
 */
 
-.solid-button, .hollow-button, .disabled-button {
+.solid-button, .hollow-button, .transparent-button, .disabled-button {
   border: 0px;
   border-radius: 4px;
   font-weight: 900;
@@ -130,9 +133,14 @@ input[type="text"]:disabled, input[type="number"]:disabled {
   background: var(--white);
   color: var(--mediumgray); 
 }
+.transparent-button {
+  border: none; 
+  background: rgba(159, 132, 234, 0.08);
+  color: var(--kommapurple); 
+}
 .disabled-button {
   background: var(--verylightgray);
-  color: var(--lightgray); 
+  color: var(--lightgray);
 }
 .field {
   box-sizing: border-box;

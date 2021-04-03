@@ -9,6 +9,12 @@
   margin-bottom: 0.625rem;
 }
 
+.when-send, .options {
+  margin-bottom: 2rem;
+}
+.when-send p, .options p {
+  margin-bottom: 1rem;
+}
 .when-send input[type="text"], .when-send input[type="number"] {
   display: inline-block;
   width: 5.2rem;
@@ -34,12 +40,12 @@
   align-items: center !important;
 }
 
-.when-send, .options {
-  margin-bottom: 2rem;
-}
-.when-send p, .options p {
-  margin-bottom: 1rem;
-}
 .next p {
   margin-bottom: 0.4rem;
+}
+
+.end-message {
+  margin-top: -1rem;
+  float: right;
+  color: var(--mediumgray);
 }

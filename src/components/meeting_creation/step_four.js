@@ -152,6 +152,9 @@ function StepFour(props) {
                     </div>
 
                     <div className="nav-buttons row no-gutters">
+                        <div className="col-12">
+                            <p className="label end-message">Everything look correct? Then let’s rock n’ roll. 🎸</p>
+                        </div>
                         <div className="col">
                             <button className="hollow-button" onClick={back}>Back</button>
                         </div>
