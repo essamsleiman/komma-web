@@ -16,21 +16,11 @@ require("dotenv").config();
 // let Org = require("../models/org.model");
 
 // we can grab these keys from .env file
-const oAuth2Client = new OAuth2(
-  "619278648051-qiilealfrh111ajs6ujvn2kam92qevtq.apps.googleusercontent.com",
-  "dhdDPzuhWGs1vz5q1xzts6AM"
-);
 
-oAuth2Client.setCredentials({
-  access_token:
-    "ya29.a0AfH6SMCtxcoUNTo7zNj0aCmTQIPOXA8Hv2n-i1dvUEL09Iy41BqHyQsJV81s4-Lewt7B8XlSI-V9X5fzQi5IvWlXPzLiG9IOsgXwmN4MSkRrHv3BPd-ILTNaHmJXdkLZQgj9wwVn4gcd0QYx-sL0hc7x43ge",
-  refresh_token:
-    "1//01qE7UEcHbO5ECgYIARAAGAESNwF-L9IrdHMb1554p-vbOH97waDBx6WyyV88k_iz7yuRCcRTGXxLyRhv6K_-N8r9n9PZ56rHHS8",
-});
-// const oAuth2Client = new OAuth2(
-//   process.env.GOOGLE_CLIENT_ID,
-//   process.env.GOOGLE_CLIENT_SECRET
-// );
+const oAuth2Client = new OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET
+);
 
 const mongoose = require("mongoose");
 router.get("/", (req, res) => res.send("hi"));
@@ -123,10 +113,10 @@ router.get("/events", authenticateToken, function (req, res) {
   console.log("SUCCESS STEP 2");
 
   // 2. Setup Oauth
-  // oAuth2Client.setCredentials({
-  //   access_token: req.user.accessToken,
-  //   refresh_token: req.user.refreshToken,
-  // });
+  oAuth2Client.setCredentials({
+    access_token: req.user.accessToken,
+    refresh_token: req.user.refreshToken,
+  });
 
   console.log("SUCCESS STEP 3");
   // 3. Call Calendar API
@@ -215,7 +205,6 @@ router.get("/events", authenticateToken, function (req, res) {
   //   }
   // );
   // }
-  console.log("EVENTS: ", eventsCalendar);
 
   // displays upcoming 10 events
   // calendar.events.list(
