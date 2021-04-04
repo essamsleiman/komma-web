@@ -131,15 +131,24 @@ input[type="text"]:disabled, input[type="number"]:disabled {
   color: var(--white);
   box-shadow: var(--purple-shadow);
 }
+.solid-button:hover {
+  background-color: #8e75d1;
+}
 .hollow-button {
   border: 1px solid var(--mediumgray); 
   background: var(--white);
   color: var(--mediumgray); 
 }
+.hollow-button:hover {
+  background-color: #f2f2f2;
+}
 .transparent-button {
   border: none; 
   background: rgba(159, 132, 234, 0.08);
   color: var(--kommapurple); 
+}
+.transparent-button:hover {
+  background: rgba(159, 132, 234, 0.18);
 }
 .disabled-button {
   background: var(--verylightgray);
@@ -155,6 +164,9 @@ input[type="text"]:disabled, input[type="number"]:disabled {
 }
 .google-company-logo {
   padding-right: 10px;
+}
+.google-button:hover {
+  background: #f2f2f2;;
 }
 .field {
   box-sizing: border-box;
