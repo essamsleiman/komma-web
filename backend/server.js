@@ -52,10 +52,8 @@ app.use(express.json());
 const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
 
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

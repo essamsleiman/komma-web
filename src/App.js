@@ -1,12 +1,11 @@
-import './App.css';
+import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from "./components/home"
-import Create_meeting from "./components/create_meeting" 
-import Navbar from "./components/navbar"
-
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./components/home";
+import Create_meeting from "./components/create_meeting";
+import Navbar from "./components/navbar";
+import axios from "axios";
 function App() {
-
   return (
     <div class="background">
       <div class="container-fluid">
