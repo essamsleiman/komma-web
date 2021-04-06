@@ -52,14 +52,12 @@ app.use(express.json());
 const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
 
-
 // router for events
 const eventRouter = require("./routes/events");
 app.use('/events', eventRouter);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
