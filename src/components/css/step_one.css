@@ -1,39 +1,27 @@
-@media (min-width: 580px) {
-  .container-fluid {
-    max-width: 575px;
-  }
+.shadow-card {
+  padding: 2.5rem 2rem;
+  background: var(--white);
+  box-shadow: var(--drop-shadow); 
+  border: none;
+  border-radius: 4px;
 }
-
-.container { 
-  background-color: white;
-  box-shadow: 2px 4px 20px rgba(64, 64, 64, 0.05); 
-  border-radius: 4px; 
+.asterisk {
+  color: var(--kommapurple);
 }
-
-.content { 
-  padding: 30px;
-  padding-bottom: 70px;
-}
-
 .name-box, .description-box { 
   border: 1px solid #C4C4C4;
   box-sizing: border-box;
   border-radius: 4px;
 }
-
+.name-box {
+  width: 15rem !important;
+}
 .description-box { 
   width: 100%; 
 }
-
-.label-spacing { 
+.shadow-card { 
   margin-bottom: 0.4rem; 
 } 
-
 .question-spacing { 
   margin-top: 40px; 
 } 
-
-.button-spacing { 
-  margin-top: 12px; 
-  float: right; 
-}

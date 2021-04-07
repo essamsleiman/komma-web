@@ -1,19 +1,10 @@
 /* General Page CSS */
-@media (min-width: 1125px) {
-  .container-fluid {
-    max-width: 1120px;
-  }
-}
-  
-.container { 
-  background-color: white;
-  box-shadow: 2px 4px 20px rgba(64, 64, 64, 0.05); 
-  border-radius: 4px; 
-}
-
-.content { 
-  padding: 30px;
-  padding-bottom: 70px;
+.shadow-card {
+  padding: 2.5rem 2rem;
+  background: var(--white);
+  box-shadow: var(--drop-shadow); 
+  border: none;
+  border-radius: 4px;
 }
 
 /* Switch Button CSS */

@@ -1,9 +1,10 @@
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from "./components/home"
-import Create_meeting from "./components/create_meeting" 
 import Navbar from "./components/navbar"
+import Home from "./components/home"
+import CreateMeeting from "./components/create_meeting" 
+import Availability from "./components/availability"
 
 function App() {
 
@@ -15,7 +16,8 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/create" component={Create_meeting} />
+            <Route exact path="/create" component={CreateMeeting} />
+            <Route exact path="/availability" component={Availability} />
           </Switch>
         </Router>
       </div>
