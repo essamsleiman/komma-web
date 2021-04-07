@@ -16,6 +16,7 @@ function LeftBar(props) {
     var meetingDurationUnits = data.meetingDurationUnits;
     var location = data.location;
     var address = data.address;
+
     var respondents = ["Edward Chew", "James Junaidi", "Omid Mogasemi", "Essam Sleiman"];
     var inviteLink = "komma.com/my-meeting";
     var isHost = true;
@@ -27,10 +28,14 @@ function LeftBar(props) {
             props.setViewingGroup(true);
     }
 
+    function handleCopyButtonClick() {
+        return;
+    }
+
     return (
         <div className="left-bar">
             <div className="details">
-                <h4 className="bold">{name}</h4>
+                <h3 className="bold">{name}</h3>
                 <p><span className="emoji">🕓</span> {meetingDuration} {meetingDurationUnits}</p>
                 {(() => {
                     if (location == "google")
@@ -60,7 +65,7 @@ function LeftBar(props) {
                     <div className="input-group invite-link">
                         <input type="text" className="form-control invite-field" value={inviteLink} />
                         <div className="input-group-append">
-                            <button className="copy-button" type="button"><img src={copy_icon} /></button>
+                            <button className="copy-button solid-button" type="button" onClick={handleCopyButtonClick}><img src={copy_icon} /></button>
                         </div>
                     </div>
                 </div>

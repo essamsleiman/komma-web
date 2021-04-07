@@ -44,8 +44,7 @@
   height: 2rem;
   padding-bottom: 4px;
   border-radius: 0 4px 4px 0;
-  border: none;
-  background: var(--kommapurple);
+  box-shadow: none;
 }
 
 
