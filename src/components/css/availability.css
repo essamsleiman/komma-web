@@ -14,3 +14,11 @@
   float: left;
   border-left: solid 1px var(--verylightgray);
 }
+
+.vertical-spacing {
+  margin-top: 26px; 
+}
+
+.top-content-container {
+  margin-left: 25px; 
+}

@@ -41,7 +41,7 @@ function TopBar(props) {
   }
 
   return (
-    <div className="content-container">
+    <div className="top-content-container">
       <h3 className="bold">{welcomeMessage}</h3>
       <div className="backdrop">
         <div className="backdrop-content">
