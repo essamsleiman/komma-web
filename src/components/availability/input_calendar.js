@@ -28,28 +28,52 @@ function InputCalendar(props) {
     console.log(props.days.length) 
 
     return (
-        <div className="top-content-container vertical-spacing">
-            {
-                props.days != undefined ? ( 
-                    props.days.map((day) => ( 
-                        <div key={day.id} className="day-slots-container">
-                            <DaySlots 
-                                id={day.id} 
-                                days={props.days}
-                                setDays={props.setDays} 
-                                numResponses={props.numResponses} 
-                            /> 
-                        </div> 
-                        // Old raw information display method 
-                        // <div key={day.id}>
-                        //     <h3>{day.date}</h3>
-                        //     <p>{day.times}</p>
-                        // </div>
-                    ))
-                ) : ( 
-                    <p>Loading...</p>
-                )
-            } 
+        <div className="input-cal-container top-content-container vertical-spacing">
+            <div className="hour-labels">
+                {
+                    props.intervals != undefined ? ( 
+                        props.intervals.map((interval) => { 
+                            // The times of the intervals on the hour have two digits, so are < 100
+                            if (parseInt(interval[0]) < 100) {
+                                return <p className="label">{parseInt(interval[0]) + " " + interval[0].slice(-2)}</p>
+                            }
+                        })
+                    ) : ( 
+                        <p>Loading...</p>
+                    )
+                }
+                {console.log(props.intervals.slice(-1))}
+                {/* <p className="label">
+                    {() => {
+                        let lastHour = 
+                        (parseInt(props.intervals.slice(-2)[0]) % 12) + 1
+                    }
+                    }
+                </p> */}
+            </div>
+            <div className="right">
+                {
+                    props.days != undefined ? ( 
+                        props.days.map((day) => ( 
+                            <div key={day.id} className="day-slots-container">
+                                <DaySlots 
+                                    id={day.id} 
+                                    days={props.days}
+                                    setDays={props.setDays} 
+                                    numResponses={props.numResponses} 
+                                /> 
+                            </div> 
+                            // Old raw information display method 
+                            // <div key={day.id}>
+                            //     <h3>{day.date}</h3>
+                            //     <p>{day.times}</p>
+                            // </div>
+                        ))
+                    ) : ( 
+                        <p>Loading...</p>
+                    )
+                } 
+            </div>
         </div>
     );
 }
