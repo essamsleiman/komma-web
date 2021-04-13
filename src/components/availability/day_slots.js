@@ -17,7 +17,7 @@ Note that props.id directly grabs the date's id, which is also it's index in the
 
 import react, { useState } from 'react';
 import "../css/day_slots.css";
-import HourSlots from "./hour_slots";  
+//import HourSlots from "./hour_slots";  
 
 function TimeSlots(props) { 
 
@@ -44,11 +44,29 @@ function TimeSlots(props) {
     }
 
     return (
-        <div> 
-            <p>Day number: {props.id} </p>
+        <div className="day-container"> 
+            <p className="label date">{props.days[props.id].date} </p>
+            <p className="day-of-week">Mon</p>
             { 
                 props.days[props.id].times.map((times, line_number) => (
-                    <p onClick={() => adjustAttendance(line_number)}>{times}</p>
+                    <div>
+                        <div 
+                            className="time-block" 
+                            onClick={() => adjustAttendance(line_number)}
+                            style={{ backgroundColor: props.days[props.id].times[line_number][2] ? "var(--kommagreen)" : "var(--kommawhite)",
+                                     borderBottom: (() => {
+                                        if (props.days[props.id].times[line_number][2])
+                                            return "";
+                                        else if (line_number % 2 == 0)
+                                            return "dotted 1px var(--lightgray)";
+                                        else
+                                            return "solid 1px var(--lightgray)";
+                                     })(),
+                                     borderTop: line_number == 0 ? "solid 1px var(--lightgray)" : "",
+                                     borderLeft: props.id == 0 ? "solid 1px var(--lightgray)" : "" }}
+                        ></div>
+                    </div>
+
                 )) 
             } 
         </div> 
