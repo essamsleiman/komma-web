@@ -88,6 +88,7 @@ router.route("/:id").get((req, res) => {
   Event.findById(req.params.id)
     .then((event) => res.json(event))
     .catch((err) => res.status(400).json("error: " + err));
-});
+    console.log("hit res specific event", res);
+})
 
 module.exports = router;
