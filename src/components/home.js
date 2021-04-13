@@ -91,10 +91,19 @@ function Home(props) {
       </button>
       <button
         onClick={() => {
-          history.push(`/events/${eventId}`)
+          // history.push(`/events/${eventId}`)
+          history.push(`/events`)
         }}
       >
-        Render an Event 
+        Render an Event Page 
+      </button>
+      <button
+        onClick={() => {
+          // history.push(`/events/${eventId}`)
+          window.open("http://localhost:5000/events")
+        }}
+      >
+        Log the Events in Console
       </button>
     </div>
   );

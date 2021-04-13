@@ -1,6 +1,12 @@
 import React from "react";
 
-function eventPage() {
+function eventPage(props) {
+    console.log("hit", props.match.params.eventId);
+
+    //  make axios call
+
+    
+
     return (
         <div>
             <p>
