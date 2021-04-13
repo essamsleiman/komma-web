@@ -48,4 +48,13 @@ router.route("/add").post((req, res) => {
         .catch((err) => res.status(400).json("Error1: " + err));
 });
 
+
+// route to find the event by ID
+router.route("/:id").get((req, res) => {
+    Event.findById(req.params.id)
+    .then((event) => res.json(event))
+    .catch((err) => res.status(400).json("error: " + err));
+})
+
+
 module.exports = router;
