@@ -1,0 +1,17 @@
+.input-cal-container {
+    display: flex;
+}
+.input-cal-container p {
+    margin: 0;
+}
+.day-slots-container {
+    display: inline-block; 
+}
+.hour-labels {
+    margin-top: 2.5rem;
+    margin-right: 1rem;
+    text-align: right;
+}
+.hour-labels p {
+    margin-bottom: 1.25rem;
+}

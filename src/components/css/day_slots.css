@@ -1,0 +1,18 @@
+p {
+  margin: 0;
+}
+
+.day-container {
+  width: 3.75rem;
+}
+.time-block {
+  height: 1.25rem;
+  width: 100%;
+  border-right: solid 1px var(--lightgray);
+} 
+.date, .day-of-week {
+  text-align: center;
+}
+p.day-of-week {
+  margin-bottom: 0.4rem;
+}
