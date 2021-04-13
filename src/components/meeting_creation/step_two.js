@@ -3,6 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/step_two.css"
 import google_meet_logo from "../../img/google_meet_logo.png"
 import location_icon from "../../img/location_icon.png"
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import { updateEvent } from "../../Redux/actions/eventActions";
 
 function StepTwo(props) {
     const [googleMeetSelected, setGoogleMeetSelected] = useState(false);
@@ -10,6 +14,16 @@ function StepTwo(props) {
     const [address, setAddress] = useState("");
 
     function next() {
+        console.log("EVENT CURR: ", props.event)
+        var curEvent = props.event
+         curEvent = { ...curEvent,  
+            googleMeetSelected: googleMeetSelected,
+            inPersonSelected: inPersonSelected,
+            address: address 
+        };
+        props.updateEvent(
+            curEvent
+        )
         saveData();
         props.setActiveStep(3);
     }
@@ -95,4 +109,14 @@ function StepTwo(props) {
     );
 }
 
-export default StepTwo;
+StepTwo.propTypes = {
+    updateEvent: PropTypes.func.isRequired,
+    event: PropTypes.array.isRequired,
+  };
+  
+  const mapStateToProps = (state) => ({
+    event: state.event.newEvent,
+  });
+  
+  export default connect(mapStateToProps, { updateEvent })(StepTwo);
+  

@@ -2,6 +2,11 @@ import { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/step_four.css";
 
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import { updateEvent } from "../../Redux/actions/eventActions";
+
 function StepFour(props) {
     const [numDaysSelected, setNumDaysSelected] = useState(true);
     const [numResponsesSelected, setNumResponsesSelected] = useState(false);
@@ -11,8 +16,37 @@ function StepFour(props) {
     const [keepHiddenSelected, setKeepHiddenSelected] = useState(false);
 
     function next() {
+        console.log("hit Previous EVENT State: ", props.event)
+        var curEvent = props.event
+         curEvent = { ...curEvent,  
+            numDays: numDays,
+            numResponses: numResponses,
+        };
+        
+        console.log("hit FINAL EVENT State: ", curEvent)
+
+
+        // Make axios call
+
+        // axios.post(
+        //   `http://localhost:5000/events/add`,
+        //   {
+        //     name: ,
+        //     hostname: ,
+        //     meetingInviteLink: ,
+        //     googleMeetLink: ,
+        //     title: ,
+        //     description: ,
+        //     location: ,
+        //     minTimeRange: ,
+        //     maxTimeRange: ,
+        //   }
+        // )
+        // .then((res) => console.log(`EVENT ADDED TO USER ${res.data}`));
+
+
         saveData();
-        window.location = "/";  
+        //window.location = "/";  
     }
 
     function back() {
@@ -168,4 +202,15 @@ function StepFour(props) {
     );
 }
 
-export default StepFour;
+
+StepFour.propTypes = {
+    updateEvent: PropTypes.func.isRequired,
+    event: PropTypes.array.isRequired,
+  };
+  
+  const mapStateToProps = (state) => ({
+    event: state.event.newEvent,
+  });
+  
+  export default connect(mapStateToProps, { updateEvent })(StepFour);
+  

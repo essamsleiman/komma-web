@@ -226,6 +226,19 @@ function StepThree(props) {
     const [meetingDurationUnit, setMeetingDurationUnit] = useState('minutes');
     const [selectedDays, setSelectedDays] = useState([]); 
 
+
+    console.log("OBJECT", {
+        meetingLength,
+        meetingStartTime,
+        meetingEndTime,
+        meetingEndTimes,
+        meetingRange,
+        timeZone,
+        meetingDuration,
+        meetingDurations,
+        meetingDurationUnit,
+        selectedDays
+    })
     function changeAdvancedDisplay() {
         let isVisible = props.showAdvanced
         props.setShowAdvanced(!isVisible);

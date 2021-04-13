@@ -3,6 +3,7 @@ import {Switch, Route} from "react-router-dom";
 import EventPage from "./eventPage";
 import Home from "./home";
 import Create_meeting from "./create_meeting";
+import Availability from "./availability"
 
 
 export default function RouterPage(props) {
@@ -25,6 +26,7 @@ export default function RouterPage(props) {
             {/* <Route exact path="/event" component={eventPage} /> */}
             <Route exact path="/" component={Home} />
             <Route exact path="/create" component={Create_meeting} />
+            <Route exact path="/availability" component={Availability} />
         </Switch>
     )
 }

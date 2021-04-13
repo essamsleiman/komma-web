@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import store from "../Redux/store";
+
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Step_one from "./meeting_creation/step_one";
-import Step_two from "./meeting_creation/step_two";
-import Step_three from "./meeting_creation/step_three";
-import Step_four from "./meeting_creation/step_four";
+import StepOne from "./meeting_creation/step_one";
+import StepTwo from "./meeting_creation/step_two";
+import StepThree from "./meeting_creation/step_three";
+import StepFour from "./meeting_creation/step_four";
 import "./css/create_meeting.css";
 import axios from "axios";
 
 function CreateMeeting() {
   const [activeStep, setActiveStep] = useState(1);
-  const [data, setData] = useState({});
   const [user, setUser] = useState({});
 
-    const [activeStep, setActiveStep] = useState(1); 
     const [stepPercentage, setStepPercentage] = useState('25%'); 
     const [stepText, setStepText] = useState('About');
     const [showAdvanced, setShowAdvanced] = useState(false);  
@@ -43,7 +43,7 @@ function CreateMeeting() {
     }, [activeStep]) 
     
     return (
-        <div>
+    <div>
             <div className="row no-gutters justify-content-center">
                 <div className="col-md-6">
                     <div className="progress-bar-text-container content-padding"> 
@@ -62,8 +62,6 @@ function CreateMeeting() {
                 </div>
             </div>
         </div>
-      </div>
-    </div>
   );
 }
 
