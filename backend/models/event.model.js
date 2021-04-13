@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
-  uniqueID: {type: id, required: true },
-  hostID: { type: id, required: true},
+  // uniqueID: {type: _id, required: true },
+  hostID: { type: String, required: true},
   hostName: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
