@@ -3,9 +3,9 @@ import React from "react";
 function eventPage(props) {
     console.log("hit", props.match.params.eventId);
 
-    //  make axios call
+    //  make axios call pass props.match.params.eventId
 
-    
+
 
     return (
         <div>
