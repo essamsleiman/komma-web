@@ -40,6 +40,12 @@ function TimeSlots(props) {
         }
         console.log(new_days) 
         props.setDays(JSON.parse(JSON.stringify(new_days))) 
+    } 
+
+    function checkIfMouseEntered(e) { 
+        if (e.buttons == 1) {
+            console.log("mouse has been clicked down"); 
+        }
     }
 
     function getDayOfWeek(date) {
@@ -103,7 +109,8 @@ function TimeSlots(props) {
                     <div>
                         <div 
                             className="time-block" 
-                            onClick={() => adjustAttendance(line_number)}
+                            onClick={() => adjustAttendance(line_number)} 
+                            onMouseEnter={checkIfMouseEntered} 
                             style={{ backgroundColor: props.days[props.id].times[line_number][2] ? "var(--kommagreen)" : "var(--kommawhite)",
                                      borderBottom: (() => {
                                         if (props.days[props.id].times[line_number][2])
