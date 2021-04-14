@@ -32,11 +32,19 @@ function Availability() {
     ['1030am', '5/5', false],
     ['11am', '4/5', false],
     ['1130am', '1/5', false],
+    ['12pm', '4/5', false],
+    ['1230pm', '1/5', false],
   ] 
   // must use JSON.parse(JSON.stringify(intervals)) to create unique multi-dimensional array copies 
   const [days, setDays] = useState([
-    {id: 0, date: '4/12', times: JSON.parse(JSON.stringify(intervals))}, 
-    {id: 1, date: '4/13', times: JSON.parse(JSON.stringify(intervals))}, 
+    {id: 0, date: '4/12/2021', group: 0, first: true, times: JSON.parse(JSON.stringify(intervals))}, 
+    {id: 1, date: '4/13/2021', group: 0, first: false, times: JSON.parse(JSON.stringify(intervals))}, 
+    {id: 2, date: '4/22/2021', group: 1, first: true, times: JSON.parse(JSON.stringify(intervals))}, 
+    {id: 3, date: '4/23/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))}, 
+    {id: 4, date: '4/24/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))}, 
+    {id: 5, date: '4/25/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))}, 
+    {id: 6, date: '4/26/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))}, 
+    {id: 7, date: '4/27/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))}, 
   ]) 
   const numResponses = 5
 

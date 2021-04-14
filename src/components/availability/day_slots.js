@@ -20,7 +20,6 @@ import "../css/day_slots.css";
 //import HourSlots from "./hour_slots";  
 
 function TimeSlots(props) { 
-
     function adjustAttendance(line_number) { 
         let new_days = props.days 
         let old_attendance_num = new_days[props.id].times[line_number][1] 
@@ -43,10 +42,62 @@ function TimeSlots(props) {
         props.setDays(JSON.parse(JSON.stringify(new_days))) 
     }
 
+    function getDayOfWeek(date) {
+        let date_split = date.split("/");
+        let the_date = new Date(date_split[2], date_split[0] - 1, date_split[1]);
+        switch (the_date.getDay()) {
+            case 0:
+                return "Sun";
+            case 1:
+                return "Mon";
+            case 2:
+                return "Tue";
+            case 3:
+                return "Wed";
+            case 4:
+                return "Thu";
+            case 5:
+                return "Fri";
+            case 6:
+                return "Sat";
+        }
+    }
+    function getFormattedDate(date) {
+        let date_split = date.split("/");
+        let month = date_split[0];
+        let day = date_split[1];
+        switch (parseInt(month)) {
+            case 1:
+                return "Jan " + day;
+            case 2:
+                return "Feb " + day;
+            case 3:
+                return "Mar " + day;
+            case 4:
+                return "Apr " + day;
+            case 5:
+                return "May " + day;   
+            case 6:
+                return "Jun " + day;
+            case 7:
+                return "Jul " + day;
+            case 8:
+                return "Aug " + day;
+            case 9:
+                return "Sep " + day;
+            case 10:
+                return "Oct " + day;
+            case 11:
+                return "Nov " + day;   
+            case 12:
+                return "Dec " + day;
+        }
+    }
+
     return (
         <div className="day-container"> 
-            <p className="label date">{props.days[props.id].date} </p>
-            <p className="day-of-week">Mon</p>
+            <p className="label date">{getFormattedDate(props.days[props.id].date)}</p>
+            <p className="day-of-week">{getDayOfWeek(props.days[props.id].date)}</p>
             { 
                 props.days[props.id].times.map((times, line_number) => (
                     <div>
@@ -63,7 +114,7 @@ function TimeSlots(props) {
                                             return "solid 1px var(--lightgray)";
                                      })(),
                                      borderTop: line_number == 0 ? "solid 1px var(--lightgray)" : "",
-                                     borderLeft: props.id == 0 ? "solid 1px var(--lightgray)" : "" }}
+                                     borderLeft:  props.days[props.id].first ? "solid 1px var(--lightgray)" : "" }}
                         ></div>
                     </div>
 
