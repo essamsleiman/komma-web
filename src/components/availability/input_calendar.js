@@ -24,37 +24,53 @@ function InputCalendar(props) {
         props.setDays(JSON.parse(JSON.stringify(new_days))) 
     }
 
+    function getHourLabels() {
+        let label_list = [];
+        props.intervals.map((interval) => { 
+            // The times of the intervals on the hour have two digits, so are < 100
+            if (parseInt(interval[0]) < 100) {
+                label_list.push(<p className="label">{parseInt(interval[0]) + " " + interval[0].slice(-2)}</p>);
+            }
+        })
+        label_list.push(getNextHour());
+        return label_list;
+    }
+
+    function getNextHour() {
+        // Check second to last interval to calculate
+        // lastHour is the start time of the last interval (ex "10am")
+        let lastHour = props.intervals.slice(-2)[0][0];
+        let nextHour = parseInt(lastHour) % 12 + 1;
+        let period = lastHour.slice(-2);
+        if (nextHour == 12) {
+            if (period == "am")
+                period = "pm";
+            else
+                period = "am";
+        }
+        return (<p className="label">{nextHour + " " + period}</p>);
+    }
+
     console.log(props.days) 
     console.log(props.days.length) 
 
     return (
         <div className="input-cal-container top-content-container vertical-spacing">
-            <div className="hour-labels">
-                {
-                    props.intervals != undefined ? ( 
-                        props.intervals.map((interval) => { 
-                            // The times of the intervals on the hour have two digits, so are < 100
-                            if (parseInt(interval[0]) < 100) {
-                                return <p className="label">{parseInt(interval[0]) + " " + interval[0].slice(-2)}</p>
-                            }
-                        })
-                    ) : ( 
-                        <p>Loading...</p>
-                    )
-                }
-                {console.log(props.intervals.slice(-1))}
-                {/* <p className="label">
-                    {() => {
-                        let lastHour = 
-                        (parseInt(props.intervals.slice(-2)[0]) % 12) + 1
-                    }
-                    }
-                </p> */}
-            </div>
-            <div className="right">
-                {
-                    props.days != undefined ? ( 
-                        props.days.map((day) => ( 
+            {
+                props.days != undefined ? (() => {
+                    let day_slots_list = [];
+                    let cur_group = -1;
+                    for (let i = 0; i < props.days.length; i++) {
+                        let day = props.days[i];
+                        if (day.group != cur_group) {
+                            cur_group = day.group;
+                            day_slots_list.push(
+                                <div className="hour-labels">
+                                    {getHourLabels()}
+                                </div>
+                            );
+                        }
+                        day_slots_list.push(
                             <div key={day.id} className="day-slots-container">
                                 <DaySlots 
                                     id={day.id} 
@@ -63,19 +79,25 @@ function InputCalendar(props) {
                                     numResponses={props.numResponses} 
                                 /> 
                             </div> 
-                            // Old raw information display method 
-                            // <div key={day.id}>
-                            //     <h3>{day.date}</h3>
-                            //     <p>{day.times}</p>
-                            // </div>
-                        ))
-                    ) : ( 
-                        <p>Loading...</p>
-                    )
-                } 
-            </div>
+                        );
+                    }
+                    return day_slots_list;
+                })() : ( 
+                    <p>Loading...</p>
+                )
+            } 
         </div>
     );
 }
 
 export default InputCalendar; 
+
+// props.days.map((day) => ( 
+//     <div key={day.id} className="day-slots-container">
+//         <DaySlots 
+//             id={day.id} 
+//             days={props.days}
+//             setDays={props.setDays} 
+//             numResponses={props.numResponses} 
+//         /> 
+//     </div> 

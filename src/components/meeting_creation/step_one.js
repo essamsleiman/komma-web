@@ -1,11 +1,17 @@
 import react, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../css/step_one.css' 
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import { updateEvent } from "../../Redux/actions/eventActions";
 
 function StepOne(props) {
 
     const [meetingName, setMeetingName] = useState('');
     const [description, setDescription] = useState(''); 
+    console.log("meetingName", meetingName)
+    console.log("description", description)
 
     function handleMeetingNameChange(event) { 
         setMeetingName(event.target.value); 
@@ -16,6 +22,13 @@ function StepOne(props) {
     }
 
     function next() {
+
+        props.updateEvent(
+            {
+                meetingName: meetingName,
+                description: description
+            }
+        )
         saveData()
         props.setActiveStep(2) 
     }
@@ -55,4 +68,16 @@ function StepOne(props) {
     );
 }
 
-export default StepOne;
+//
+
+StepOne.propTypes = {
+    updateEvent: PropTypes.func.isRequired,
+    event: PropTypes.array.isRequired,
+  };
+  
+  const mapStateToProps = (state) => ({
+    event: state.event.newEvent,
+  });
+  
+  export default connect(mapStateToProps, { updateEvent })(StepOne);
+  

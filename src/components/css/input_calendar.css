@@ -1,5 +1,6 @@
 .input-cal-container {
     display: flex;
+    margin-left: 0;
 }
 .input-cal-container p {
     margin: 0;
@@ -8,8 +9,7 @@
     display: inline-block; 
 }
 .hour-labels {
-    margin-top: 2.5rem;
-    margin-right: 1rem;
+    margin: 2.5rem 1rem 0 2rem;
     text-align: right;
 }
 .hour-labels p {
