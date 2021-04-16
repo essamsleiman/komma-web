@@ -4,9 +4,11 @@ import LeftBar from "./availability/left_bar"
 import TopBar from "./availability/top_bar"
 import "./css/availability.css";
 import InputCalendar from './availability/input_calendar';
+import GroupCalendar from './availability/group_calendar';
 
 function Availability() {
   const [viewingGroup, setViewingGroup] = useState(false);
+  const [inputDisabled, setInputDisabled] = useState(true);
   const [userInfo, setUserInfo] = useState(
     {
       signedIn: false,
@@ -71,12 +73,21 @@ function Availability() {
                 <TopBar 
                   userInfo={userInfo}
                   setUserInfo={setUserInfo}
+                  setInputDisabled={setInputDisabled}
                   meetingHostName={'Omid'}  
                 />
                 <InputCalendar
                   intervals={intervals} 
                   days={days} 
                   setDays={setDays} 
+                  inputDisabled={inputDisabled}
+                  numResponses={numResponses} 
+                /> 
+                <GroupCalendar
+                  intervals={intervals} 
+                  days={days} 
+                  setDays={setDays} 
+                  inputDisabled={inputDisabled}
                   numResponses={numResponses} 
                 /> 
             </div>

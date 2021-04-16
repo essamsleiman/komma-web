@@ -21,6 +21,9 @@ import "../css/day_slots.css";
 
 function TimeSlots(props) { 
     function adjustAttendance(line_number) { 
+        if (props.inputDisabled)
+            return;
+        
         let new_days = props.days 
         let old_attendance_num = new_days[props.id].times[line_number][1] 
         let can_attend = parseInt(old_attendance_num.substring(0, 1)) 
@@ -42,9 +45,10 @@ function TimeSlots(props) {
         props.setDays(JSON.parse(JSON.stringify(new_days))) 
     } 
 
-    function checkIfMouseEntered(e) { 
+    function checkIfMouseEntered(e, line_number) { 
         if (e.buttons == 1) {
-            console.log("mouse has been clicked down"); 
+            console.log("mouse has been clicked down");
+            adjustAttendance(line_number); 
         }
     }
 
@@ -101,7 +105,7 @@ function TimeSlots(props) {
     }
 
     return (
-        <div className="day-container"> 
+        <div className={"day-container" + (props.inputDisabled ? " disabled" : "")}> 
             <p className="label date">{getFormattedDate(props.days[props.id].date)}</p>
             <p className="day-of-week">{getDayOfWeek(props.days[props.id].date)}</p>
             { 
@@ -109,9 +113,16 @@ function TimeSlots(props) {
                     <div>
                         <div 
                             className="time-block" 
-                            onClick={() => adjustAttendance(line_number)} 
-                            onMouseEnter={checkIfMouseEntered} 
-                            style={{ backgroundColor: props.days[props.id].times[line_number][2] ? "var(--kommagreen)" : "var(--kommawhite)",
+                            onMouseDown={() => adjustAttendance(line_number)} 
+                            onMouseEnter={(event) => checkIfMouseEntered(event, line_number)} 
+                            style={{ backgroundColor: (() => {
+                                        if (props.inputDisabled)
+                                            return "var(--verylightgray)";
+                                        else if (props.days[props.id].times[line_number][2])
+                                            return "var(--kommagreen)";
+                                        else
+                                            return "var(--kommawhite)";
+                                     })(),
                                      borderBottom: (() => {
                                         if (props.days[props.id].times[line_number][2])
                                             return "";

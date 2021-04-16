@@ -11,11 +11,12 @@ function TopBar(props) {
   const [welcomeMessage, setWelcomeMessage] = useState(`😄 Hey there! Add times below to let ${props.meetingHostName} know what works best for you.`); 
   
   function signInWithGoogle() {
-    let localUserInfo = props.userInfo
+    let localUserInfo = props.userInfo;
     localUserInfo.signedIn = true;
     props.setUserInfo(localUserInfo); 
     setWelcomeMessage(`😄 Hi ${props.userInfo.googleName.substring(0, props.userInfo.googleName.indexOf(' '))}! Add times below to let ${props.meetingHostName} know what works best for you.`); 
     setInstructions("Hit the purple button when you're finished to send your response. We'll send you a calendar invite soon!"); 
+    props.setInputDisabled(false);
   }
 
   function changeResponseType() {
@@ -32,16 +33,24 @@ function TopBar(props) {
     let localUserInfo = props.userInfo
     localUserInfo.name = event.target.value; 
     props.setUserInfo(localUserInfo);  
+    checkInfoProvided();
   }
 
   function handleEmailChange(event) {
     let localUserInfo = props.userInfo
     localUserInfo.email = event.target.value; 
     props.setUserInfo(localUserInfo);  
+    checkInfoProvided();
+  }
+
+  function checkInfoProvided() {
+    if (props.userInfo.name != "" && props.userInfo.email != "") {
+      props.setInputDisabled(false);
+    }
   }
 
   return (
-    <div className="top-content-container">
+    <div className="top-content-container top-bar">
       <h3 className="bold">{welcomeMessage}</h3>
       <div className="backdrop">
         <div className="backdrop-content">

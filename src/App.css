@@ -27,6 +27,11 @@ body {
   border-radius: 50%;
   background: var(--gradient);
 }
+@media (max-width: 700px) {
+  #bg-circle {
+    display: none;
+  }
+}
 
 /*
   Typography

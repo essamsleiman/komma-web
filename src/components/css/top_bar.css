@@ -15,6 +15,10 @@
     color: var(--white); 
 }
 
+.top-bar p.label {
+    margin-bottom: 0;
+}
+
 .white {
     color: var(--white); 
 }
@@ -39,12 +43,13 @@
     margin-left: 20px; 
 }
 
-input[type="text"], input[type="number"] {
+.top-content-container input[type="text"], .top-content-container input[type="number"] {
     width: 15rem !important;
     background: rgba(0, 0, 0, 0.06);
     border: 1px solid rgba(0, 0, 0, 0.08) !important;
     box-sizing: border-box !important;
     border-radius: 4px !important; 
+    color: var(--white);
 }
 
 .login-info {
