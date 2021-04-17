@@ -16,6 +16,11 @@
 .legend .label {
   margin-left: 6px;
 }
+.calendar-dropdown {
+  display: flex;
+  flex-direction: column;
+  padding-right: 25px;
+}
 .unavailable-left {
   height: 1.5rem;
   width: 0.75rem;

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import ArrowDown from './assets/arrowDown.svg';
-// import ArrowUp from './assets/arrowUp.svg';
-// import Check from './assets/check.svg';
-import '../css/dropdown/global.sass';
+import './css/dropdown/global.sass';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -38,7 +35,8 @@ class Dropdown extends Component {
       if (isListOpen) {
         window.addEventListener('click', this.close);
       } else {
-        if (this.props.name == "meetingDuration" || this.props.name == "meetingEndTime") { 
+        console.log(prevProps.title, this.props.title); 
+        if (this.props.name == "meetingDuration" || this.props.name == "meetingEndTime" || this.props.name == "calendars") { 
           if (prevProps.title != this.props.title) {
             this.setState({
               title: this.props.title

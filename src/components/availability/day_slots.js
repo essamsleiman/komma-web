@@ -101,8 +101,13 @@ function TimeSlots(props) {
                 return "Nov " + day;   
             case 12:
                 return "Dec " + day;
-        }
-    }
+        } 
+    } 
+
+    // TODO: Iterate over each calendar in props.unavailable_hours, iterating over each 
+    //       day and making the specified time slot red whenever it has a value of true 
+    //       Select calendar(s) from the dropdown and open the console to see how unavailable_hours is formatted 
+    console.log(props.unavailable_hours) 
 
     return (
         <div className={"day-container" + (props.inputDisabled ? " disabled" : "")}> 

@@ -11,11 +11,31 @@ props.intervals[i][0], where i is the current iteration of the loop and
 
 */ 
 
-import react, { useState } from 'react';
-import "../css/input_calendar.css";
+import react, { useState } from 'react'; 
+import "../css/input_calendar.css"; 
+import DropdownMultiple from "../dropdown_multiple"; 
 import DaySlots from "./day_slots";  
 
-function InputCalendar(props) {
+function InputCalendar(props) { 
+
+    let selectedCalendars = [] 
+
+    function findCalendarLabels() { 
+        if (props.calendars == undefined) 
+            return 
+        else { 
+            return props.calendars.map(function(calendar) { return { label: calendar['calendarLabel'], value: calendar['id'] } }); 
+        } 
+    } 
+
+    function onCalendarChange(item, name) { 
+        let newSelectedCalendars = []; 
+        for (let i = 0; i < item.length; i++) { 
+            newSelectedCalendars.push(props.calendars[item[i].value].times); 
+        } 
+        selectedCalendars = newSelectedCalendars; 
+        console.log(selectedCalendars); 
+    } 
 
     function adjustIntervals() { 
         let new_days = props.days 
@@ -59,6 +79,21 @@ function InputCalendar(props) {
             <div className="header">
                 <p>Click and drag to indicate your availability.</p>
                 <div className="legend">
+                    <div className="calendar-dropdown"> 
+                        <p className="label">Overlay My Calendars</p>
+                        <DropdownMultiple
+                            key={props.inputDisabled}
+                            name="calendars"
+                            title={'None Selected'} 
+                            titleSingular={'Selected'}
+                            titlePlural={'Selected'}  
+                            list={findCalendarLabels()}
+                            disabled={props.inputDisabled}
+                            size="dd-wrapper-large"
+                            enableScroll="dd-no-scroll"
+                            onChange={onCalendarChange}
+                        />
+                    </div> 
                     <div className="unavailable-left"></div>
                     <div className="unavailable-right"></div>
                     <p className="label">Unavailable</p>
@@ -71,7 +106,11 @@ function InputCalendar(props) {
                     props.days != undefined ? (() => {
                         let day_slots_list = [];
                         let cur_group = -1;
-                        for (let i = 0; i < props.days.length; i++) {
+                        for (let i = 0; i < props.days.length; i++) { 
+                            let unavailable_hours = [] 
+                            for (let j = 0; j < selectedCalendars.length; j++) { 
+                                unavailable_hours.push(selectedCalendars[j]); 
+                            }
                             let day = props.days[i];
                             if (day.group != cur_group) {
                                 cur_group = day.group;
@@ -87,7 +126,8 @@ function InputCalendar(props) {
                                         id={day.id} 
                                         days={props.days}
                                         setDays={props.setDays} 
-                                        numResponses={props.numResponses} 
+                                        numResponses={props.numResponses}
+                                        unavailableHours={unavailable_hours} 
                                         inputDisabled={props.inputDisabled}
                                     /> 
                                 </div> 
