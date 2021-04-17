@@ -1,27 +1,36 @@
-/* 
-
-This file contains all of the day's and their individual time blocks. 
-It exists to serve as a wrapper over them for global CSS styles, more dynamic loading, 
-and clean code. 
-
-The placement of the hour blocks on the left hand side will also exist here. 
-To get the text of the time to load, iterate over: 
-props.intervals[i][0], where i is the current iteration of the loop and 
-0 is the first element, the block's starting time represented in text form. 
-
-*/ 
-
 import react, { useState } from 'react';
-import "../css/input_calendar.css";
+import "../css/group_calendar.css";
 import DaySlots from "./day_slots";  
 
-function InputCalendar(props) {
-
-    function adjustIntervals() { 
-        let new_days = props.days 
-        new_days[0].times[2][1] = '5/6' 
-        console.log(new_days) 
-        props.setDays(JSON.parse(JSON.stringify(new_days))) 
+function GroupCalendar(props) {
+    function getGroupLegend() {
+        let block_list = [];
+        block_list.push(
+            <p className="label group-legend-label">{0 + "/" + props.numResponses + " Available"}</p>
+        )
+        for (let i = 0; i < props.numResponses; i++) {
+            block_list.push(
+                <div
+                    className={
+                        (() => {
+                            if (i == 0)
+                                return "legend-block first-block";
+                            else if (i == props.numResponses - 1)
+                                return "legend-block last-block";
+                            else
+                                return "legend-block";
+                        })()
+                    }
+                    style={{
+                        backgroundColor: "rgba(71, 203, 108, " + i / (props.numResponses - 1) + ")",
+                    }}
+                ></div>
+            )
+        }
+        block_list.push(
+            <p className="label group-legend-label">{props.numResponses + "/" + props.numResponses + " Available"}</p>
+        )
+        return block_list;
     }
 
     function getHourLabels() {
@@ -57,13 +66,9 @@ function InputCalendar(props) {
     return (
         <div className={"input-cal-container top-content-container vertical-spacing" + (props.inputDisabled ? " disabled" : "")}>
             <div className="header">
-                <p>Click and drag to indicate your availability.</p>
+                <p>Hover to view the group’s availability at different times.</p>
                 <div className="legend">
-                    <div className="unavailable-left"></div>
-                    <div className="unavailable-right"></div>
-                    <p className="label">Unavailable</p>
-                    <div className="available"></div>
-                    <p className="label">Available</p>
+                    {getGroupLegend()}
                 </div>
             </div>
             <div className="labels-and-slots">
@@ -99,26 +104,8 @@ function InputCalendar(props) {
                     )
                 } 
             </div>
-            <div className="submit-container">
-                <button 
-                    className={props.inputDisabled ? "disabled-button" : "solid-button"}
-                    disabled={props.inputDisabled}
-                >
-                    Send Availability
-                </button>
-            </div>
         </div>
     );
 }
 
-export default InputCalendar; 
-
-// props.days.map((day) => ( 
-//     <div key={day.id} className="day-slots-container">
-//         <DaySlots 
-//             id={day.id} 
-//             days={props.days}
-//             setDays={props.setDays} 
-//             numResponses={props.numResponses} 
-//         /> 
-//     </div> 
+export default GroupCalendar; 

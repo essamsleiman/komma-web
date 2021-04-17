@@ -1,17 +1,85 @@
 .input-cal-container {
-    display: flex;
-    margin-left: 0;
+  margin-left: 0;
 }
 .input-cal-container p {
-    margin: 0;
+  margin: 0;
+}
+
+.header {
+  margin-left: 2rem;
+}
+.legend {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0 1.5rem 0;
+}
+.legend .label {
+  margin-left: 6px;
+}
+.unavailable-left {
+  height: 1.5rem;
+  width: 0.75rem;
+  border: solid 1px var(--lightgray);
+  border-right: none;
+  border-radius: 0.75rem 0 0 0.75rem;
+}
+.unavailable-right {
+  height: 1.5rem;
+  width: 0.75rem;
+  border: solid 1px var(--lightgray);
+  border-left: none;
+  border-radius: 0 0.75rem 0.75rem 0;
+  background-color: var(--lightred);
+}
+.available {
+  margin-left: 1rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--kommagreen);
+}
+.legend-block {
+  height: 1.5rem;
+  width: 1.5rem;
+  border: solid 1px var(--lightgray);
+  border-left: none;
+  border-right: none;
+  background-color: var(--kommagreen);
+}
+.first-block {
+  border-radius: 0.75rem 0 0 0.75rem;
+  border: solid 1px var(--lightgray);
+  border-right: none;
+}
+.last-block {
+  border-radius: 0 0.75rem 0.75rem 0;
+  border: solid 1px var(--lightgray);
+  border-left: none;
+}
+.legend .group-legend-label {
+  margin: 0 0.5rem;
+}
+
+.labels-and-slots {
+  display: flex;
+  margin-bottom: 1rem;
 }
 .day-slots-container {
-    display: inline-block; 
+  display: inline-block; 
 }
 .hour-labels {
-    margin: 2.5rem 1rem 0 2rem;
-    text-align: right;
+  margin: 2.5rem 1rem 0 2rem;
+  text-align: right;
 }
 .hour-labels p {
-    margin-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.submit-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.disabled p {
+  color: var(--mediumgray);
 }
