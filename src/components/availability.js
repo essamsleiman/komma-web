@@ -43,8 +43,8 @@ function Availability() {
   ]) 
   const calendars = [
     {id: 0, calendarLabel: 'Personal Calendar', times: calendar1_intervals}, 
-    {id: 1, calendarLabel: 'UCD Calendar', times: JSON.parse(JSON.stringify(calendar2_intervals))}, 
-    {id: 2, calendarLabel: 'Komma Calendar', times: JSON.parse(JSON.stringify(calendar3_intervals))}, 
+    {id: 1, calendarLabel: 'UCD Calendar', times: calendar2_intervals}, 
+    {id: 2, calendarLabel: 'Komma Calendar', times: calendar3_intervals}, 
   ] 
   const numResponses = 5
 

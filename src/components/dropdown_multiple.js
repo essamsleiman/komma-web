@@ -197,19 +197,7 @@ class DropdownMultiple extends Component {
           <button
             type="button"
             className={`dd-list-item ${id}`}
-            style={{listItem, 
-                    backgroundColor: (() => {
-                        if (selectedItems.some((i) => i.value === item.value)) 
-                            return "var(--kommapurple)";
-                        else 
-                            return "var(--white)"; 
-                    })(),
-                    color: (() => {
-                        if (selectedItems.some((i) => i.value === item.value)) 
-                            return "var(--white)";
-                        else 
-                            return "var(--kommablack)"; 
-                    })(),}}
+            style={listItem} 
             key={item.value}
             onClick={() => this.selectItem(item)}
           >

@@ -76,7 +76,7 @@ export const intervals = [
     ['1230pm', false]],
 ],
 calendar2_intervals = [
-    [['9am', false],
+    [['9am', true],
     ['930am', false],
     ['10am', true],
     ['1030am', true],

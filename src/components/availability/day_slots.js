@@ -15,7 +15,7 @@ Note that props.id directly grabs the date's id, which is also it's index in the
 
 */ 
 
-import react, { useState } from 'react';
+import react, { useState } from 'react'; 
 import "../css/day_slots.css";
 //import HourSlots from "./hour_slots";  
 
@@ -104,11 +104,14 @@ function TimeSlots(props) {
         } 
     } 
 
-    // TODO: Iterate over each calendar in props.unavailable_hours, iterating over each 
-    //       day and making the specified time slot red whenever it has a value of true 
-    //       Select calendar(s) from the dropdown and open the console to see how unavailable_hours is formatted 
-    console.log(props.unavailable_hours) 
-
+    function isNotAvailable(day, time_block) { 
+        for (let i = 0; i < props.selectedCalendars.length; i++) { // each calendar 
+            if (props.selectedCalendars[i][day][time_block][1]) 
+                return true 
+        }
+        return false 
+    } 
+    
     return (
         <div className={"day-container" + (props.inputDisabled ? " disabled" : "")}> 
             <p className="label date">{getFormattedDate(props.days[props.id].date)}</p>
@@ -125,6 +128,8 @@ function TimeSlots(props) {
                                             return "var(--verylightgray)";
                                         else if (props.days[props.id].times[line_number][2])
                                             return "var(--kommagreen)";
+                                        else if (isNotAvailable(props.id, line_number)) 
+                                            return "var(--kommared)"; 
                                         else
                                             return "var(--kommawhite)";
                                      })(),

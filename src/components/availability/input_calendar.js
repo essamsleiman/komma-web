@@ -18,7 +18,7 @@ import DaySlots from "./day_slots";
 
 function InputCalendar(props) { 
 
-    let selectedCalendars = [] 
+    const [selectedCalendars, setSelectedCalendars] = useState([]); 
 
     function findCalendarLabels() { 
         if (props.calendars == undefined) 
@@ -33,8 +33,22 @@ function InputCalendar(props) {
         for (let i = 0; i < item.length; i++) { 
             newSelectedCalendars.push(props.calendars[item[i].value].times); 
         } 
-        selectedCalendars = newSelectedCalendars; 
-        console.log(selectedCalendars); 
+        setSelectedCalendars(newSelectedCalendars); 
+        // Faster, better method that doesn't re-render and pass down into day_slots.js 
+        // console.log(selectedCalendars); 
+        // let newDays = props.days; 
+        // for (let i = 0; i < selectedCalendars.length; i++) { // each calendar 
+        //     for (let j = 0; j < newDays.length; j++) { // each day 
+        //         for (let k = 0; k < newDays[j].times.length; k++) { // each time slot 
+        //             if (selectedCalendars[i][j][k][1]) { // set unavailable if calendar indicates busy 
+        //                 newDays[j].times[k].push(false); 
+        //             } 
+        //             // console.log(selectedCalendars[i][j][k][1], props.days[i].times[j][2]) 
+        //         } 
+        //     } 
+        // } 
+        // console.log(newDays); 
+        // setUnavailableHours(newDays); 
     } 
 
     function adjustIntervals() { 
@@ -91,6 +105,7 @@ function InputCalendar(props) {
                             disabled={props.inputDisabled}
                             size="dd-wrapper-large"
                             enableScroll="dd-no-scroll"
+                            checkIcon={<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxNSAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8cGF0aCBkPSJNNS42IDExLjNMMC41IDZMMi41IDQuMUw1LjYgNy40TDEzIDBMMTUgMkw1LjYgMTEuM1oiIGZpbGw9ImJsYWNrIi8+DQo8L3N2Zz4=" />} 
                             onChange={onCalendarChange}
                         />
                     </div> 
@@ -103,14 +118,14 @@ function InputCalendar(props) {
             </div>
             <div className="labels-and-slots">
                 {
-                    props.days != undefined ? (() => {
+                    props.days != undefined ? (() => { 
                         let day_slots_list = [];
                         let cur_group = -1;
                         for (let i = 0; i < props.days.length; i++) { 
                             let unavailable_hours = [] 
                             for (let j = 0; j < selectedCalendars.length; j++) { 
                                 unavailable_hours.push(selectedCalendars[j]); 
-                            }
+                            } 
                             let day = props.days[i];
                             if (day.group != cur_group) {
                                 cur_group = day.group;
@@ -127,7 +142,7 @@ function InputCalendar(props) {
                                         days={props.days}
                                         setDays={props.setDays} 
                                         numResponses={props.numResponses}
-                                        unavailableHours={unavailable_hours} 
+                                        selectedCalendars={selectedCalendars} 
                                         inputDisabled={props.inputDisabled}
                                     /> 
                                 </div> 

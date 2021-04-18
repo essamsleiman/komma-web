@@ -52,6 +52,11 @@
     color: var(--white);
 }
 
+/* Why does this not work :( */
+/* ::placeholder { 
+    color: var(--white); 
+} */
+
 .login-info {
     display: inline-block;
     margin-left: 8px;
