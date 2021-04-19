@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/step_four.css";
+import axios from "axios";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -28,21 +29,21 @@ function StepFour(props) {
 
         // Make axios call
 
-        // axios.post(
-        //   `http://localhost:5000/events/add`,
-        //   {
-        //     name: ,
-        //     hostname: ,
-        //     meetingInviteLink: ,
-        //     googleMeetLink: ,
-        //     title: ,
-        //     description: ,
-        //     location: ,
-        //     minTimeRange: ,
-        //     maxTimeRange: ,
-        //   }
-        // )
-        // .then((res) => console.log(`EVENT ADDED TO USER ${res.data}`));
+        axios.post(
+          `http://localhost:5000/events/add`,
+          {
+            name: curEvent.meetingName,
+            hostname: "James",
+            meetingInviteLink: "komma.com",
+            googleMeetLink: "meets.google.com",
+            title: curEvent.meetingName,
+            description: curEvent.description,
+            location: curEvent.address,
+            minTimeRange: "",
+            maxTimeRange: "",
+          }
+        )
+        .then((res) => console.log(`EVENT ADDED TO USER ${res.data}`));
 
 
         saveData();
