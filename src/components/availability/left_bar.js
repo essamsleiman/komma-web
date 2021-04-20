@@ -21,6 +21,8 @@ function LeftBar(props) {
     var inviteLink = "komma.com/my-meeting";
     var isHost = true;
 
+    const [linkFieldContent, setLinkFieldContent] = useState(inviteLink);
+
     function changeViewButton() {
         if (props.viewingGroup) 
             props.setViewingGroup(false);
@@ -28,7 +30,10 @@ function LeftBar(props) {
             props.setViewingGroup(true);
     }
 
-    function handleCopyButtonClick() {
+    function handleCopyButtonClick(event) {
+        navigator.clipboard.writeText(inviteLink);
+        setLinkFieldContent("Copied!");
+        setTimeout(() => setLinkFieldContent(inviteLink), 1500);
         return;
     }
 
@@ -63,7 +68,11 @@ function LeftBar(props) {
                     <h4 className="bold">💌 Invite </h4>
                     <p className="label">Share the link below to invite people to the meeting.</p>
                     <div className="input-group invite-link">
-                        <input type="text" className="form-control invite-field" value={inviteLink} />
+                        <input 
+                            type="text" 
+                            className={"form-control invite-field " + ((linkFieldContent == "Copied!") ? "copied" : "")} 
+                            value={linkFieldContent} 
+                        />
                         <div className="input-group-append">
                             <button className="copy-button solid-button" type="button" onClick={handleCopyButtonClick}><img src={copy_icon} /></button>
                         </div>

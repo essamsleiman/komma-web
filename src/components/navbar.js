@@ -9,7 +9,7 @@ function Navbar() {
       <div className="nav-bar row no-gutters">
         <div className="left col">
           <a>
-            <img style={{cursor: "pointer"}} onClick={() => window.location="/"} src={komma_logo}/>
+            <img className="logo" onClick={() => window.location="/"} src={komma_logo}/>
           </a>
         </div>
         <div className="right col">
