@@ -66,12 +66,13 @@ router.get(
       console.log("NOW USER: ", req.user);
       const user = {
         name: req.user.firstName,
+        id: req.user._id,
         accessToken: req.user.accessToken,
         refreshToken: req.user.refreshToken,
       };
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
       console.log("I HAVE ACCESS TOKEN: ", accessToken);
-      res.json({ accessToken: accessToken });
+      res.json({ user: user });
     } else {
       console.log("FAIL IN REQ");
       res.json("Call didn't go through");
