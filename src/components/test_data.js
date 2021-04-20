@@ -1,12 +1,12 @@
 export const intervals = [
-    ['9am', '0/5', false],
-    ['930am', '2/5', false],
-    ['10am', '3/5', false],
-    ['1030am', '5/5', false],
-    ['11am', '3/5', false],
-    ['1130am', '1/5', false],
-    ['12pm', '4/5', false],
-    ['1230pm', '1/5', false],
+    ['9am', '0/5', false, [], ["James Junaidi", "Omid Mogasemi", "Essam Sleiman", "John Doe", "Sally Brown"]],
+    ['930am', '2/5', false, ["James Junaidi", "Omid Mogasemi"], ["Essam Sleiman", "John Doe", "Sally Brown"]],
+    ['10am', '3/5', false, ["James Junaidi", "Omid Mogasemi", "Essam Sleiman"], ["John Doe", "Sally Brown"]],
+    ['1030am', '5/5', false, ["James Junaidi", "Omid Mogasemi", "Essam Sleiman", "John Doe", "Sally Brown"], []],
+    ['11am', '3/5', false, ["James Junaidi", "Omid Mogasemi", "Essam Sleiman"], ["John Doe", "Sally Brown"]],
+    ['1130am', '1/5', false, ["James Junaidi"], ["Omid Mogasemi", "Essam Sleiman", "John Doe", "Sally Brown"]],
+    ['12pm', '4/5', false, ["James Junaidi", "Omid Mogasemi", "Essam Sleiman", "John Doe"], ["Sally Brown"]],
+    ['1230pm', '1/5', false, ["James Junaidi"], ["Omid Mogasemi", "Essam Sleiman", "John Doe", "Sally Brown"]],
 ], 
    calendar1_intervals = [ 
     // NOTE: The 3 different calendar's intervals are identical right now. Haven't had time to randomize them yet 

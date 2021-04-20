@@ -43,27 +43,6 @@
   border-radius: 0.75rem;
   background-color: var(--kommagreen);
 }
-.legend-block {
-  height: 1.5rem;
-  width: 1.5rem;
-  border: solid 1px var(--lightgray);
-  border-left: none;
-  border-right: none;
-  background-color: var(--kommagreen);
-}
-.first-block {
-  border-radius: 0.75rem 0 0 0.75rem;
-  border: solid 1px var(--lightgray);
-  border-right: none;
-}
-.last-block {
-  border-radius: 0 0.75rem 0.75rem 0;
-  border: solid 1px var(--lightgray);
-  border-left: none;
-}
-.legend .group-legend-label {
-  margin: 0 0.5rem;
-}
 
 .labels-and-slots {
   display: flex;

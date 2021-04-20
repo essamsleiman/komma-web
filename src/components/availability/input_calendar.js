@@ -156,6 +156,7 @@ function InputCalendar(props) {
                 } 
             </div>
             <div className="submit-container">
+                <p className="label">Availabilities sent!</p>
                 <button 
                     className={props.inputDisabled ? "disabled-button" : "solid-button"}
                     disabled={props.inputDisabled}
@@ -168,13 +169,3 @@ function InputCalendar(props) {
 }
 
 export default InputCalendar; 
-
-// props.days.map((day) => ( 
-//     <div key={day.id} className="day-slots-container">
-//         <DaySlots 
-//             id={day.id} 
-//             days={props.days}
-//             setDays={props.setDays} 
-//             numResponses={props.numResponses} 
-//         /> 
-//     </div> 
