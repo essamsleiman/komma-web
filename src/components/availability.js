@@ -65,6 +65,7 @@ function Availability() {
                 { !viewingGroup ? 
                   (
                     <InputCalendar
+                      viewingGroup={viewingGroup} 
                       intervals={intervals} 
                       days={days} 
                       setDays={setDays} 
@@ -74,6 +75,7 @@ function Availability() {
                     /> 
                   ) : ( 
                     <GroupCalendar
+                      viewingGroup={viewingGroup} 
                       intervals={intervals} 
                       days={days} 
                       setDays={setDays} 

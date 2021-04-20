@@ -138,6 +138,7 @@ function InputCalendar(props) {
                             day_slots_list.push(
                                 <div key={day.id} className="day-slots-container">
                                     <DaySlots 
+                                        viewingGroup={props.viewingrGroup} 
                                         id={day.id} 
                                         days={props.days}
                                         setDays={props.setDays} 

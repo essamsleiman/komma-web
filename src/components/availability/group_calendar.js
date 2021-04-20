@@ -60,8 +60,7 @@ function GroupCalendar(props) {
         return (<p className="label">{nextHour + " " + period}</p>);
     }
 
-    console.log(props.days) 
-    console.log(props.days.length) 
+    console.log(props); 
 
     return (
         <div className={"input-cal-container top-content-container vertical-spacing" + (props.inputDisabled ? " disabled" : "")}>
@@ -89,6 +88,7 @@ function GroupCalendar(props) {
                             day_slots_list.push(
                                 <div key={day.id} className="day-slots-container">
                                     <DaySlots 
+                                        viewingGroup={props.viewingGroup} 
                                         id={day.id} 
                                         days={props.days}
                                         setDays={props.setDays} 

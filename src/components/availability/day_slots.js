@@ -104,35 +104,61 @@ function TimeSlots(props) {
         } 
     } 
 
+    function displayBlockAvailability(attendance_nums) { 
+        if (!props.viewingGroup) 
+            return 
+        else 
+            document.getElementById("dummy-hover-text").style.display = "block"; 
+    } 
+    
+    function stopDisplayBlockAvailability() { 
+        document.getElementById("dummy-hover-text").style.display = "none"; 
+    }
+
+    function calculateGroupAvailability(attendance_nums) { 
+        console.log(attendance_nums); 
+        let num_can_attend = parseInt(attendance_nums.substring(0, 1)) 
+        let num_responses = parseInt(attendance_nums.substring(2)) 
+        return "rgba(71, 203, 108, " + num_can_attend / (num_responses - 1) + ")" 
+    }
+
     function isNotAvailable(day, time_block) { 
         for (let i = 0; i < props.selectedCalendars.length; i++) { // each calendar 
             if (props.selectedCalendars[i][day][time_block][1]) 
                 return true 
-        }
+        } 
         return false 
     } 
+
+    console.log(props); 
     
     return (
         <div className={"day-container" + (props.inputDisabled ? " disabled" : "")}> 
-            <p className="label date">{getFormattedDate(props.days[props.id].date)}</p>
+            <p className="label date" id="test">{getFormattedDate(props.days[props.id].date)}</p>
             <p className="day-of-week">{getDayOfWeek(props.days[props.id].date)}</p>
+            <p id="dummy-hover-text" style={{display: "none"}}>Dummy hover text</p> 
             { 
                 props.days[props.id].times.map((times, line_number) => (
                     <div>
                         <div 
                             className="time-block" 
+                            onMouseOver={() => displayBlockAvailability(props.days[props.id].times[line_number][1])} 
+                            onMouseLeave={() => stopDisplayBlockAvailability()} 
                             onMouseDown={() => adjustAttendance(line_number)} 
                             onMouseEnter={(event) => checkIfMouseEntered(event, line_number)} 
                             style={{ backgroundColor: (() => {
-                                        if (props.inputDisabled)
-                                            return "var(--verylightgray)";
-                                        else if (props.days[props.id].times[line_number][2])
-                                            return "var(--kommagreen)";
-                                        else if (isNotAvailable(props.id, line_number)) 
+                                        if (!props.viewingGroup && props.inputDisabled) 
+                                            return "var(--verylightgray)"; 
+                                        else if (props.viewingGroup) { 
+                                            return calculateGroupAvailability(props.days[props.id].times[line_number][1]); 
+                                        } 
+                                        else if (props.days[props.id].times[line_number][2]) 
+                                            return "var(--kommagreen)"; 
+                                        else if (!props.viewingGroup && isNotAvailable(props.id, line_number)) 
                                             return "var(--lightred)"; 
-                                        else
-                                            return "var(--kommawhite)";
-                                     })(),
+                                        else 
+                                            return "var(--kommawhite)"; 
+                                     })(), 
                                      borderBottom: (() => {
                                         if (props.days[props.id].times[line_number][2])
                                             return "";

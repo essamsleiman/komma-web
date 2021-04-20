@@ -1,9 +1,9 @@
 export const intervals = [
     ['9am', '0/5', false],
     ['930am', '2/5', false],
-    ['10am', '4/5', false],
+    ['10am', '3/5', false],
     ['1030am', '5/5', false],
-    ['11am', '4/5', false],
+    ['11am', '3/5', false],
     ['1130am', '1/5', false],
     ['12pm', '4/5', false],
     ['1230pm', '1/5', false],
