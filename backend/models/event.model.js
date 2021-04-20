@@ -25,6 +25,9 @@ const eventSchema = new Schema({
   availabilityHidden: { type: Boolean, requried: true },
   meetingInviteLink: { type: String, required: true },
   googleMeetLink: { type: String, required: true },
+
+  hostAccessToken: { type: String, required: true },
+  hostRefreshToken: {type: String, required: true },
 });
 
 const event = mongoose.model("event", eventSchema);

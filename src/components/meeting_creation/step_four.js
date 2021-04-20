@@ -5,6 +5,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
 import { updateEvent } from "../../Redux/actions/eventActions";
 
@@ -15,6 +16,7 @@ function StepFour(props) {
     const [numResponses, setNumResponses] = useState(5);
     const [notifyMeSelected, setNotifyMeSelected] = useState(false);
     const [keepHiddenSelected, setKeepHiddenSelected] = useState(false);
+    let history = useHistory();
 
     function next() {
         console.log("hit Previous EVENT State: ", props.event)
@@ -26,7 +28,7 @@ function StepFour(props) {
         
         console.log("hit FINAL EVENT State: ", curEvent)
 
-
+        var eventID = "null";
         // Make axios call
         // currently giving me an error 400 (bad request).
         axios.post(
@@ -43,10 +45,15 @@ function StepFour(props) {
             maxTimeRange: "",
           }
         )
-        .then((res) => console.log(`EVENT ADDED TO USER ${res.data}`));
+        .then((res) => {
+            console.log(`EVENT ADDED TO USER ${res.data}`)
+            eventID = res.data._id;
+        });
 
 
         saveData();
+        alert("An event was created!");
+        history.push(`/events/${eventID}`)
         //window.location = "/";  
     }
 

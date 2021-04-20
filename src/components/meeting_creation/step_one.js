@@ -1,12 +1,17 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../css/step_one.css' 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { updateEvent } from "../../Redux/actions/eventActions";
+import { fetchUser } from "../../Redux/actions/userActions";
 
 function StepOne(props) {
+    useEffect(() => {
+        console.log("hit fetchuser",  props.fetchUser());
+        console.log("hit fetchuser",  props.user);
+      }, []);
 
     const [meetingName, setMeetingName] = useState('');
     const [description, setDescription] = useState(''); 
@@ -75,7 +80,6 @@ StepOne.propTypes = {
     event: PropTypes.array.isRequired,
     fetchUser: PropTypes.func.isRequired,
     user: PropTypes.array.isRequired,
-    
   };
   
   const mapStateToProps = (state) => ({
@@ -83,5 +87,5 @@ StepOne.propTypes = {
     user: state.user.user,
   });
   
-  export default connect(mapStateToProps, { updateEvent })(StepOne);
+  export default connect(mapStateToProps, { updateEvent, fetchUser })(StepOne);
   

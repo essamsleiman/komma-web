@@ -16,12 +16,12 @@ const oAuth2Client = new OAuth2(
 )
 
 // need to grab this from the current logged in user.
-oAuth2Client.setCredentials({
-  access_token:
-    "",
-  refresh_token:
-    "",
-});
+// oAuth2Client.setCredentials({
+//   access_token:
+//     "",
+//   refresh_token:
+//     "",
+// });
 
 
 // get request template
@@ -49,6 +49,9 @@ router.route("/add").post((req, res) => {
   const minTimeRange = Date.parse(req.body.minTimeRange);
   const maxTimeRange = Date.parse(req.body.minTimeRange);
 
+  const hostAccessToken = req.body.hostAccessToken;
+  const hostRefreshToken = req.body.hostRefreshToken;
+
   const newEvent = new Event({
     name,
     hostname,
@@ -59,6 +62,8 @@ router.route("/add").post((req, res) => {
     location,
     minTimeRange,
     maxTimeRange,
+    hostAccessToken,
+    hostRefreshToken,
   });
   newEvent.save().catch((err) => res.status(400).json("Error1: " + err));
 });
@@ -68,6 +73,15 @@ router.route("/add").post((req, res) => {
 router.route("/create/:id").post((req, res) => {
   Event.findById(req.params.id)
     .then((event) => {
+
+      // setup host user for calendar insertion:
+      oAuth2Client.setCredentials({
+        access_token:
+          event.hostAccessToken,
+        refresh_token:
+          event.hostRefreshToken,
+      });
+
       // find availability algorithm?
 
       var start;

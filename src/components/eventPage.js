@@ -23,18 +23,6 @@ function EventPage(props) {
         // alert("axios call finished");
     }, [])
 
-    // axios call to get the data:
-
-    // axios.get(`http://localhost:5000/get/${eventID}`).then((response) => {
-    //     if (response) {
-    //         console.log("hit response in eventPage", response);
-    //     } else {
-    //         console.log("hit error in eventPage axios call");
-    //     }
-    // });
-    // alert("axios call finished");
-
-
     console.log("hit eventinfo", eventInfo)
     if (eventData) {
         return (
@@ -50,6 +38,9 @@ function EventPage(props) {
                 </p>
                 <p>
                     Event Location: {eventData.location}
+                </p>
+                <p>
+                    Event Link: www.komma.com/events/{eventData._id}
                 </p>
             </div>
         )
