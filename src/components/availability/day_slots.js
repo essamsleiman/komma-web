@@ -101,10 +101,10 @@ function TimeSlots(props) {
         if (props.viewingGroup)
             return;
         
-        let new_days = props.days 
-        let old_attendance_num = new_days[props.id].times[line_number][1] 
-        let can_attend = parseInt(old_attendance_num.substring(0, 1)) 
-        let total_responses = parseInt(old_attendance_num.substring(2)) 
+        let new_days = props.days;
+        let old_attendance_num = new_days[props.id].times[line_number][1];
+        let can_attend = parseInt(old_attendance_num.substring(0, 1)); 
+        let total_responses = parseInt(old_attendance_num.substring(2));
         if (props.numResponses == total_responses) { 
             can_attend += 1 
             new_days[props.id].times[line_number][1] = can_attend + '/' + (total_responses + 1)
@@ -119,7 +119,8 @@ function TimeSlots(props) {
             new_days[props.id].times[line_number][2] = true 
         }
         console.log(new_days) 
-        props.setDays(JSON.parse(JSON.stringify(new_days))) 
+        props.setDays(JSON.parse(JSON.stringify(new_days)));
+        props.setUnsavedChanges("true");
     } 
 
     function checkIfMouseEntered(e, line_number) { 
@@ -208,7 +209,7 @@ function TimeSlots(props) {
                                 style={{display: "none"}}
                             >
                                 <div className="triangle"></div>
-                                <p className="label bold">
+                                <p className="label bold header">
                                     {
                                         getDayOfWeek(props.days[props.id].date) + ", "
                                         + getFormattedDate(props.days[props.id].date) + " from "
@@ -223,7 +224,7 @@ function TimeSlots(props) {
                                         </p>
                                         {
                                             props.intervals[line_number][3].map((name) => (
-                                                <p>{name}</p>
+                                                <p className="label">{name}</p>
                                             ))
                                         }
                                     </div>
@@ -233,7 +234,7 @@ function TimeSlots(props) {
                                         </p>
                                         {
                                             props.intervals[line_number][4].map((name) => (
-                                                <p>{name}</p>
+                                                <p className="label">{name}</p>
                                             ))
                                         }
                                     </div>
