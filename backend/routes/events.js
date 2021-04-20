@@ -5,24 +5,17 @@ const router = require("express").Router();
 require("dotenv").config();
 let Event = require("../models/event.model");
 
-
 const { OAuth2 } = google.auth;
 const id = process.env.GOOGLE_CLIENT_ID;
 const secret = process.env.GOOGLE_CLIENT_SECRET;
 
-const oAuth2Client = new OAuth2(
-  id,
-  secret,
-)
+const oAuth2Client = new OAuth2(id, secret);
 
 // need to grab this from the current logged in user.
 oAuth2Client.setCredentials({
-  access_token:
-    "",
-  refresh_token:
-    "",
+  access_token: "",
+  refresh_token: "",
 });
-
 
 // get request template
 router.route("/").get((req, res) => {
@@ -38,31 +31,58 @@ router.route("/").get((req, res) => {
 // post request tempalte
 router.route("/add").post((req, res) => {
   console.log("hit in route for add");
-  const name = req.body.name;
-  const hostname = req.body.hostname;
-  const meetingInviteLink = req.body.meetingInviteLink;
-  const googleMeetLink = req.body.googleMeetLink;
-
   const title = req.body.title;
+  const hostName = req.body.hostName;
+  const hostID = req.body.hostID;
   const description = req.body.description;
   const location = req.body.location;
-  const minTimeRange = Date.parse(req.body.minTimeRange);
-  const maxTimeRange = Date.parse(req.body.minTimeRange);
-
-  const newEvent = new Event({
-    name,
-    hostname,
-    meetingInviteLink,
-    googleMeetLink,
-    title,
-    description,
-    location,
-    minTimeRange,
-    maxTimeRange,
+  const meetingStartTime = req.body.meetingStartTime;
+  const meetingEndTime = req.body.meetingEndTime;
+  const maxTimeRange = req.body.maxTimeRange;
+  const respondents = req.body.respondents;
+  const daysSentAfter = req.body.daysSentAfter;
+  const notifyOnResponse = req.body.notifyOnResponse;
+  const availabilityHidden = req.body.availabilityHidden;
+  var newEvent;
+  if (req.body.sendInDaysBool) {
+    newEvent = new Event({
+      daysSentAfter: req.body.daysSentAfter,
+      title,
+      hostName,
+      hostID,
+      description,
+      location,
+      meetingStartTime,
+      meetingEndTime,
+      maxTimeRange,
+      respondents,
+      // daysSentAfter,
+      notifyOnResponse,
+      availabilityHidden,
+    });
+  } else {
+    newEvent = new Event({
+      respondedSentAfter: req.body.respondedSentAfter,
+      title,
+      hostName,
+      hostID,
+      description,
+      location,
+      meetingStartTime,
+      meetingEndTime,
+      maxTimeRange,
+      respondents,
+      // daysSentAfter,
+      notifyOnResponse,
+      availabilityHidden,
+    });
+  }
+  console.log("AT THIS POINT", newEvent);
+  newEvent.save().catch((err) => {
+    res.status(400).json("Error1: " + err);
+    console.log("hit error", err);
   });
-  newEvent.save().catch((err) => res.status(400).json("Error1: " + err));
 });
-
 
 router.route("/create/:id").post((req, res) => {
   Event.findById(req.params.id)
@@ -97,7 +117,7 @@ router.route("/create/:id").post((req, res) => {
       };
     })
     .catch((err) => res.status(400).json("Error in meeting creation" + err));
-})
+});
 
 router.route("/update/:id").post((req, res) => {
   Event.findById(req.params.id)
@@ -148,7 +168,7 @@ router.route("/get/:id").get((req, res) => {
   Event.findById(req.params.id)
     .then((event) => res.json(event))
     .catch((err) => res.status(400).json("error: " + err));
-    console.log("hit res specific event", res);
-})
+  console.log("hit res specific event", res);
+});
 
 module.exports = router;
