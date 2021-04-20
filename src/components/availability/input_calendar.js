@@ -85,8 +85,28 @@ function InputCalendar(props) {
         return (<p className="label">{nextHour + " " + period}</p>);
     }
 
-    console.log(props.days) 
-    console.log(props.days.length) 
+    // Update the internal availabilities object to be sent back to the DB 
+    function sendAvailabilities() { 
+        let new_days = props.days 
+
+        for (let day = 0; day < new_days.length; day++) { 
+            for (let block = 0; block < new_days[day].times.length; block++) { 
+                let old_attendance_num = new_days[day].times[block][1] 
+                let can_attend = parseInt(old_attendance_num.substring(0, old_attendance_num.indexOf(','))) 
+                let total_responses = parseInt(old_attendance_num.substring(old_attendance_num.indexOf(',') + 1)) 
+                total_responses++; 
+                if (new_days[day].times[block][2]) { // can attend this time block 
+                    new_days[day].times[block][1] = ++can_attend + '/' + total_responses 
+                } 
+                else { // cannot attend this time block 
+                    new_days[day].times[block][1] = can_attend + '/' + total_responses 
+                }
+            }
+        }
+        
+        console.log(new_days) 
+        props.setDays(JSON.parse(JSON.stringify(new_days))) 
+    }
 
     return (
         <div className={"input-cal-container top-content-container vertical-spacing" + (props.inputDisabled ? " disabled" : "")}>
@@ -157,8 +177,9 @@ function InputCalendar(props) {
             </div>
             <div className="submit-container">
                 <button 
-                    className={props.inputDisabled ? "disabled-button" : "solid-button"}
-                    disabled={props.inputDisabled}
+                    className={props.inputDisabled ? "disabled-button" : "solid-button"} 
+                    disabled={props.inputDisabled} 
+                    onClick={sendAvailabilities} 
                 >
                     Send Availability
                 </button>

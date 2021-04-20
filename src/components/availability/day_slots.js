@@ -26,19 +26,15 @@ function TimeSlots(props) {
         
         let new_days = props.days 
         let old_attendance_num = new_days[props.id].times[line_number][1] 
-        let can_attend = parseInt(old_attendance_num.substring(0, 1)) 
-        let total_responses = parseInt(old_attendance_num.substring(2)) 
+        let can_attend = parseInt(old_attendance_num.substring(0, old_attendance_num.indexOf(','))) 
+        let total_responses = parseInt(old_attendance_num.substring(old_attendance_num.indexOf(',') + 1)) 
         if (props.numResponses == total_responses) { 
-            can_attend += 1 
-            new_days[props.id].times[line_number][1] = can_attend + '/' + (total_responses + 1)
             new_days[props.id].times[line_number][2] = true 
         } 
         else if (new_days[props.id].times[line_number][2] == true) { 
-            new_days[props.id].times[line_number][1] = (can_attend - 1) + '/' + (total_responses)
             new_days[props.id].times[line_number][2] = false  
         } 
         else {
-            new_days[props.id].times[line_number][1] = (can_attend + 1) + '/' + (total_responses)
             new_days[props.id].times[line_number][2] = true 
         }
         console.log(new_days) 
@@ -117,10 +113,10 @@ function TimeSlots(props) {
 
     function calculateGroupAvailability(attendance_nums) { 
         console.log(attendance_nums); 
-        let num_can_attend = parseInt(attendance_nums.substring(0, 1)) 
-        let num_responses = parseInt(attendance_nums.substring(2)) 
+        let num_can_attend = parseInt(attendance_nums.substring(0, attendance_nums.indexOf(','))) 
+        let num_responses = parseInt(attendance_nums.substring(attendance_nums.indexOf(',') + 1)) 
         return "rgba(71, 203, 108, " + num_can_attend / (num_responses - 1) + ")" 
-    }
+    } 
 
     function isNotAvailable(day, time_block) { 
         for (let i = 0; i < props.selectedCalendars.length; i++) { // each calendar 
@@ -129,8 +125,6 @@ function TimeSlots(props) {
         } 
         return false 
     } 
-
-    console.log(props); 
     
     return (
         <div className={"day-container" + (props.inputDisabled ? " disabled" : "")}> 
