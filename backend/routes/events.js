@@ -73,7 +73,9 @@ router.route("/add").post((req, res) => {
     });
   }
   console.log("AT THIS POINT", newEvent);
-  newEvent.save().catch((err) => {
+  newEvent.save()
+  .then(() => res.json(newEvent))
+  .catch((err) => {
     res.status(400).json("Error1: " + err);
     console.log("hit error", err);
   });
@@ -192,9 +194,12 @@ router.route("/update/:id").post((req, res) => {
 // route to find the event by ID
 router.route("/get/:id").get((req, res) => {
   Event.findById(req.params.id)
-    .then((event) => res.json(event))
+    .then((event) => {
+      console.log("SUCCESS ESSAM GET", event)
+      res.json(event)
+    } )
     .catch((err) => res.status(400).json("error: " + err));
-  console.log("hit res specific event", res);
+  // console.log("hit res specific event", res);
 });
 
 module.exports = router;

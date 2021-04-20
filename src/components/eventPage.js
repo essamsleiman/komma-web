@@ -34,6 +34,9 @@ function EventPage(props) {
                     Host: {eventData.hostName}
                 </p>
                 <p>
+                    Description: {eventData.description}
+                </p>
+                <p>
                     Host's ID: {eventData.hostID}
                 </p>
                 <p>

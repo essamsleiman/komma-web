@@ -5,6 +5,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
 import { fetchUser } from "../../Redux/actions/userActions";
 import { updateEvent } from "../../Redux/actions/eventActions";
@@ -16,6 +17,7 @@ function StepFour(props) {
   const [numResponses, setNumResponses] = useState(5);
   const [notifyMeSelected, setNotifyMeSelected] = useState(false);
   const [keepHiddenSelected, setKeepHiddenSelected] = useState(false);
+  let history = useHistory();
 
   useEffect(() => {
     props.fetchUser();
@@ -34,6 +36,7 @@ function StepFour(props) {
   console.log("hit FINAL EVENT State: ", curEvent);
   function next() {
     console.log("hit Previous EVENT State: ", props.event);
+    var eventID = "null";
 
     // // // Make axios call
     var postArgs = {};
@@ -81,17 +84,20 @@ function StepFour(props) {
 
     axios
       .post(`http://localhost:5000/events/add`, postArgs)
-      .then((res) => console.log(`EVENT ADDED TO USER ${res.data}`));
+      .then((res) => {
+          console.log("in this .then part");
+          console.log(`EVENT ADDED TO USER ${res.data}`)
+          saveData();
+          history.push(`/events/${res.data._id}`);
+        });
 
-    saveData();
-    //window.location = "/";
+    
   }
 
   function back() {
     saveData();
     props.setActiveStep(3);
   }
-
   function saveData() {
     let data = props.data;
     data.num_days = numDaysSelected ? numDays : 0;
