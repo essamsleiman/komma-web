@@ -16,3 +16,29 @@ p {
 p.day-of-week {
   margin-bottom: 0.4rem;
 }
+
+.block-availability {
+  position: absolute;
+  width: 20rem;
+  margin: -2rem 0 0 4.25rem;
+  padding: 1rem;
+  background: var(--white);
+  border-radius: 4px;
+  box-shadow: var(--small-drop-shadow);
+}
+.block-availability .header {
+  margin-bottom: 0.25rem;
+}
+.block-availability .frac-people {
+  color: var(--mediumgray)
+}
+.triangle {
+  position: absolute;
+  margin-top: -2px;
+  margin-left: -1.5rem;
+  width: 0; 
+  height: 0; 
+  border-top: 0.5rem solid transparent;
+  border-bottom: 0.5rem solid transparent; 
+  border-right: 0.5rem solid var(--white);
+}

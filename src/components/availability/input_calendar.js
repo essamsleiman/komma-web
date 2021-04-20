@@ -17,8 +17,8 @@ import DropdownMultiple from "../dropdown_multiple";
 import DaySlots from "./day_slots";  
 
 function InputCalendar(props) { 
-
     const [selectedCalendars, setSelectedCalendars] = useState([]); 
+    const [unsavedChanges, setUnsavedChanges] = useState("none");
 
     function findCalendarLabels() { 
         if (props.calendars == undefined) 
@@ -86,7 +86,7 @@ function InputCalendar(props) {
     }
 
     // Update the internal availabilities object to be sent back to the DB 
-    function sendAvailabilities() { 
+    function handleSendAvailability() { 
         let new_days = props.days 
 
         for (let day = 0; day < new_days.length; day++) { 
@@ -106,6 +106,7 @@ function InputCalendar(props) {
         
         console.log(new_days) 
         props.setDays(JSON.parse(JSON.stringify(new_days))) 
+        setUnsavedChanges("false");
     }
 
     return (
@@ -165,6 +166,7 @@ function InputCalendar(props) {
                                         numResponses={props.numResponses}
                                         selectedCalendars={selectedCalendars} 
                                         inputDisabled={props.inputDisabled}
+                                        setUnsavedChanges={setUnsavedChanges}
                                     /> 
                                 </div> 
                             );
@@ -176,10 +178,13 @@ function InputCalendar(props) {
                 } 
             </div>
             <div className="submit-container">
+                <p className="label italic" style={unsavedChanges == "none" ? {display: "none"} : {}}>
+                    {unsavedChanges == "true" ? "Unsaved changes." : "Availabilities sent!"}
+                </p>
                 <button 
-                    className={props.inputDisabled ? "disabled-button" : "solid-button"} 
-                    disabled={props.inputDisabled} 
-                    onClick={sendAvailabilities} 
+                    className={(props.inputDisabled || unsavedChanges == "false") ? "disabled-button" : "solid-button"}
+                    disabled={props.inputDisabled}
+                    onClick={handleSendAvailability}
                 >
                     Send Availability
                 </button>
@@ -189,13 +194,3 @@ function InputCalendar(props) {
 }
 
 export default InputCalendar; 
-
-// props.days.map((day) => ( 
-//     <div key={day.id} className="day-slots-container">
-//         <DaySlots 
-//             id={day.id} 
-//             days={props.days}
-//             setDays={props.setDays} 
-//             numResponses={props.numResponses} 
-//         /> 
-//     </div> 

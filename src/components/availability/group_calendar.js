@@ -1,4 +1,5 @@
 import react, { useState } from 'react';
+import "../css/input_calendar.css";
 import "../css/group_calendar.css";
 import DaySlots from "./day_slots";  
 
@@ -8,21 +9,21 @@ function GroupCalendar(props) {
         block_list.push(
             <p className="label group-legend-label">{0 + "/" + props.numResponses + " Available"}</p>
         )
-        for (let i = 0; i < props.numResponses; i++) {
+        for (let i = 0; i < props.numResponses + 1; i++) {
             block_list.push(
                 <div
                     className={
                         (() => {
                             if (i == 0)
                                 return "legend-block first-block";
-                            else if (i == props.numResponses - 1)
+                            else if (i == props.numResponses)
                                 return "legend-block last-block";
                             else
                                 return "legend-block";
                         })()
                     }
                     style={{
-                        backgroundColor: "rgba(71, 203, 108, " + i / (props.numResponses - 1) + ")",
+                        backgroundColor: "rgba(71, 203, 108, " + i / (props.numResponses) + ")",
                     }}
                 ></div>
             )
@@ -63,7 +64,7 @@ function GroupCalendar(props) {
     console.log(props); 
 
     return (
-        <div className={"input-cal-container top-content-container vertical-spacing" + (props.inputDisabled ? " disabled" : "")}>
+        <div className="input-cal-container top-content-container vertical-spacing">
             <div className="header">
                 <p>Hover to view the group’s availability at different times.</p>
                 <div className="legend">
@@ -93,7 +94,7 @@ function GroupCalendar(props) {
                                         days={props.days}
                                         setDays={props.setDays} 
                                         numResponses={props.numResponses} 
-                                        inputDisabled={props.inputDisabled}
+                                        intervals={props.intervals}
                                     /> 
                                 </div> 
                             );
