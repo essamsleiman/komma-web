@@ -15,6 +15,30 @@ var eventId = "123";
 
 function Home(props) {
   let history = useHistory();
+
+  // create event testing function
+  function createEvent() {
+    var fields = {
+      name : "James' New Event",
+      hostname : "James R. Junaidi",
+      meetingInviteLink : "",
+      googleMeetLink : "",
+    
+      title : "The event",
+      description : "random desc.",
+      location : "United States",
+      minTimeRange : "2021-04-01T09:00:00-07:00",
+      maxTimeRange : "2021-04-01T09:00:00-09:00",
+    } 
+
+    // axios post request to add the new event into here.
+    axios.post("http://localhost:5000/events/add", fields).then((response) => {
+      console.log("hit response", response);
+    }, (error) => {
+      console.log("hit error :(", error);
+    });
+  }
+
   function signin() {}
   console.log("COOKIE", document.cookie);
   useEffect(() => {
@@ -39,7 +63,7 @@ function Home(props) {
     //     console.log(`error: ${error}`);
     //   });
 
-    props.fetchUser();
+    console.log("hit fetchuser", props.fetchUser());
   }, []);
   if (props.calendar)
     console.log("CALENDAR REDUX: ", props.calendar.events);
@@ -105,6 +129,15 @@ function Home(props) {
       >
         Log the Events in Console
       </button>
+      
+      <button
+        onClick={() => {
+          createEvent();
+        }}
+      >
+        add a new event to the DB
+      </button>
+
     </div>
   );
 }
