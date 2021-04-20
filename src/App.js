@@ -14,11 +14,16 @@ import RouterPage from "./components/RouterPage.js";
 function App() {
   return (
     <Provider store={store}>
-      <div class="background">
-        <div class="container-fluid">
+      <div id="background">
+        <div id="content-container">
+          <div id="bg-circle"></div>
           <Navbar />
           <Router>
-            <RouterPage/>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/create" component={CreateMeeting} />
+              <Route exact path="/availability" component={Availability} />
+            </Switch>
           </Router>
         </div>
       </div>
