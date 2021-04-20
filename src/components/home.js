@@ -63,7 +63,7 @@ function Home(props) {
     //     console.log(`error: ${error}`);
     //   });
 
-    props.fetchUser();
+    console.log("hit fetchuser", props.fetchUser());
   }, []);
   if (props.calendar)
     console.log("CALENDAR REDUX: ", props.calendar.events);

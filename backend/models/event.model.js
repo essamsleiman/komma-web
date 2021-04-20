@@ -23,21 +23,6 @@ const eventSchema = new Schema({
   notifyOnResponse: { type: Boolean, required: true },
   availabilityHidden: { type: Boolean, requried: true },
   googleMeetLink: { type: String },
-
-  // respondents: [],
-  // hostAvailability: [],
-  // availabilities: [],
-  // _id: 607f3884952771aba91c4383,
-  // title: 'd',
-  // hostName: 'Komma',
-  // hostID: '6069172a2beb8827ec1ff2cf',
-  // description: 'd',
-  // location: '',
-  // meetingStartTime: '9am',
-  // meetingEndTime: '5pm',
-  // maxTimeRange: 7,
-  // notifyOnResponse: true,
-  // availabilityHidden: true
 });
 
 const event = mongoose.model("event", eventSchema);
