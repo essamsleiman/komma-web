@@ -20,6 +20,7 @@ import "../css/day_slots.css";
 //import HourSlots from "./hour_slots";  
 
 function TimeSlots(props) { 
+
     function getDayOfWeek(date) {
         let date_split = date.split("/");
         let the_date = new Date(date_split[2], date_split[0] - 1, date_split[1]);
@@ -101,26 +102,22 @@ function TimeSlots(props) {
         if (props.viewingGroup)
             return;
         
-        let new_days = props.days;
-        let old_attendance_num = new_days[props.id].times[line_number][1];
-        let can_attend = parseInt(old_attendance_num.substring(0, 1)); 
-        let total_responses = parseInt(old_attendance_num.substring(2));
+        let new_days = props.days 
+        let old_attendance_num = new_days[props.id].times[line_number][1] 
+        let can_attend = parseInt(old_attendance_num.substring(0, old_attendance_num.indexOf(','))) 
+        let total_responses = parseInt(old_attendance_num.substring(old_attendance_num.indexOf(',') + 1)) 
         if (props.numResponses == total_responses) { 
-            can_attend += 1 
-            new_days[props.id].times[line_number][1] = can_attend + '/' + (total_responses + 1)
             new_days[props.id].times[line_number][2] = true 
         } 
         else if (new_days[props.id].times[line_number][2] == true) { 
-            new_days[props.id].times[line_number][1] = (can_attend - 1) + '/' + (total_responses)
             new_days[props.id].times[line_number][2] = false  
         } 
         else {
-            new_days[props.id].times[line_number][1] = (can_attend + 1) + '/' + (total_responses)
             new_days[props.id].times[line_number][2] = true 
         }
         console.log(new_days) 
-        props.setDays(JSON.parse(JSON.stringify(new_days)));
-        props.setUnsavedChanges("true");
+        props.setDays(JSON.parse(JSON.stringify(new_days))) 
+        props.setUnsavedChanges("true"); 
     } 
 
     function checkIfMouseEntered(e, line_number) { 
