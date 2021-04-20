@@ -73,10 +73,14 @@ function StepOne(props) {
 StepOne.propTypes = {
     updateEvent: PropTypes.func.isRequired,
     event: PropTypes.array.isRequired,
+    fetchUser: PropTypes.func.isRequired,
+    user: PropTypes.array.isRequired,
+    
   };
   
   const mapStateToProps = (state) => ({
     event: state.event.newEvent,
+    user: state.user.user,
   });
   
   export default connect(mapStateToProps, { updateEvent })(StepOne);

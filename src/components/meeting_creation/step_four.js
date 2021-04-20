@@ -28,7 +28,7 @@ function StepFour(props) {
 
 
         // Make axios call
-
+        // currently giving me an error 400 (bad request).
         axios.post(
           `http://localhost:5000/events/add`,
           {
@@ -207,10 +207,13 @@ function StepFour(props) {
 StepFour.propTypes = {
     updateEvent: PropTypes.func.isRequired,
     event: PropTypes.array.isRequired,
+    fetchUser: PropTypes.func.isRequired,
+    user: PropTypes.array.isRequired,
   };
   
   const mapStateToProps = (state) => ({
     event: state.event.newEvent,
+    user: state.user.user,
   });
   
   export default connect(mapStateToProps, { updateEvent })(StepFour);

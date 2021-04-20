@@ -3,6 +3,9 @@ import Dropdown from "./dropdown";
 import DatePicker from "./date_picker"; 
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import '../css/step_three.css'; 
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { updateEvent } from "../../Redux/actions/eventActions";
 
 function StepThree(props) {
     
@@ -474,4 +477,18 @@ function StepThree(props) {
     );
 }
 
-export default StepThree;
+
+StepThree.propTypes = {
+    updateEvent: PropTypes.func.isRequired,
+    event: PropTypes.array.isRequired,
+    fetchUser: PropTypes.func.isRequired,
+    user: PropTypes.array.isRequired,
+  };
+  
+  const mapStateToProps = (state) => ({
+    event: state.event.newEvent,
+    user: state.user.user,
+  });
+  
+  export default connect(mapStateToProps, { updateEvent })(StepThree);
+  

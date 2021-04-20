@@ -64,6 +64,7 @@ router.route("/add").post((req, res) => {
 });
 
 
+// TODO - Check if the actual event is even a hangouts event and fix the field accordingly.
 router.route("/create/:id").post((req, res) => {
   Event.findById(req.params.id)
     .then((event) => {
@@ -95,6 +96,27 @@ router.route("/create/:id").post((req, res) => {
           },
         },
       };
+
+      // insert event into calendar
+      calendar.events.insert(
+        {
+          // auth is auth details
+          auth: auth,
+          // we want the primary calendar
+          calendarId: "primary",
+          // resource field is the template up above
+          resource: newevent,
+          // this should be set to 1 to allow for meet creation
+          conferenceDataVersion: 1,
+        },
+        function (err, event) {
+          if (err) {
+            console.log("there was an error with inserting an event: ", +err);
+            return;
+          }
+          console.log("Event created!");
+        }
+      );
     })
     .catch((err) => res.status(400).json("Error in meeting creation" + err));
 })
