@@ -129,7 +129,7 @@ function TimeSlots(props) {
                                         else if (props.days[props.id].times[line_number][2])
                                             return "var(--kommagreen)";
                                         else if (isNotAvailable(props.id, line_number)) 
-                                            return "var(--kommared)"; 
+                                            return "var(--lightred)"; 
                                         else
                                             return "var(--kommawhite)";
                                      })(),
