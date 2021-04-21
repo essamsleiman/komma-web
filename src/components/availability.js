@@ -38,15 +38,21 @@ function Availability(props) {
   useEffect(() => {
     user = props.user;
 
+    // grab the date of event creation and generate start and end dates
+    var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
+    var first = new Date(dateCreated);
+    var end = new Date(dateCreated);
+    end.setDate(end.getDate() + eventData.maxTimeRange);
     if (user.user) {
       axios
         .get(`http://localhost:5000/calendar/get`, {
           params: {
+            // access and refresh tokens being passed in
             access: props.user.user.accessToken,
             refresh: props.user.user.refreshToken,
-            timeMin: "2021-04-21T17:45:35.198Z",
-            // timeMin: new Date(),
-            timeMax: "2021-04-28T17:45:35.198Z",
+            // time min and max parameters being passed in
+            timeMin: first,
+            timeMax: end,
           },
         })
         .then((response) => {
