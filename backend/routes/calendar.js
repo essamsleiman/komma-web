@@ -53,18 +53,20 @@ router.route("/get").get((req, res1) => {
   var timeMin = req.query.timeMin;
   var timeMax = req.query.timeMax;
   // var timeMax = ISODateString(new Date(req.query.timeMax));
-  console.log("time min and time max", timeMin, timeMax);
+  console.log("date parse test", Date.parse(timeMin));
+  console.log("time min and time max", new Date(timeMin), timeMax, new Date());
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
     calendar.events.list(
       {
         calendarId: "primary",
-        maxResults: 10,
+        // maxResults: 10,
         // timeMin: new Date(timeMin).toISOString(),
-        timeMin: new Date(timeMin).toISOString(),
-        // timeMax: timeMax,
+        // timeMin: new Date(timeMin).toISOString(),
+        timeMin: req.query.timeMin,
+        timeMax: req.query.timeMax,
         singleEvents: true,
-        orderBy: "startTime",
+        // orderBy: "startTime",
       },
       (err, res) => {
         if (err) return console.log("The API returned an error: " + err);

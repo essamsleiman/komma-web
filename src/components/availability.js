@@ -45,6 +45,7 @@ function Availability(props) {
             access: props.user.user.accessToken,
             refresh: props.user.user.refreshToken,
             timeMin: "2021-04-21T17:45:35.198Z",
+            // timeMin: new Date(),
             timeMax: "2021-04-28T17:45:35.198Z",
           },
         })
