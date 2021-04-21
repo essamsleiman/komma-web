@@ -25,12 +25,12 @@ function LeftBar(props) {
   var location = data.location;
   var address = data.address;
 
-  var respondents = [
-    "Edward Chew",
-    "James Junaidi",
-    "Omid Mogasemi",
-    "Essam Sleiman",
-  ];
+  // var respondents = [
+  //   "Edward Chew",
+  //   "James Junaidi",
+  //   "Omid Mogasemi",
+  //   "Essam Sleiman",
+  // ];
   var inviteLink = "komma.com/my-meeting";
   var isHost = true;
 
@@ -48,10 +48,14 @@ function LeftBar(props) {
     return;
   }
 
-  var respondents;
-  if (props.respondents.length == 0) {
+  var respondents = [];
+
+  if (!props.respondents) {
+    console.log("IN IF");
     respondents = ["Nobody has responded Yet"];
   } else {
+    console.log("IN else");
+    console.log(props.respondents);
     respondents = props.respondents;
   }
 

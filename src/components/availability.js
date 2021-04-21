@@ -24,6 +24,7 @@ function Availability(props) {
   // variables to hold event data
   const eventID = props.match.params.eventId;
   const [eventData, setEventData] = useState({});
+  const [calendarEvents, setCalendarEvents] = useState([]);
 
   var isHost = false;
 
@@ -35,7 +36,26 @@ function Availability(props) {
   var refresh;
   useEffect(() => {
     user = props.user;
-  }, []);
+
+    if (user.user) {
+      console.log("IN IF ESSAM", props.user.user);
+      axios
+        .get(`http://localhost:5000/calendar/get`, {
+          params: {
+            access: props.user.user.accessToken,
+            refresh: props.user.user.refreshToken,
+          },
+        })
+        .then((response) => {
+          if (response) {
+            console.log("hit response calendar axios call", response.data);
+            setCalendarEvents(response.data);
+          } else {
+            console.log("hit error in calendar get axios call");
+          }
+        });
+    }
+  }, [props.user]);
 
   useEffect(() => {
     console.log("hit fetchuser", props.user);
@@ -46,24 +66,6 @@ function Availability(props) {
       refresh = user.user.refreshToken;
     }
   }, []);
-
-  if (props.user.user) {
-    console.log("IN IF ESSAM", props.user.user);
-    axios
-      .get(`http://localhost:5000/calendar/get`, {
-        params: {
-          access: props.user.user.accessToken,
-          refresh: props.user.user.refreshToken,
-        },
-      })
-      .then((response) => {
-        if (response) {
-          console.log("hit response calendar axios call", response.data);
-        } else {
-          console.log("hit error in calendar get axios call");
-        }
-      });
-  }
 
   useEffect(() => {
     props.fetchUser();
@@ -114,6 +116,8 @@ function Availability(props) {
     
   */
   // must use JSON.parse(JSON.stringify(intervals)) to create unique multi-dimensional array copies
+  console.log("ESSAM NOW: ", eventData);
+
   const [days, setDays] = useState([
     {
       id: 0,
