@@ -9,7 +9,7 @@ const eventSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   location: { type: String },
-  // timePeriod: { type: Number, required: true },
+  timePeriod: { type: Number, required: true },
   meetingStartTime: { type: String, required: true },
   meetingEndTime: { type: String, required: true },
   // minTimeRange: { type: Date, required: true },

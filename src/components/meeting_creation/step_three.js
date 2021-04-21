@@ -1,12 +1,11 @@
 import react, { useState, useEffect } from "react";
-import Dropdown from "./dropdown";
+import Dropdown from "../dropdown";
 import DatePicker from "./date_picker";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/step_three.css";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateEvent } from "../../Redux/actions/eventActions";
-
 
 function StepThree(props) {
   const meetingLengths = [
