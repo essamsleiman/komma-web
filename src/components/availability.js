@@ -34,21 +34,24 @@ function Availability(props) {
   var user = {};
   var access;
   var refresh;
+
   useEffect(() => {
     user = props.user;
 
     if (user.user) {
-      console.log("IN IF ESSAM", props.user.user);
       axios
         .get(`http://localhost:5000/calendar/get`, {
           params: {
             access: props.user.user.accessToken,
             refresh: props.user.user.refreshToken,
+            timeMin: "2021-04-21T17:45:35.198Z",
+            timeMax: "2021-04-28T17:45:35.198Z",
           },
         })
         .then((response) => {
           if (response) {
-            console.log("hit response calendar axios call", response.data);
+            console.log("CALENDAR EVENTS: ", response.data);
+
             setCalendarEvents(response.data);
           } else {
             console.log("hit error in calendar get axios call");
@@ -58,7 +61,6 @@ function Availability(props) {
   }, [props.user]);
 
   useEffect(() => {
-    console.log("hit fetchuser", props.user);
     user = props.user;
     console.log("USER ESSAM :", user);
     if (user.user) {
@@ -76,7 +78,6 @@ function Availability(props) {
         if (response) {
           console.log("hit response in eventPage", response);
           // eventInfo = response.data;
-          console.log("RESPONSE DATAA: ", response.data);
           // if (props.user.user) {
           //   console.log("CHECK: ", props.user.user.id, response.data.hostID);
           //   isHost = props.user.user.id === response.data.hostID;
@@ -92,12 +93,9 @@ function Availability(props) {
 
   useEffect(() => {
     if (props.user.user) {
-      console.log("CHECK Essam: ", props.user.user.id, eventData.hostID);
-      console.log("CHECK Essam: ", props.user.user.id === eventData.hostID);
       if (props.user.user.id === eventData.hostID) setInputDisabled(false);
     }
   }, []);
-  console.log("ISHOST : ", isHost);
 
   const [userInfo, setUserInfo] = useState({
     signedIn: false,
@@ -116,71 +114,123 @@ function Availability(props) {
     
   */
   // must use JSON.parse(JSON.stringify(intervals)) to create unique multi-dimensional array copies
-  console.log("ESSAM NOW: ", eventData);
 
-  const [days, setDays] = useState([
+  // EXAMPLE CODE OF INCREMENTING A DATE: https://stackoverflow.com/questions/24312296/add-one-day-to-date-in-javascript#:~:text=getDate%20only%20returns%20the%20day,setDate%20and%20appending%201.&text=JavaScript%20will%20automatically%20update%20the%20month%20and%20year%20for%20you.
+  // Create new Date instance
+  var date = new Date();
+
+  // Add a day
+  date.setDate(date.getDate() + 1);
+
+  // var dateCreated = eventData.dateOfEventCreation; // "2021-04-21T17:45:35.198Z"
+  // console.log("date created", dateCreated);
+  // if (eventData.dateOfEventCreation) {
+  //   var dd = String(eventData.dateOfEventCreation.getDate()).padStart(2, "0");
+  //   var mm = String(eventData.dateOfEventCreation.getMonth() + 1).padStart(
+  //     2,
+  //     "0"
+  //   ); //January is 0!
+  //   var yyyy = eventData.dateOfEventCreation.getFullYear();
+  //   console.log("DD MM YY", dd, mm, yyyy);
+  // }
+  const [daysState, setDaysState] = useState([]);
+  function format(date) {
+    var dd = String(date.getDate()).padStart(2, "0");
+    var mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = date.getFullYear();
+    return mm + "/" + dd + "/" + yyyy;
+  }
+  function setupDates() {
+    var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
+    var dd = String(dateCreated.getDate()).padStart(2, "0");
+    var mm = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = dateCreated.getFullYear();
+
+    var daysInitial = []; // the days initial object
+    // get number of days after:
+    var days = eventData.maxTimeRange;
+
+    var loop = new Date(dateCreated);
+    var end = new Date(dateCreated);
+    end.setDate(end.getDate() + days);
+    // var end = new Date(dateCreated.getDate() + days); // this line should work, but need to check
+
+    var counter = 0;
+    var curArr;
+    while (loop <= end) {
+      var obj = {
+        id: counter,
+        date: format(loop), // method to format datetime in "MM/DD/YYYY"
+        group: 0, // all objects in group 0 for now
+        times: JSON.parse(JSON.stringify(intervals)),
+      };
+      if (counter == 0) {
+        curArr = [obj];
+        // var curArr = [obj];
+        // setDaysState(curArr);
+      } else {
+        // var curDaysState = daysState;
+        // setDaysState(curDaysState.push(obj));
+        curArr.push(obj);
+      }
+
+      // daysInitial.append(obj);
+
+      ++counter;
+      var newDate = loop.setDate(loop.getDate() + 1);
+      loop = new Date(newDate);
+    }
+    setDaysState(curArr);
+    // return daysInitial
+  }
+  // const calendar1_intervals = calendarEvents.items.map((event) => [event.])
+
+  var calendar1_intervalsTest = [
+    // NOTE: The 3 different calendar's intervals are identical right now. Haven't had time to randomize them yet
+    [
+      ["09", false],
+      ["09t", false],
+      ["10", true],
+      ["10t", true],
+      ["11", false],
+      ["11t", false],
+      ["12", false],
+      ["12t", false],
+    ],
+    [
+      ["09", false],
+      ["09t", false],
+      ["10", true],
+      ["10t", true],
+      ["11", false],
+      ["11t", false],
+      ["12", false],
+      ["12t", false],
+    ],
+    [
+      ["09", false],
+      ["09t", false],
+      ["10", true],
+      ["10t", true],
+      ["11", false],
+      ["11t", false],
+      ["12", false],
+      ["12t", false],
+    ],
+  ];
+
+  const calendars = [
     {
       id: 0,
-      date: "4/12/2021",
-      group: 0,
-      first: true,
-      times: JSON.parse(JSON.stringify(intervals)),
+      calendarLabel: calendarEvents.summary,
+      times: calendar1_intervals,
     },
-    {
-      id: 1,
-      date: "4/13/2021",
-      group: 0,
-      first: false,
-      times: JSON.parse(JSON.stringify(intervals)),
-    },
-    {
-      id: 2,
-      date: "4/22/2021",
-      group: 1,
-      first: true,
-      times: JSON.parse(JSON.stringify(intervals)),
-    },
-    {
-      id: 3,
-      date: "4/23/2021",
-      group: 1,
-      first: false,
-      times: JSON.parse(JSON.stringify(intervals)),
-    },
-    {
-      id: 4,
-      date: "4/24/2021",
-      group: 1,
-      first: false,
-      times: JSON.parse(JSON.stringify(intervals)),
-    },
-    {
-      id: 5,
-      date: "4/25/2021",
-      group: 1,
-      first: false,
-      times: JSON.parse(JSON.stringify(intervals)),
-    },
-    {
-      id: 6,
-      date: "4/26/2021",
-      group: 1,
-      first: false,
-      times: JSON.parse(JSON.stringify(intervals)),
-    },
-    {
-      id: 7,
-      date: "4/27/2021",
-      group: 1,
-      first: false,
-      times: JSON.parse(JSON.stringify(intervals)),
-    },
-  ]);
-  const calendars = [
-    { id: 0, calendarLabel: "Personal Calendar", times: calendar1_intervals },
-    { id: 1, calendarLabel: "UCD Calendar", times: calendar2_intervals },
-    { id: 2, calendarLabel: "Komma Calendar", times: calendar3_intervals },
   ];
+  // const calendars = [
+  //   { id: 0, calendarLabel: "Personal Calendar", times: calendar1_intervals },
+  //   { id: 1, calendarLabel: "UCD Calendar", times: calendar2_intervals },
+  //   { id: 2, calendarLabel: "Komma Calendar", times: calendar3_intervals },
+  // ];
   const numResponses = 5;
 
   if (props.user.user) {
@@ -213,8 +263,8 @@ function Availability(props) {
               <InputCalendar
                 viewingGroup={viewingGroup}
                 intervals={intervals}
-                days={days}
-                setDays={setDays}
+                days={daysState}
+                setDays={setDaysState}
                 inputDisabled={inputDisabled}
                 numResponses={numResponses}
                 calendars={calendars}
@@ -223,13 +273,16 @@ function Availability(props) {
               <GroupCalendar
                 viewingGroup={viewingGroup}
                 intervals={intervals}
-                days={days}
-                setDays={setDays}
+                days={daysState}
+                setDays={setDaysState}
                 inputDisabled={inputDisabled}
                 numResponses={numResponses}
               />
             )}
           </div>
+          <button type="button" onClick={setupDates}>
+            hi guys
+          </button>
         </div>
       </div>
     );

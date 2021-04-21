@@ -11,7 +11,6 @@ function LeftBar(props) {
   //     location: props.eventData.location,
   //     address: "Some Fake Address",
   //   };
-  console.log("PROPS RESPONDANTS: ", props.respondents);
   var data = {
     name: props.title,
     meetingDuration: props.meetingDuration,
@@ -51,11 +50,8 @@ function LeftBar(props) {
   var respondents = [];
 
   if (!props.respondents) {
-    console.log("IN IF");
     respondents = ["Nobody has responded Yet"];
   } else {
-    console.log("IN else");
-    console.log(props.respondents);
     respondents = props.respondents;
   }
 

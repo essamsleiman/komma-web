@@ -24,6 +24,7 @@ router.route("/").get((req, res) => {
 
 // post request tempalte
 router.route("/add").post((req, res) => {
+  var dateOfEventCreation = new Date();
   console.log("hit in route for add");
   const title = req.body.title;
   const hostName = req.body.hostName;
@@ -56,6 +57,7 @@ router.route("/add").post((req, res) => {
       // daysSentAfter,
       notifyOnResponse,
       availabilityHidden,
+      dateOfEventCreation,
     });
   } else {
     newEvent = new Event({
@@ -73,6 +75,7 @@ router.route("/add").post((req, res) => {
       // daysSentAfter,
       notifyOnResponse,
       availabilityHidden,
+      dateOfEventCreation,
     });
   }
   console.log("AT THIS POINT", newEvent);

@@ -23,6 +23,7 @@ const eventSchema = new Schema({
   notifyOnResponse: { type: Boolean, required: true },
   availabilityHidden: { type: Boolean, requried: true },
   googleMeetLink: { type: String },
+  dateOfEventCreation: { type: Date, requried: true },
 });
 
 const event = mongoose.model("event", eventSchema);

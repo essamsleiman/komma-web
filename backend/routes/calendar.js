@@ -18,30 +18,58 @@ const oAuth2Client = new OAuth2(
 // get event API
 router.route("/get").get((req, res1) => {
   // setup host user for calendar grabbing:
-  //   res.send("hello there");
 
   console.log("PARAMS ESSAM NEW Query: ", req.query.access, req.query.refresh);
   oAuth2Client.setCredentials({
     access_token: req.query.access,
     refresh_token: req.query.refresh,
   });
+
   listEvents(oAuth2Client);
   // console.log("EVENTS ESSAM", events);
 
+  //timeMin: new Date().toISOString(),
+  function ISODateString(d) {
+    function pad(n) {
+      return n < 10 ? "0" + n : n;
+    }
+    return (
+      d.getUTCFullYear() +
+      "-" +
+      pad(d.getUTCMonth() + 1) +
+      "-" +
+      pad(d.getUTCDate()) +
+      "T" +
+      pad(d.getUTCHours()) +
+      ":" +
+      pad(d.getUTCMinutes()) +
+      ":" +
+      pad(d.getUTCSeconds()) +
+      "Z"
+    );
+  }
+  // var timeMin = ISODateString(new Date(req.query.timeMin));
+  // var timeMin = new Date().toISOString();
+  var timeMin = req.query.timeMin;
+  var timeMax = req.query.timeMax;
+  // var timeMax = ISODateString(new Date(req.query.timeMax));
+  console.log("time min and time max", timeMin, timeMax);
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
     calendar.events.list(
       {
         calendarId: "primary",
-        timeMin: new Date().toISOString(),
         maxResults: 10,
+        // timeMin: new Date(timeMin).toISOString(),
+        timeMin: new Date(timeMin).toISOString(),
+        // timeMax: timeMax,
         singleEvents: true,
         orderBy: "startTime",
       },
       (err, res) => {
         if (err) return console.log("The API returned an error: " + err);
         const events = res.data.items;
-        res1.json(res.data.items);
+        res1.json(res.data);
         if (events.length) {
           console.log("Upcoming 10 events:");
           events.map((event, i) => {
