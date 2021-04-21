@@ -58,7 +58,6 @@ function Availability(props) {
         .then((response) => {
           if (response) {
             console.log("CALENDAR EVENTS: ", response.data);
-
             setCalendarEvents(response.data);
           } else {
             console.log("hit error in calendar get axios call");
@@ -147,6 +146,7 @@ function Availability(props) {
     var yyyy = date.getFullYear();
     return mm + "/" + dd + "/" + yyyy;
   }
+
   function setupDates() {
     var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
     var dd = String(dateCreated.getDate()).padStart(2, "0");
@@ -225,6 +225,25 @@ function Availability(props) {
       ["12t", false],
     ],
   ];
+  console.log("hit calendar 1 intervals test", calendar1_intervalsTest);
+
+
+  // events data is stored in the state: calendarEvents
+
+  // algorithm outline for generating a calendar interval:
+  function generateInterval() {
+    // get number of days => (0-7).
+    // get time range: i.e. 9am - 5pm
+    // map days to dates: i.e. 0->4/21, 1->4/22, 2->4/23, .... etc
+    // generates a template using dates and time ranges: (NOTE: All fields will be true)
+    var template = [
+    ]
+
+    // iterate through calendarEvents state, and check for time ranges for events.
+    // algorithm to update the template when an event is found, and update those availabilities to false.
+    // return template
+  }
+
 
   const calendars = [
     {
