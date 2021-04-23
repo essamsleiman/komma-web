@@ -54,7 +54,10 @@ app.use("/auth", authRouter);
 
 // router for events
 const eventRouter = require("./routes/events");
-app.use('/events', eventRouter);
+app.use("/events", eventRouter);
+
+const calendarRouter = require("./routes/calendar");
+app.use("/calendar", calendarRouter);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

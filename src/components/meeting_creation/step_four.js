@@ -48,7 +48,7 @@ function StepFour(props) {
 
         description: props.event.description,
         location: props.event.address,
-        timePeriod: props.event.meetingDuration,
+        timePeriod: props.event.timePeriod,
         meetingStartTime: props.event.meetingStartTime,
         meetingEndTime: props.event.meetingEndTime,
         maxTimeRange: props.event.maxTimeRange,
@@ -67,7 +67,7 @@ function StepFour(props) {
         title: props.event.meetingName,
         description: props.event.description,
         location: props.event.address,
-        timePeriod: props.event.meetingDuration,
+        timePeriod: props.event.timePeriod,
         meetingStartTime: props.event.meetingStartTime,
         meetingEndTime: props.event.meetingEndTime,
         maxTimeRange: props.event.meetingRange,
@@ -82,16 +82,12 @@ function StepFour(props) {
       };
     }
 
-    axios
-      .post(`http://localhost:5000/events/add`, postArgs)
-      .then((res) => {
-          console.log("in this .then part");
-          console.log(`EVENT ADDED TO USER ${res.data}`)
-          saveData();
-          history.push(`/events/${res.data._id}`);
-        });
-
-    
+    axios.post(`http://localhost:5000/events/add`, postArgs).then((res) => {
+      console.log("in this .then part");
+      console.log(`EVENT ADDED TO USER ${res.data}`);
+      saveData();
+      history.push(`/availability/${res.data._id}`);
+    });
   }
 
   function back() {

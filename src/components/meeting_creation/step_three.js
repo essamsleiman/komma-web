@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateEvent } from "../../Redux/actions/eventActions";
 
-
 function StepThree(props) {
   const meetingLengths = [
     {

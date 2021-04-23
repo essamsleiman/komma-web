@@ -11,7 +11,6 @@ const secret = process.env.GOOGLE_CLIENT_SECRET;
 
 const oAuth2Client = new OAuth2(id, secret);
 
-
 // get request template
 router.route("/").get((req, res) => {
   // object that control's current logged in user's calendar.
@@ -25,6 +24,7 @@ router.route("/").get((req, res) => {
 
 // post request tempalte
 router.route("/add").post((req, res) => {
+  var dateOfEventCreation = new Date();
   console.log("hit in route for add");
   const title = req.body.title;
   const hostName = req.body.hostName;
@@ -38,6 +38,8 @@ router.route("/add").post((req, res) => {
   const daysSentAfter = req.body.daysSentAfter;
   const notifyOnResponse = req.body.notifyOnResponse;
   const availabilityHidden = req.body.availabilityHidden;
+  const timePeriod = req.body.timePeriod;
+
   var newEvent;
   if (req.body.sendInDaysBool) {
     newEvent = new Event({
@@ -51,9 +53,11 @@ router.route("/add").post((req, res) => {
       meetingEndTime,
       maxTimeRange,
       respondents,
+      timePeriod,
       // daysSentAfter,
       notifyOnResponse,
       availabilityHidden,
+      dateOfEventCreation,
     });
   } else {
     newEvent = new Event({
@@ -67,31 +71,31 @@ router.route("/add").post((req, res) => {
       meetingEndTime,
       maxTimeRange,
       respondents,
+      timePeriod,
       // daysSentAfter,
       notifyOnResponse,
       availabilityHidden,
+      dateOfEventCreation,
     });
   }
   console.log("AT THIS POINT", newEvent);
-  newEvent.save()
-  .then(() => res.json(newEvent))
-  .catch((err) => {
-    res.status(400).json("Error1: " + err);
-    console.log("hit error", err);
-  });
+  newEvent
+    .save()
+    .then(() => res.json(newEvent))
+    .catch((err) => {
+      res.status(400).json("Error1: " + err);
+      console.log("hit error", err);
+    });
 });
 
 // TODO - Check if the actual event is even a hangouts event and fix the field accordingly.
 router.route("/create/:id").post((req, res) => {
   Event.findById(req.params.id)
     .then((event) => {
-
       // setup host user for calendar insertion:
       oAuth2Client.setCredentials({
-        access_token:
-          event.hostAccessToken,
-        refresh_token:
-          event.hostRefreshToken,
+        access_token: event.hostAccessToken,
+        refresh_token: event.hostRefreshToken,
       });
 
       // find availability algorithm?
@@ -195,9 +199,9 @@ router.route("/update/:id").post((req, res) => {
 router.route("/get/:id").get((req, res) => {
   Event.findById(req.params.id)
     .then((event) => {
-      console.log("SUCCESS ESSAM GET", event)
-      res.json(event)
-    } )
+      console.log("SUCCESS ESSAM GET", event);
+      res.json(event);
+    })
     .catch((err) => res.status(400).json("error: " + err));
   // console.log("hit res specific event", res);
 });
