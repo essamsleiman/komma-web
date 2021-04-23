@@ -57,7 +57,7 @@ function Availability(props) {
         })
         .then((response) => {
           if (response) {
-            console.log("CALENDAR EVENTS: ", response.data);
+            console.log("hit CALENDAR EVENTS: ", response.data);
             setCalendarEvents(response.data);
           } else {
             console.log("hit error in calendar get axios call");
@@ -139,6 +139,17 @@ function Availability(props) {
   //   var yyyy = eventData.dateOfEventCreation.getFullYear();
   //   console.log("DD MM YY", dd, mm, yyyy);
   // }
+
+  // const [days, setDays] = useState([
+  //   {id: 0, date: '4/12/2021', group: 0, first: true, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 1, date: '4/13/2021', group: 0, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 2, date: '4/22/2021', group: 1, first: true, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 3, date: '4/23/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 4, date: '4/24/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 5, date: '4/25/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 6, date: '4/26/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 7, date: '4/27/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  // ])
   const [daysState, setDaysState] = useState([]);
   function format(date) {
     var dd = String(date.getDate()).padStart(2, "0");
@@ -161,6 +172,29 @@ function Availability(props) {
     var end = new Date(dateCreated);
     end.setDate(end.getDate() + days);
     // var end = new Date(dateCreated.getDate() + days); // this line should work, but need to check
+
+    // intervals = [
+    //   // true = the person responding right now has selected they want to attend this time block
+    //   // first array is who can attend, second is who cannot
+    //   // first integer is how many people available at that time, second integer is how many people total - for example 0/5
+    //   [
+    //     "09:00",
+    //     0,
+    //     0,
+    //     false,
+    //     [],
+    //     [],
+    //   ],
+    //   [
+    //     "09:30",
+    //     0,
+    //     0,
+    //     false,
+    //     [],
+    //     [],
+    //   ],
+    //   // .. until 5PM
+    // ]
 
     var counter = 0;
     var curArr;
@@ -227,7 +261,6 @@ function Availability(props) {
   ];
   console.log("hit calendar 1 intervals test", calendar1_intervalsTest);
 
-
   // events data is stored in the state: calendarEvents
 
   // algorithm outline for generating a calendar interval:
@@ -236,14 +269,13 @@ function Availability(props) {
     // get time range: i.e. 9am - 5pm
     // map days to dates: i.e. 0->4/21, 1->4/22, 2->4/23, .... etc
     // generates a template using dates and time ranges: (NOTE: All fields will be true)
-    var template = [
-    ]
+    console.log("hit calendarevent inside generate Interval", calendarEvents);
+    // var template = [];
 
     // iterate through calendarEvents state, and check for time ranges for events.
     // algorithm to update the template when an event is found, and update those availabilities to false.
     // return template
   }
-
 
   const calendars = [
     {
@@ -275,7 +307,7 @@ function Availability(props) {
           </div>
           <div className="col-9">
             <div className="vertical-bar"></div>
-            {!(props.user.user.id === eventData.hostID) ? (
+            {props.user.user.id === eventData.hostID ? (
               <TopBar
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
@@ -308,6 +340,9 @@ function Availability(props) {
           </div>
           <button type="button" onClick={setupDates}>
             hi guys
+          </button>
+          <button type="button" onClick={generateInterval}>
+            james' button
           </button>
         </div>
       </div>
