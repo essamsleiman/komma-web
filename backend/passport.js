@@ -6,7 +6,7 @@ const BearerStrategy = require("passport-http-bearer").Strategy;
 require("dotenv").config();
 
 passport.serializeUser((user, done) => {
-  console.log("IN PASSPORT");
+  // console.log("IN PASSPORT");
 
   done(null, user.id);
 });
@@ -37,9 +37,9 @@ passport.use(
     },
 
     async (accessToken, refreshToken, profile, done) => {
-      console.log("Profile", profile);
-      console.log("PASSPORT accessToken: ", accessToken);
-      console.log("PASSPORT refreshToken: ", refreshToken);
+      // console.log("Profile", profile);
+      // console.log("PASSPORT accessToken: ", accessToken);
+      // console.log("PASSPORT refreshToken: ", refreshToken);
       const newUser = {
         googleId: profile.id,
         firstName: profile.name.givenName,
@@ -51,15 +51,15 @@ passport.use(
 
       try {
         let user = await GoogleUser.findOne({ googleId: profile.id });
-        console.log("accessToken", accessToken);
-        console.log("refreshToken", refreshToken);
+        // console.log("accessToken", accessToken);
+        // console.log("refreshToken", refreshToken);
         if (user) {
-          console.log("USER ALREADY IN DB");
-          console.log("USER IS: ", user);
+          // console.log("USER ALREADY IN DB");
+          // console.log("USER IS: ", user);
           // console.log(`USER: ${user}`);
           done(null, user);
         } else {
-          console.log("USER Added TO DB");
+          // console.log("USER Added TO DB");
           // console.log(`USER: ${user}`);
 
           user = await GoogleUser.create(newUser);
@@ -75,25 +75,25 @@ passport.use(
 passport.use(
   new BearerStrategy((token, done) => {
     // arguments are the token and a done function
-    console.log("IN BEARER STRAT ");
-    console.log("Bearer Token: ", token);
+    // console.log("IN BEARER STRAT ");
+    // console.log("Bearer Token: ", token);
     // looks for the user via an accessToken key
     // this is given that the User model has an accessToken
     // key in the schema and users are given one by Google
     GoogleUser.find({ accessToken: token }, (err, user) => {
       if (err) {
-        console.log("in error");
+        // console.log("in error");
         return done(null, false);
       }
 
       // if no user is found with that accesstoken,
       // return the done function with false
       if (!user.length) {
-        console.log("in if");
+        // console.log("in if");
 
         return done(null, false);
       }
-      console.log("in else", user);
+      // console.log("in else", user);
 
       // otherwise, return the first user in the user
       // array because the user array should only have 1

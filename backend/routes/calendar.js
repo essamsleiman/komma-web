@@ -19,7 +19,7 @@ const oAuth2Client = new OAuth2(
 router.route("/get").get((req, res1) => {
   // setup host user for calendar grabbing:
 
-  console.log("PARAMS ESSAM NEW Query: ", req.query.access, req.query.refresh);
+  // console.log("PARAMS ESSAM NEW Query: ", req.query.access, req.query.refresh);
   oAuth2Client.setCredentials({
     access_token: req.query.access,
     refresh_token: req.query.refresh,
@@ -53,8 +53,8 @@ router.route("/get").get((req, res1) => {
   var timeMin = req.query.timeMin;
   var timeMax = req.query.timeMax;
   // var timeMax = ISODateString(new Date(req.query.timeMax));
-  console.log("date parse test", Date.parse(timeMin));
-  console.log("time min and time max", new Date(timeMin), timeMax, new Date());
+  // console.log("date parse test", Date.parse(timeMin));
+  // console.log("time min and time max", new Date(timeMin), timeMax, new Date());
   function listEvents(auth) {
     const calendar = google.calendar({ version: "v3", auth });
     calendar.events.list(
@@ -73,13 +73,13 @@ router.route("/get").get((req, res1) => {
         const events = res.data.items;
         res1.json(res.data);
         if (events.length) {
-          console.log("Upcoming 10 events:");
+          // console.log("Upcoming events:");
           events.map((event, i) => {
             const start = event.start.dateTime || event.start.date;
-            console.log(`${start} - ${event.summary}`);
+            // console.log(`${start} - ${event.summary}`);
           });
         } else {
-          console.log("No upcoming events found.");
+          // console.log("No upcoming events found.");
         }
       }
     );
