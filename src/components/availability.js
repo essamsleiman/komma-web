@@ -242,38 +242,39 @@ function Availability(props) {
   }
 
   function setupDates() {
-    var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
-    var dd = String(dateCreated.getDate()).padStart(2, "0");
-    var mm = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = dateCreated.getFullYear();
+    // var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
+    // var dd = String(dateCreated.getDate()).padStart(2, "0");
+    // var mm = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
+    // var yyyy = dateCreated.getFullYear();
 
-    var daysInitial = []; // the days initial object
-    // get number of days after:
-    var days = eventData.maxTimeRange;
+    // var daysInitial = []; // the days initial object
+    // // get number of days after:
+    // var days = eventData.maxTimeRange;
 
-    var loop = new Date(dateCreated);
-    var end = new Date(dateCreated);
-    end.setDate(end.getDate() + days);
-    var counter = 0;
-    var curArr;
-    while (loop <= end) {
-      var obj = {
-        id: counter,
-        date: format(loop), // method to format datetime in "MM/DD/YYYY"
-        group: 0, // all objects in group 0 for now
-        times: JSON.parse(JSON.stringify(calendarListState[counter])),
-      };
-      if (counter == 0) {
-        curArr = [obj];
-      } else {
-        curArr.push(obj);
-      }
+    // var loop = new Date(dateCreated);
+    // var end = new Date(dateCreated);
+    // end.setDate(end.getDate() + days);
+    // var counter = 0;
+    // var curArr;
+    // while (loop <= end) {
+    //   var obj = {
+    //     id: counter,
+    //     date: format(loop), // method to format datetime in "MM/DD/YYYY"
+    //     group: 0, // all objects in group 0 for now
+    //     times: JSON.parse(JSON.stringify(calendarListState[counter])),
+    //   };
+    //   if (counter == 0) {
+    //     curArr = [obj];
+    //   } else {
+    //     curArr.push(obj);
+    //   }
 
-      ++counter;
-      var newDate = loop.setDate(loop.getDate() + 1);
-      loop = new Date(newDate);
-    }
-    setDaysState(curArr);
+    //   ++counter;
+    //   var newDate = loop.setDate(loop.getDate() + 1);
+    //   loop = new Date(newDate);
+    // }
+
+    setDaysState(eventData.daysObject);
   }
 
   var calendar1_intervalsTest = [
