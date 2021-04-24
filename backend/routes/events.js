@@ -25,6 +25,35 @@ router.route("/").get((req, res) => {
 
 
 function getIntervals(eventData) {
+  for (let i = 0; i < eventData.maxTimeRange; i++) {
+    var timeRange =
+      (parseInt(eventData.meetingEndTime.substring(0, 2)) -
+        parseInt(eventData.meetingStartTime.substring(0, 2))) *
+      2;
+    if (eventData.meetingEndTime.substring(3) == "30") {
+      timeRange++;
+    }
+    if (eventData.meetingStartTime.substring(3) == "30") {
+      timeRange--;
+    }
+  }
+
+  let calendarList = [];
+  for (let i = 0; i < eventData.maxTimeRange; i++) {
+    var innerList = [];
+    for (let j = 0; j < timeRange; j++) {
+      innerList.push(false);
+    }
+    calendarList.push(innerList);
+  }
+
+      /*
+      [
+        
+      ]
+     */
+
+  
   let intervals = [];
   for (let i = 0; i < eventData.maxTimeRange; i++) {
     let curDaysIntervals = [];
