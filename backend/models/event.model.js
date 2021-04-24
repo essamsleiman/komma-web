@@ -24,8 +24,7 @@ const eventSchema = new Schema({
   availabilityHidden: { type: Boolean, requried: true },
   googleMeetLink: { type: String },
   dateOfEventCreation: { type: Date, requried: true },
-
-  intervals: { type: [String, Number, Number]Boolean[], []] required: true },
+  // intervals: { type: [String, Number, Number]Boolean, [], []] required: true },
 });
 
 const event = mongoose.model("event", eventSchema);
