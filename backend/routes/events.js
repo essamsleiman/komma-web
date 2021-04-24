@@ -23,62 +23,20 @@ router.route("/").get((req, res) => {
 });
 
 
-// generates the intervals
-function getIntervals(eventData) {
-  for (let i = 0; i < eventData.maxTimeRange; i++) {
-    var timeRange =
-      (parseInt(eventData.meetingEndTime.substring(0, 2)) -
-        parseInt(eventData.meetingStartTime.substring(0, 2))) *
-      2;
-    if (eventData.meetingEndTime.substring(3) == "30") {
-      timeRange++;
-    }
-    if (eventData.meetingStartTime.substring(3) == "30") {
-      timeRange--;
-    }
-  }
 
-  let calendarList = [];
-  for (let i = 0; i < eventData.maxTimeRange; i++) {
-    var innerList = [];
-    for (let j = 0; j < timeRange; j++) {
-      innerList.push(false);
-    }
-    calendarList.push(innerList);
-  }
-      /*
-      [
-        
-      ]
-     */
-  let intervals = [];
-  for (let i = 0; i < eventData.maxTimeRange; i++) {
-    let curDaysIntervals = [];
-    let meetingTime = eventData.meetingStartTime;
-    for (let j = 0; j < timeRange; j++) {
-      let curInterval = [];
-      if (meetingTime.substring(3) == "30") {
-        meetingTime = meetingTime.replace(
-          meetingTime.substring(0, 2),
-          String(parseInt(meetingTime.substring(0, 2)) + 1)
-        );
-        meetingTime = meetingTime.replace(meetingTime.substring(3), "00");
-      } else {
-        meetingTime = meetingTime.replace(meetingTime.substring(3), "30");
-      }
-      curInterval.push(meetingTime);
-      curInterval.push(0);
-      curInterval.push(0);
-      curInterval.push([]);
-      curInterval.push([]);
-      curDaysIntervals.push(curInterval);
-    }
-    intervals.push(curDaysIntervals);
-  }
 
-  // console.log("what is intervals", intervals, "what is calendar List", calendarList);
-  return intervals;
-}
+// this is what we are trying to save
+  // const [days, setDays] = useState([
+  //   {id: 0, date: '4/12/2021', group: 0, first: true, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 1, date: '4/13/2021', group: 0, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 2, date: '4/22/2021', group: 1, first: true, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 3, date: '4/23/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 4, date: '4/24/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 5, date: '4/25/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 6, date: '4/26/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  //   {id: 7, date: '4/27/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
+  // ])
+
 
 // generates the calendar list
 function getCalendarList(eventData) {
@@ -109,7 +67,7 @@ function getCalendarList(eventData) {
       ]
      */
   let intervals = [];
-  for (let i = 0; i < eventData.maxTimeRange; i++) {
+  for (let i = 0; i <= eventData.maxTimeRange; i++) {
     let curDaysIntervals = [];
     let meetingTime = eventData.meetingStartTime;
     for (let j = 0; j < timeRange; j++) {
@@ -126,6 +84,7 @@ function getCalendarList(eventData) {
       curInterval.push(meetingTime);
       curInterval.push(0);
       curInterval.push(0);
+      curInterval.push(false);
       curInterval.push([]);
       curInterval.push([]);
       curDaysIntervals.push(curInterval);
@@ -134,7 +93,57 @@ function getCalendarList(eventData) {
   }
 
   // console.log("what is intervals", intervals, "what is calendar List", calendarList);
-  return calendarList;
+  return intervals;
+}
+
+function format(date) {
+  var dd = String(date.getDate()).padStart(2, "0");
+  var mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = date.getFullYear();
+  return mm + "/" + dd + "/" + yyyy;
+}
+
+function setupDates(eventData, intervals, dateOfEventCreation) {
+  var dateCreated = new Date(dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
+  // var dd = String(dateCreated.getDate()).padStart(2, "0");
+  // var mm = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
+  // var yyyy = dateCreated.getFullYear();
+
+  // var daysInitial = []; // the days initial object
+  // get number of days after:
+  var days = eventData.maxTimeRange;
+
+  var loop = new Date(dateCreated);
+  var end = new Date(dateCreated);
+  end.setDate(end.getDate() + days);
+  console.log("loop", dateCreated, "end", end, "days", days);
+  var counter = 0;
+  var curArr;
+  while (loop <= end) {
+    console.log("intervals @ counter", intervals[counter]);
+    var obj = {
+      id: counter,
+      date: format(loop), // method to format datetime in "MM/DD/YYYY"
+      group: 0, // all objects in group 0 for now
+      first: false,
+      times: JSON.parse(JSON.stringify(intervals[counter])),
+    };
+    // console.log("OBJECTS: ", obj)
+
+    if (counter == 0) {
+      curArr = [obj];
+    } else {
+      curArr.push(obj);
+    }
+
+    ++counter;
+    var newDate = loop.setDate(loop.getDate() + 1);
+    loop = new Date(newDate);
+  }
+
+  console.log("inside days object curArr", curArr);
+
+  return curArr;
 }
 
 // post request tempalte
@@ -155,10 +164,13 @@ router.route("/add").post((req, res) => {
   const availabilityHidden = req.body.availabilityHidden;
   const timePeriod = req.body.timePeriod;
   
-  const intervals = getIntervals(req.body);
-  const calendarList = getCalendarList(req.body);
+  const intervals = getCalendarList(req.body, dateOfEventCreation);
+  console.log("INTERVALS: ", intervals)
+  const daysObject = setupDates(req.body, intervals, dateOfEventCreation);
 
-  console.log("intervals and calendarlist", intervals, calendarList);
+  // console.log("days object:", daysObject);
+
+  // console.log("intervals and calendarlist", intervals, calendarList);
 
   // [
   //   ["9am", false],
@@ -191,8 +203,7 @@ router.route("/add").post((req, res) => {
       notifyOnResponse,
       availabilityHidden,
       dateOfEventCreation,
-      intervals,
-      calendarList,
+      daysObject,
     });
   } else {
     newEvent = new Event({
@@ -211,8 +222,7 @@ router.route("/add").post((req, res) => {
       notifyOnResponse,
       availabilityHidden,
       dateOfEventCreation,
-      intervals,
-      calendarList,
+      daysObject,
     });
   }
   // console.log("AT THIS POINT", newEvent);
