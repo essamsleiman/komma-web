@@ -19,13 +19,47 @@ router.route("/").get((req, res) => {
   Event.find()
     .then((event) => res.json(event))
     .catch((err) => res.status(400).json("Error 1: " + err));
-  console.log("hit res events.js ", res);
+  // console.log("hit res events.js ", res);
 });
+
+
+
+function getIntervals(eventData) {
+  let intervals = [];
+  for (let i = 0; i < eventData.maxTimeRange; i++) {
+    let curDaysIntervals = [];
+    let meetingTime = eventData.meetingStartTime;
+    for (let j = 0; j < timeRange; j++) {
+      let curInterval = [];
+      if (meetingTime.substring(3) == "30") {
+        meetingTime = meetingTime.replace(
+          meetingTime.substring(0, 2),
+          String(parseInt(meetingTime.substring(0, 2)) + 1)
+        );
+        meetingTime = meetingTime.replace(meetingTime.substring(3), "00");
+      } else {
+        meetingTime = meetingTime.replace(meetingTime.substring(3), "30");
+      }
+      curInterval.push(meetingTime);
+      curInterval.push(0);
+      curInterval.push(0);
+      curInterval.push([]);
+      curInterval.push([]);
+      curDaysIntervals.push(curInterval);
+    }
+    intervals.push(curDaysIntervals);
+  }
+
+  console.log("what is intervals", intervals);
+
+  return intervals;
+}
+
 
 // post request tempalte
 router.route("/add").post((req, res) => {
   var dateOfEventCreation = new Date();
-  console.log("hit in route for add"); 
+  // console.log("hit in route for add"); 
   const title = req.body.title;
   const hostName = req.body.hostName;
   const hostID = req.body.hostID;
@@ -39,18 +73,19 @@ router.route("/add").post((req, res) => {
   const notifyOnResponse = req.body.notifyOnResponse;
   const availabilityHidden = req.body.availabilityHidden;
   const timePeriod = req.body.timePeriod;
+  const intervals = getIntervals(req);
 
-  [
-    ["9am", false],
-    ["930am", false],
-    ["10am", true],
-    ["1030am", false],
-    ["11am", false],
-    ["1130am", false],
-    ["12pm", false],
-    ["1230pm", false],
-    ["1230pm", false],
-  ];
+  // [
+  //   ["9am", false],
+  //   ["930am", false],
+  //   ["10am", true],
+  //   ["1030am", false],
+  //   ["11am", false],
+  //   ["1130am", false],
+  //   ["12pm", false],
+  //   ["1230pm", false],
+  //   ["1230pm", false],
+  // ];
   var timeSlots = [];
 
   var newEvent;
@@ -71,6 +106,7 @@ router.route("/add").post((req, res) => {
       notifyOnResponse,
       availabilityHidden,
       dateOfEventCreation,
+      intervals,
     });
   } else {
     newEvent = new Event({
@@ -89,15 +125,16 @@ router.route("/add").post((req, res) => {
       notifyOnResponse,
       availabilityHidden,
       dateOfEventCreation,
+      intervals,
     });
   }
-  console.log("AT THIS POINT", newEvent);
+  // console.log("AT THIS POINT", newEvent);
   newEvent
     .save()
     .then(() => res.json(newEvent))
     .catch((err) => {
       res.status(400).json("Error1: " + err);
-      console.log("hit error", err);
+      console.log("ERROR in new event save", err);
     });
 });
 
@@ -214,7 +251,7 @@ router.route("/update/:id").post((req, res) => {
 router.route("/get/:id").get((req, res) => {
   Event.findById(req.params.id)
     .then((event) => {
-      console.log("SUCCESS ESSAM GET", event);
+      // console.log("SUCCESS ESSAM GET", event);
       res.json(event);
     })
     .catch((err) => res.status(400).json("error: " + err));
