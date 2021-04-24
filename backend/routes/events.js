@@ -23,7 +23,7 @@ router.route("/").get((req, res) => {
 });
 
 
-
+// generates the intervals
 function getIntervals(eventData) {
   for (let i = 0; i < eventData.maxTimeRange; i++) {
     var timeRange =
@@ -46,14 +46,11 @@ function getIntervals(eventData) {
     }
     calendarList.push(innerList);
   }
-
       /*
       [
         
       ]
      */
-
-  
   let intervals = [];
   for (let i = 0; i < eventData.maxTimeRange; i++) {
     let curDaysIntervals = [];
@@ -79,11 +76,66 @@ function getIntervals(eventData) {
     intervals.push(curDaysIntervals);
   }
 
-  console.log("what is intervals", intervals);
-
+  // console.log("what is intervals", intervals, "what is calendar List", calendarList);
   return intervals;
 }
 
+// generates the calendar list
+function getCalendarList(eventData) {
+  for (let i = 0; i < eventData.maxTimeRange; i++) {
+    var timeRange =
+      (parseInt(eventData.meetingEndTime.substring(0, 2)) -
+        parseInt(eventData.meetingStartTime.substring(0, 2))) *
+      2;
+    if (eventData.meetingEndTime.substring(3) == "30") {
+      timeRange++;
+    }
+    if (eventData.meetingStartTime.substring(3) == "30") {
+      timeRange--;
+    }
+  }
+
+  let calendarList = [];
+  for (let i = 0; i < eventData.maxTimeRange; i++) {
+    var innerList = [];
+    for (let j = 0; j < timeRange; j++) {
+      innerList.push(false);
+    }
+    calendarList.push(innerList);
+  }
+      /*
+      [
+        
+      ]
+     */
+  let intervals = [];
+  for (let i = 0; i < eventData.maxTimeRange; i++) {
+    let curDaysIntervals = [];
+    let meetingTime = eventData.meetingStartTime;
+    for (let j = 0; j < timeRange; j++) {
+      let curInterval = [];
+      if (meetingTime.substring(3) == "30") {
+        meetingTime = meetingTime.replace(
+          meetingTime.substring(0, 2),
+          String(parseInt(meetingTime.substring(0, 2)) + 1)
+        );
+        meetingTime = meetingTime.replace(meetingTime.substring(3), "00");
+      } else {
+        meetingTime = meetingTime.replace(meetingTime.substring(3), "30");
+      }
+      curInterval.push(meetingTime);
+      curInterval.push(0);
+      curInterval.push(0);
+      curInterval.push([]);
+      curInterval.push([]);
+      curDaysIntervals.push(curInterval);
+    }
+    intervals.push(curDaysIntervals);
+  }
+
+  // console.log("what is intervals", intervals, "what is calendar List", calendarList);
+  return calendarList;
+}
 
 // post request tempalte
 router.route("/add").post((req, res) => {
@@ -102,7 +154,11 @@ router.route("/add").post((req, res) => {
   const notifyOnResponse = req.body.notifyOnResponse;
   const availabilityHidden = req.body.availabilityHidden;
   const timePeriod = req.body.timePeriod;
-  const intervals = getIntervals(req);
+  
+  const intervals = getIntervals(req.body);
+  const calendarList = getCalendarList(req.body);
+
+  console.log("intervals and calendarlist", intervals, calendarList);
 
   // [
   //   ["9am", false],
@@ -136,6 +192,7 @@ router.route("/add").post((req, res) => {
       availabilityHidden,
       dateOfEventCreation,
       intervals,
+      calendarList,
     });
   } else {
     newEvent = new Event({
@@ -155,6 +212,7 @@ router.route("/add").post((req, res) => {
       availabilityHidden,
       dateOfEventCreation,
       intervals,
+      calendarList,
     });
   }
   // console.log("AT THIS POINT", newEvent);
