@@ -61,9 +61,9 @@ router.get(
   "/success",
   //passport.authenticate("bearer", { session: false }),
   (req, res) => {
-    console.log("IN SUCCESS", req.user);
+    // console.log("IN SUCCESS", req.user);
     if (req.user) {
-      console.log("NOW USER: ", req.user);
+      // console.log("NOW USER: ", req.user);
       const user = {
         name: req.user.firstName,
         id: req.user._id,
@@ -71,7 +71,7 @@ router.get(
         refreshToken: req.user.refreshToken,
       };
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-      console.log("I HAVE ACCESS TOKEN: ", accessToken);
+      // console.log("I HAVE ACCESS TOKEN: ", accessToken);
       res.json({ user: user });
     } else {
       console.log("FAIL IN REQ");
@@ -84,15 +84,15 @@ function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   // var token = req.headers.authorization.split(" ")[1];
-  console.log("IN AUTH");
+  // console.log("IN AUTH");
 
   if (token == null) {
-    console.log("IN AUTH1");
+    // console.log("IN AUTH1");
 
     return res.sendStatus(401);
   }
   // console.log("authHeader: ", authHeader);
-  console.log("TOKEN: ", token);
+  // console.log("TOKEN: ", token);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {

@@ -53,16 +53,7 @@ function Availability(props) {
   
   */
 
-  // get number of days => (0-7).
-  // get time range: i.e. 9am - 5pm
-  // map days to dates: i.e. 0->4/21, 1->4/22, 2->4/23, .... etc
-  // generates a template using dates and time ranges: (NOTE: All fields will be true)
 
-  // var template = [];
-
-  // iterate through calendarEvents state, and check for time ranges for events.
-  // algorithm to update the template when an event is found, and update those availabilities to false.
-  // return template
 
   function createCalendarList() {
     for (let i = 0; i < eventData.maxTimeRange; i++) {
@@ -88,12 +79,9 @@ function Availability(props) {
     }
 
     /*
-      
       [
         
       ]
-
-    
      */
 
     // initializes intervals in the db
