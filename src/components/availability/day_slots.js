@@ -68,22 +68,18 @@ function TimeSlots(props) {
 
   function getNextHalfHour(time) {
     // Check second to last interval to calculate
-    // lastHour is the start time of the last interval (ex "10am")
-    let lastHalfHour = time.slice(0, -2);
-    let period = time.slice(-2);
-    let nextHalfHour = 0;
-    if (parseInt(lastHalfHour) < 100)
-      // If it's on the hour
-      nextHalfHour = lastHalfHour * 100 + 30;
-    else {
-      // If it's on the half hour
-      nextHalfHour = (parseInt(lastHalfHour.slice(0, 2)) % 12) + 1;
-      if (nextHalfHour == 12) {
-        if (period == "am") period = "pm";
-        else period = "am";
-      }
-    }
-    return nextHalfHour + " " + period;
+    // prevHour is the start time of the last interval (ex "14"), in 24 hour time
+    let prevHour = parseInt(time.slice(0, -2));
+    let prevMinutes = parseInt(time.slice(-2));
+    // nextHour in 12 hour time
+    let nextHour =
+      prevMinutes == 0
+        ? ((prevHour + 11) % 12) + 1
+        : ((prevHour + 1 + 11) % 12) + 1;
+    let nextMinutes = prevMinutes == 0 ? "30" : "00";
+    let period = "am";
+    if (prevHour >= 12 || (prevHour == 11 && prevMinutes == 30)) period = "pm";
+    return nextHour + " " + period;
   }
 
   //

@@ -25,7 +25,7 @@ router.route("/").get((req, res) => {
 // post request tempalte
 router.route("/add").post((req, res) => {
   var dateOfEventCreation = new Date();
-  console.log("hit in route for add");
+  console.log("hit in route for add"); 
   const title = req.body.title;
   const hostName = req.body.hostName;
   const hostID = req.body.hostID;
@@ -39,6 +39,19 @@ router.route("/add").post((req, res) => {
   const notifyOnResponse = req.body.notifyOnResponse;
   const availabilityHidden = req.body.availabilityHidden;
   const timePeriod = req.body.timePeriod;
+
+  [
+    ["9am", false],
+    ["930am", false],
+    ["10am", true],
+    ["1030am", false],
+    ["11am", false],
+    ["1130am", false],
+    ["12pm", false],
+    ["1230pm", false],
+    ["1230pm", false],
+  ];
+  var timeSlots = [];
 
   var newEvent;
   if (req.body.sendInDaysBool) {
@@ -107,6 +120,8 @@ router.route("/create/:id").post((req, res) => {
         // summary is the name of the event
         summary: "event.title",
         description: "event.description",
+        // sends a calendar update to everyone
+        sendUpdates: "all",
         start: {
           dateTime: start,
           timeZone: "America/Los_Angeles",

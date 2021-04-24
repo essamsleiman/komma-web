@@ -62,15 +62,12 @@ function InputCalendar(props) {
   function getHourLabels() {
     let label_list = [];
     props.intervals.map((interval) => {
-      let hour = interval[0].split(":")[0];
-      let minutes = interval[0].split(":")[1];
-      let twelveHour = parseInt(hour) % 12;
-      if (twelveHour == 0) twelveHour = 12;
-      let period = "am";
-      if (hour >= 12) period = "pm";
-      if (minutes == "00") {
+      let hour = parseInt(interval[0].split(":")[0]);
+      let minutes = parseInt(interval[0].split(":")[1]);
+      let twelveHour = ((hour + 11) % 12) + 1;
+      let period = hour >= 12 ? "pm" : "am";
+      if (minutes == "00")
         label_list.push(<p className="label">{twelveHour + " " + period}</p>);
-      }
     });
     label_list.push(getNextHour());
     return label_list;
@@ -78,12 +75,12 @@ function InputCalendar(props) {
 
   function getNextHour() {
     // Check second to last interval to calculate
-    // lastHour is the start time of the last interval (ex "10am")
-    let lastHour = parseInt(props.intervals.slice(-2)[0][0]); // "12:00"
-    let nextHour = (lastHour % 12) + 1; // "1"
+    // lastHour is the start time of the last interval (ex "10")
+    let lastHour = parseInt(props.intervals.slice(-2)[0][0]);
+    console.log("last hr: " + lastHour);
+    let nextHour = ((lastHour + 1 + 11) % 12) + 1;
     if (nextHour == 0) nextHour = 12;
-    let period = "am";
-    if (lastHour >= 12) period = "pm";
+    let period = lastHour >= 11 ? "pm" : "am";
     return <p className="label">{nextHour + " " + period}</p>;
   }
 
