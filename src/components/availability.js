@@ -25,8 +25,7 @@ function Availability(props) {
   const eventID = props.match.params.eventId;
   const [eventData, setEventData] = useState({});
   const [calendarEvents, setCalendarEvents] = useState([]);
-
-  var isHost = false;
+  const [calendarListState, setCalendarListState] = useState([]);
 
   // var isHost = props.user.user.id === ;
   const [viewingGroup, setViewingGroup] = useState(false);
@@ -34,6 +33,99 @@ function Availability(props) {
   var user = {};
   var access;
   var refresh;
+
+  // initialize an array of interval.length booleans all set to false
+  // loop through all start times, checking their corresponding end time
+  // if part of their time falls in the times listed in interval[i][j][0], where i represents the day and j represents the position of the interval
+  // then mark those specific entries as true
+
+  /* 
+
+
+  7 days
+  09:00 - 17:00
+  11:00 
+  [
+      [ ...intervals, ex: 0900 -> 1800 ]
+      [ ...intervals ]
+  ]
+  
+  
+  */
+
+  // get number of days => (0-7).
+  // get time range: i.e. 9am - 5pm
+  // map days to dates: i.e. 0->4/21, 1->4/22, 2->4/23, .... etc
+  // generates a template using dates and time ranges: (NOTE: All fields will be true)
+
+  // var template = [];
+
+  // iterate through calendarEvents state, and check for time ranges for events.
+  // algorithm to update the template when an event is found, and update those availabilities to false.
+  // return template
+
+  function createCalendarList() {
+    for (let i = 0; i < eventData.maxTimeRange; i++) {
+      var timeRange =
+        (parseInt(eventData.meetingEndTime.substring(0, 2)) -
+          parseInt(eventData.meetingStartTime.substring(0, 2))) *
+        2;
+      if (eventData.meetingEndTime.substring(3) == "30") {
+        timeRange++;
+      }
+      if (eventData.meetingStartTime.substring(3) == "30") {
+        timeRange--;
+      }
+    }
+
+    let calendarList = [];
+    for (let i = 0; i < eventData.maxTimeRange; i++) {
+      var innerList = [];
+      for (let j = 0; j < timeRange; j++) {
+        innerList.push(false);
+      }
+      calendarList.push(innerList);
+    }
+
+    /*
+      
+      [
+        
+      ]
+
+    
+     */
+
+    // initializes intervals in the db
+    let intervals = [];
+    for (let i = 0; i < eventData.maxTimeRange; i++) {
+      let curDaysIntervals = [];
+      let meetingTime = eventData.meetingStartTime;
+      for (let j = 0; j < timeRange; j++) {
+        let curInterval = [];
+        if (meetingTime.substring(3) == "30") {
+          meetingTime = meetingTime.replace(
+            meetingTime.substring(0, 2),
+            String(parseInt(meetingTime.substring(0, 2)) + 1)
+          );
+          meetingTime = meetingTime.replace(meetingTime.substring(3), "00");
+        } else {
+          meetingTime = meetingTime.replace(meetingTime.substring(3), "30");
+        }
+        curInterval.push(meetingTime);
+        curInterval.push(0);
+        curInterval.push(0);
+        curInterval.push([]);
+        curInterval.push([]);
+        curDaysIntervals.push(curInterval);
+      }
+      intervals.push(curDaysIntervals);
+    }
+
+    console.log(calendarList);
+    console.log(intervals);
+    setCalendarListState(calendarList);
+  }
 
   useEffect(() => {
     user = props.user;
@@ -43,7 +135,7 @@ function Availability(props) {
     var first = new Date(dateCreated);
     var end = new Date(dateCreated);
     end.setDate(end.getDate() + eventData.maxTimeRange);
-    if (user.user) {
+    if (props.user.user) {
       axios
         .get(`http://localhost:5000/calendar/get`, {
           params: {
@@ -58,7 +150,10 @@ function Availability(props) {
         .then((response) => {
           if (response) {
             console.log("hit CALENDAR EVENTS: ", response.data);
+
             setCalendarEvents(response.data);
+
+            createCalendarList();
           } else {
             console.log("hit error in calendar get axios call");
           }
@@ -171,31 +266,6 @@ function Availability(props) {
     var loop = new Date(dateCreated);
     var end = new Date(dateCreated);
     end.setDate(end.getDate() + days);
-    // var end = new Date(dateCreated.getDate() + days); // this line should work, but need to check
-
-    // intervals = [
-    //   // true = the person responding right now has selected they want to attend this time block
-    //   // first array is who can attend, second is who cannot
-    //   // first integer is how many people available at that time, second integer is how many people total - for example 0/5
-    //   [
-    //     "09:00",
-    //     0,
-    //     0,
-    //     false,
-    //     [],
-    //     [],
-    //   ],
-    //   [
-    //     "09:30",
-    //     0,
-    //     0,
-    //     false,
-    //     [],
-    //     [],
-    //   ],
-    //   // .. until 5PM
-    // ]
-
     var counter = 0;
     var curArr;
     while (loop <= end) {
@@ -203,28 +273,20 @@ function Availability(props) {
         id: counter,
         date: format(loop), // method to format datetime in "MM/DD/YYYY"
         group: 0, // all objects in group 0 for now
-        times: JSON.parse(JSON.stringify(intervals)),
+        times: JSON.parse(JSON.stringify(calendarListState[counter])),
       };
       if (counter == 0) {
         curArr = [obj];
-        // var curArr = [obj];
-        // setDaysState(curArr);
       } else {
-        // var curDaysState = daysState;
-        // setDaysState(curDaysState.push(obj));
         curArr.push(obj);
       }
-
-      // daysInitial.append(obj);
 
       ++counter;
       var newDate = loop.setDate(loop.getDate() + 1);
       loop = new Date(newDate);
     }
     setDaysState(curArr);
-    // return daysInitial
   }
-  // const calendar1_intervals = calendarEvents.items.map((event) => [event.])
 
   var calendar1_intervalsTest = [
     // NOTE: The 3 different calendar's intervals are identical right now. Haven't had time to randomize them yet
@@ -269,12 +331,13 @@ function Availability(props) {
     // get time range: i.e. 9am - 5pm
     // map days to dates: i.e. 0->4/21, 1->4/22, 2->4/23, .... etc
     // generates a template using dates and time ranges: (NOTE: All fields will be true)
-    console.log("hit calendarevent inside generate Interval", calendarEvents);
+
     // var template = [];
 
     // iterate through calendarEvents state, and check for time ranges for events.
     // algorithm to update the template when an event is found, and update those availabilities to false.
     // return template
+    console.log("hit calendarevent inside generate Interval", calendarEvents);
   }
 
   const calendars = [
@@ -290,8 +353,16 @@ function Availability(props) {
   //   { id: 2, calendarLabel: "Komma Calendar", times: calendar3_intervals },
   // ];
   const numResponses = 5;
+  console.log("props.user.user", props.user.user);
 
-  if (props.user.user) {
+  const isHost =
+    props.user.user && props.user.user !== {}
+      ? props.user.user.id === eventData.hostID
+      : false;
+
+  if (props.user.user === {}) {
+    return <div>Loading...</div>;
+  } else {
     console.log("EVENTDATA", eventData);
     return (
       <div>
@@ -303,11 +374,13 @@ function Availability(props) {
               respondents={eventData.respondents}
               title={eventData.title}
               meetingDuration={eventData.timePeriod}
+              isHost={isHost}
+              urlId={window.location.pathname}
             />
           </div>
           <div className="col-9">
             <div className="vertical-bar"></div>
-            {props.user.user.id === eventData.hostID ? (
+            {props.user.user && props.user.user.id !== eventData.hostID ? (
               <TopBar
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
@@ -347,8 +420,6 @@ function Availability(props) {
         </div>
       </div>
     );
-  } else {
-    return <div>Loading...</div>;
   }
 }
 

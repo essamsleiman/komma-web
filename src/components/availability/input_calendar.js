@@ -62,11 +62,18 @@ function InputCalendar(props) {
   function getHourLabels() {
     let label_list = [];
     props.intervals.map((interval) => {
+<<<<<<< HEAD
       let hour = interval[0].split(":")[0];
       let minutes = interval[0].split(":")[1];
 
       let twelveHour = ((hour + 11) % 12) + 1;
       let period = (hour >= 12) ? "pm" : "am";
+=======
+      let hour = parseInt(interval[0].split(":")[0]);
+      let minutes = parseInt(interval[0].split(":")[1]);
+      let twelveHour = ((hour + 11) % 12) + 1;
+      let period = hour >= 12 ? "pm" : "am";
+>>>>>>> essamBranch2
       if (minutes == "00")
         label_list.push(<p className="label">{twelveHour + " " + period}</p>);
     });
@@ -78,9 +85,16 @@ function InputCalendar(props) {
     // Check second to last interval to calculate
     // lastHour is the start time of the last interval (ex "10")
     let lastHour = parseInt(props.intervals.slice(-2)[0][0]);
+<<<<<<< HEAD
     let nextHour = (((lastHour + 1) + 11) % 12) + 1;
     if (nextHour == 0) nextHour = 12;
     let period = (nextHour >= 12) ? "pm" : "am";
+=======
+    console.log("last hr: " + lastHour);
+    let nextHour = ((lastHour + 1 + 11) % 12) + 1;
+    if (nextHour == 0) nextHour = 12;
+    let period = lastHour >= 11 ? "pm" : "am";
+>>>>>>> essamBranch2
     return <p className="label">{nextHour + " " + period}</p>;
   }
 

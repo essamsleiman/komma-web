@@ -30,9 +30,7 @@ function LeftBar(props) {
   //   "Omid Mogasemi",
   //   "Essam Sleiman",
   // ];
-  var inviteLink = "komma.com/my-meeting";
-  var isHost = true;
-
+  var inviteLink = `komma.com${props.urlId}`;
   const [linkFieldContent, setLinkFieldContent] = useState(inviteLink);
 
   function changeViewButton() {
@@ -54,6 +52,7 @@ function LeftBar(props) {
   } else {
     respondents = props.respondents;
   }
+  console.log("IS HOST: ", props.isHost);
 
   return (
     <div className="left-bar">
@@ -92,7 +91,7 @@ function LeftBar(props) {
         ))}
       </div>
 
-      {isHost && !props.viewingGroup && (
+      {props.isHost && props.viewingGroup && (
         <div className="invite">
           <h4 className="bold">💌 Invite </h4>
           <p className="label">

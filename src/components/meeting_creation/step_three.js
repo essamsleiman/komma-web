@@ -6,7 +6,7 @@ import "../css/step_three.css";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateEvent } from "../../Redux/actions/eventActions";
-
+import { timeConversion } from "../utils.js";
 function StepThree(props) {
   const meetingLengths = [
     {
@@ -34,99 +34,100 @@ function StepThree(props) {
   const meetingTimes = [
     {
       label: "12am",
-      value: "12am",
+      value: "00:00",
     },
     {
       label: "1am",
-      value: "1am",
+      value: "01:00",
     },
     {
       label: "2am",
-      value: "2am",
+      value: "02:00",
     },
     {
       label: "3am",
-      value: "3am",
+      value: "03:00",
     },
     {
       label: "4am",
-      value: "4am",
+      value: "04:00",
     },
     {
       label: "5am",
-      value: "5am",
+      value: "05:00",
     },
     {
       label: "6am",
-      value: "6am",
+      value: "06:00",
     },
     {
       label: "7am",
-      value: "7am",
+      value: "07:00",
     },
     {
       label: "8am",
-      value: "8am",
+      value: "08:00",
     },
     {
       label: "9am",
-      value: "9am",
+      value: "09:00",
     },
     {
       label: "10am",
-      value: "10am",
+      value: "10:00",
     },
+
     {
-      label: "11am",
-      value: "11am",
+      label: "11pm",
+      value: "11:00",
     },
     {
       label: "12pm",
-      value: "12pm",
+      value: "12:00",
     },
     {
       label: "1pm",
-      value: "1pm",
+      value: "13:00",
     },
     {
       label: "2pm",
-      value: "2pm",
+      value: "14:00",
     },
     {
       label: "3pm",
-      value: "3pm",
+      value: "15:00",
     },
     {
       label: "4pm",
-      value: "4pm",
+      value: "16:00",
     },
     {
       label: "5pm",
-      value: "5pm",
+      value: "17:00",
     },
     {
       label: "6pm",
-      value: "6pm",
+      value: "18:00",
     },
     {
       label: "7pm",
-      value: "7pm",
+      value: "19:00",
     },
     {
       label: "8pm",
-      value: "8pm",
+      value: "20:00",
     },
     {
       label: "9pm",
-      value: "9pm",
+      value: "21:00",
     },
     {
       label: "10pm",
-      value: "10pm",
+      value: "22:00",
     },
     {
       label: "11pm",
-      value: "11pm",
+      value: "23:00",
     },
   ];
 
@@ -218,8 +219,10 @@ function StepThree(props) {
   ];
 
   const [meetingLength, setMeetingLength] = useState("60");
-  const [meetingStartTime, setMeetingStartTime] = useState("9am");
-  const [meetingEndTime, setMeetingEndTime] = useState("5pm");
+  const [meetingStartTime, setMeetingStartTime] = useState(
+    meetingTimes[9].label
+  );
+  const [meetingEndTime, setMeetingEndTime] = useState(meetingTimes[15].label);
   const [meetingEndTimes, setMeetingEndTimes] = useState(
     meetingTimes.slice(10)
   );
@@ -311,6 +314,8 @@ function StepThree(props) {
         break;
       }
     }
+    var meetingStartTimeValue = "";
+    var meetingEndTimeValue = "";
 
     // console.log("meetingRange HIT", meetingRangeInt);
 
@@ -321,8 +326,8 @@ function StepThree(props) {
     curEvent = {
       ...curEvent,
       timePeriod: meetingLengthInt,
-      meetingStartTime: meetingStartTime,
-      meetingEndTime: meetingEndTime,
+      meetingStartTime: timeConversion(meetingStartTime),
+      meetingEndTime: timeConversion(meetingEndTime),
       maxTimeRange: meetingRangeInt,
     };
     console.log("curEvent", curEvent);

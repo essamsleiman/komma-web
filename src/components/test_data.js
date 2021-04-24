@@ -78,30 +78,6 @@ export const intervals = [
       ["James Junaidi"],
       ["Omid Mogasemi", "Essam Sleiman", "John Doe", "Sally Brown"],
     ],
-    // [
-    //   "01:00",
-    //   1,
-    //   5,
-    //   false,
-    //   ["James Junaidi"],
-    //   ["Omid Mogasemi", "Essam Sleiman", "John Doe", "Sally Brown"],
-    // ],
-    // [
-    //   "01:30",
-    //   1,
-    //   5,
-    //   false,
-    //   ["James Junaidi"],
-    //   ["Omid Mogasemi", "Essam Sleiman", "John Doe", "Sally Brown"],
-    // ],
-    // [
-    //   "02:00",
-    //   1,
-    //   5,
-    //   false,
-    //   ["James Junaidi"],
-    //   ["Omid Mogasemi", "Essam Sleiman", "John Doe", "Sally Brown"],
-    // ],
   ],
   calendar1_intervals = [
     // NOTE: The 3 different calendar's intervals are identical right now. Haven't had time to randomize them yet
