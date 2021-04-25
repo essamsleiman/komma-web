@@ -22,22 +22,6 @@ router.route("/").get((req, res) => {
   // console.log("hit res events.js ", res);
 });
 
-
-
-
-// this is what we are trying to save
-  // const [days, setDays] = useState([
-  //   {id: 0, date: '4/12/2021', group: 0, first: true, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 1, date: '4/13/2021', group: 0, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 2, date: '4/22/2021', group: 1, first: true, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 3, date: '4/23/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 4, date: '4/24/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 5, date: '4/25/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 6, date: '4/26/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 7, date: '4/27/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  // ])
-
-
 // generates the calendar list
 function getCalendarList(eventData) {
   for (let i = 0; i < eventData.maxTimeRange; i++) {
@@ -165,25 +149,8 @@ router.route("/add").post((req, res) => {
   const timePeriod = req.body.timePeriod;
   
   const intervals = getCalendarList(req.body, dateOfEventCreation);
-  // console.log("INTERVALS: ", intervals)
   const daysObject = setupDates(req.body, intervals, dateOfEventCreation);
 
-  // console.log("days object:", daysObject);
-
-  // console.log("intervals and calendarlist", intervals, calendarList);
-
-  // [
-  //   ["9am", false],
-  //   ["930am", false],
-  //   ["10am", true],
-  //   ["1030am", false],
-  //   ["11am", false],
-  //   ["1130am", false],
-  //   ["12pm", false],
-  //   ["1230pm", false],
-  //   ["1230pm", false],
-  // ];
-  var timeSlots = [];
 
   var newEvent;
   if (req.body.sendInDaysBool) {

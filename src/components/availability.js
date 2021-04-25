@@ -39,53 +39,8 @@ function Availability(props) {
   // if part of their time falls in the times listed in interval[i][j][0], where i represents the day and j represents the position of the interval
   // then mark those specific entries as true
 
-  /* 
-
-
-  7 days
-  09:00 - 17:00
-  11:00 
-  [
-      [ ...intervals, ex: 0900 -> 1800 ]
-      [ ...intervals ]
-  ]
-  
-  
-  */
 
   function createCalendarList() {
-    /*
-  
-      Calendar Events: 
-      [
-        {
-          start: {dateTime: "2021-04-24T18:00:00-07:00"}
-          end: {dateTime: "2021-04-24T19:00:00-07:00"}
-        },
-        {
-          start: {dateTime: "2021-04-24T18:00:00-07:00"}
-          end: {dateTime: "2021-04-24T19:00:00-07:00"}
-        }
-      ]
-
-      Calendar List: 
-      [
-        [false, false, false, false, false, false],
-        [false, false, false, false, false, false],
-        [false, false, false, false, false, false],
-        [false, false, false, false, false, false]
-      ]
-
-      // To calculate the time difference of two dates
-      var Difference_In_Time = date2.getTime() - date1.getTime();
-        
-      // To calculate the no. of days between two dates
-      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-
-
-
-    */
-
     for (let i = 0; i < eventData.maxTimeRange; i++) {
       var timeRange =
         (parseInt(eventData.meetingEndTime.substring(0, 2)) -
@@ -107,7 +62,6 @@ function Availability(props) {
       }
       calendarList.push(innerList);
     }
-    console.log("calendarList hit: ", calendarList);
 
     // firstDay: var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
     // numofDays: timeRange
@@ -137,14 +91,12 @@ function Availability(props) {
 
       // To calculate the no. of days between two dates
       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-      // console.log("Difference_In_Days", Difference_In_Days);
 
       var hr = String(startDateOfEvent.getHours()).padStart(2, "0");
       var hrend = parseInt(String(endDateOfEvent.getHours()).padStart(2, "0"));
       var min = String(startDateOfEvent.getMinutes()).padStart(2, "0");
       var minend = String(endDateOfEvent.getMinutes()).padStart(2, "0");
       // var hrDistance = hrStartRange -
-      console.log("HOUR: ", hr, "hrStartRange: ", hrStartRange);
       var timeRange = (parseInt(hr) - parseInt(hrStartRange)) * 2;
       if (min == "30") {
         timeRange++;
@@ -152,15 +104,6 @@ function Availability(props) {
       if (minStartRange == "30") {
         timeRange--;
       }
-
-      // var latestTime = eventData.meetingEndTime; // 12:00
-      // var earliestTime = eventData.meetingStartTime; // 09:00
-      // if (hrStartRange > hrend) {
-      //   continue;
-      // }
-      // if (latestTime <= current_event_time(start)) {
-      //   continue;
-      // }
 
       console.log("ESSAM CALENDAR LIST: ", calendarList, "i", Difference_In_Days);
       if (timeRange < 0 || timeRange >= calendarList[Difference_In_Days].length) {
@@ -177,7 +120,9 @@ function Availability(props) {
       // 90min / 30 min (1/2 hr) = 3 - (3 half hour time blocks) => call this t
       // startDateOfEvent and endDateOfEvent
       // another for loop from i = 0 -> i = t
-      // 
+
+
+      // this stuff here is to get each of the hour intervals
       let hoursTotal = hrend - parseInt(hr);
       let minTotal = minend - min; // time 10:30 - 11:00 = -30
       hoursTotal = hoursTotal * 60;
@@ -195,33 +140,7 @@ function Availability(props) {
         calendarList[i][j] = ["", temp];
       }
     }
-
-    console.log("hit calednarlist after for loop", calendarList);
-
-    /*
-      calendarList[
-        [["", false], false, false, false, false, false]
-        [false, false, false, false, true, false]
-        [false, false, false, false, false, false]
-        [false, false, false, false, false, false]
-      ]
-      [
-        [
-          ["9am", false],
-          ["930am", false],
-          ["10am", true],
-          ["1030am", false],
-          ["11am", false],
-          ["1130m", false],
-          ["12pm", false],
-          ["1230pm", false],
-          ["1230pm", false],
-        ],
-      ]
-    */
-
     setCalendarListState(calendarList);
-    console.log("calendarList: ", calendarList);
   }
 
   useEffect(() => {
@@ -275,12 +194,7 @@ function Availability(props) {
       .then((response) => {
         if (response) {
           console.log("hit response in eventPage", response);
-          // eventInfo = response.data;
-          // if (props.user.user) {
-          //   console.log("CHECK: ", props.user.user.id, response.data.hostID);
-          //   isHost = props.user.user.id === response.data.hostID;
-          //   setInputDisabled(false);
-          // }
+
           setEventData(response.data);
         } else {
           console.log("hit error in eventPage axios call");
@@ -320,17 +234,7 @@ function Availability(props) {
   // Add a day
   date.setDate(date.getDate() + 1);
 
-  // var dateCreated = eventData.dateOfEventCreation; // "2021-04-21T17:45:35.198Z"
-  // console.log("date created", dateCreated);
-  // if (eventData.dateOfEventCreation) {
-  //   var dd = String(eventData.dateOfEventCreation.getDate()).padStart(2, "0");
-  //   var mm = String(eventData.dateOfEventCreation.getMonth() + 1).padStart(
-  //     2,
-  //     "0"
-  //   ); //January is 0!
-  //   var yyyy = eventData.dateOfEventCreation.getFullYear();
-  //   console.log("DD MM YY", dd, mm, yyyy);
-  // }
+
 
   const [daysState, setDaysState] = useState([]);
   function format(date) {
@@ -344,40 +248,7 @@ function Availability(props) {
     setDaysState(eventData.daysObject);
   }
 
-  var calendar1_intervalsTest = [
-    // NOTE: The 3 different calendar's intervals are identical right now. Haven't had time to randomize them yet
-    [
-      ["09", false],
-      ["09t", false],
-      ["10", true],
-      ["10t", true],
-      ["11", false],
-      ["11t", false],
-      ["12", false],
-      ["12t", false],
-    ],
-    [
-      ["09", false],
-      ["09t", false],
-      ["10", true],
-      ["10t", true],
-      ["11", false],
-      ["11t", false],
-      ["12", false],
-      ["12t", false],
-    ],
-    [
-      ["09", false],
-      ["09t", false],
-      ["10", true],
-      ["10t", true],
-      ["11", false],
-      ["11t", false],
-      ["12", false],
-      ["12t", false],
-    ],
-  ];
-  console.log("hit calendar 1 intervals test", calendar1_intervalsTest);
+ 
 
   // events data is stored in the state: calendarEvents
 
