@@ -7,21 +7,40 @@ body {
   overflow-x: hidden;
 }
 
+.nav-bar h3 {
+  margin: 0;
+}
+
 .nav-bar {
   padding: 1.5rem;
 }
-.nav-bar .left img { 
-  width: 2.75rem; 
-  transition: all 0.3s; 
-  cursor: pointer; 
-} 
+
+.nav-bar .left {
+  display: flex;
+  align-items: center;
+}
+.nav-bar .left img {
+  width: 2.75rem;
+  transition: all 0.3s;
+  cursor: pointer;
+}
 .nav-bar .left img:hover {
   opacity: 0.8;
 }
+.nav-bar .komma {
+  margin-left: 0.5rem;
+}
+.nav-bar .beta {
+  margin: 0 0.5rem;
+}
+.nav-bar .left span {
+  color: var(--mediumgray);
+}
+
 .nav-bar .right {
   display: flex;
   justify-content: flex-end;
-  align-items: center; 
+  align-items: center;
 }
 .nav-bar .right a {
   color: var(--kommablack) !important;
