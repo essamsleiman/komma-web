@@ -116,11 +116,11 @@ function setupDates(eventData, intervals, dateOfEventCreation) {
   var loop = new Date(dateCreated);
   var end = new Date(dateCreated);
   end.setDate(end.getDate() + days);
-  console.log("loop", dateCreated, "end", end, "days", days);
+  // console.log("loop", dateCreated, "end", end, "days", days);
   var counter = 0;
   var curArr;
   while (loop <= end) {
-    console.log("intervals @ counter", intervals[counter]);
+    // console.log("intervals @ counter", intervals[counter]);
     var obj = {
       id: counter,
       date: format(loop), // method to format datetime in "MM/DD/YYYY"
@@ -141,7 +141,7 @@ function setupDates(eventData, intervals, dateOfEventCreation) {
     loop = new Date(newDate);
   }
 
-  console.log("inside days object curArr", curArr);
+  // console.log("inside days object curArr", curArr);
 
   return curArr;
 }
@@ -165,7 +165,7 @@ router.route("/add").post((req, res) => {
   const timePeriod = req.body.timePeriod;
   
   const intervals = getCalendarList(req.body, dateOfEventCreation);
-  console.log("INTERVALS: ", intervals)
+  // console.log("INTERVALS: ", intervals)
   const daysObject = setupDates(req.body, intervals, dateOfEventCreation);
 
   // console.log("days object:", daysObject);

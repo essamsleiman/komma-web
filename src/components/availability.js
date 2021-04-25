@@ -160,13 +160,14 @@ function Availability(props) {
       // if (latestTime <= current_event_time(start)) {
       //   continue;
       // }
-      console.log("ESSAM CALENDAR LIST: ", calendarList);
-      if (timeRange < 0 || timeRange >= calendarList[i].length) {
+      
+      console.log("ESSAM CALENDAR LIST: ", calendarList, "i", Difference_In_Days);
+      if (timeRange < 0 || timeRange >= calendarList[Difference_In_Days].length) {
         console.log(
           "hit in timerange if statement - timerange:",
           timeRange,
           "calendar list length",
-          calendarList[i].length
+          calendarList[Difference_In_Days].length
         );
         continue;
       }
