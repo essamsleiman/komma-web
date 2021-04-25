@@ -88,7 +88,7 @@ export const intervals = [
       ["10am", true],
       ["1030am", false],
       ["11am", false],
-      ["1130am", false],
+      ["1130m", false],
       ["12pm", false],
       ["1230pm", false],
       ["1230pm", false],

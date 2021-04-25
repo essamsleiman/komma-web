@@ -53,9 +53,39 @@ function Availability(props) {
   
   */
 
-
-
   function createCalendarList() {
+    /*
+  
+      Calendar Events: 
+      [
+        {
+          start: {dateTime: "2021-04-24T18:00:00-07:00"}
+          end: {dateTime: "2021-04-24T19:00:00-07:00"}
+        },
+        {
+          start: {dateTime: "2021-04-24T18:00:00-07:00"}
+          end: {dateTime: "2021-04-24T19:00:00-07:00"}
+        }
+      ]
+
+      Calendar List: 
+      [
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false],
+        [false, false, false, false, false, false]
+      ]
+
+      // To calculate the time difference of two dates
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+        
+      // To calculate the no. of days between two dates
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+
+
+    */
+
     for (let i = 0; i < eventData.maxTimeRange; i++) {
       var timeRange =
         (parseInt(eventData.meetingEndTime.substring(0, 2)) -
@@ -70,49 +100,113 @@ function Availability(props) {
     }
 
     let calendarList = [];
-    for (let i = 0; i < eventData.maxTimeRange; i++) {
+    for (let i = 0; i <= eventData.maxTimeRange; i++) {
       var innerList = [];
       for (let j = 0; j < timeRange; j++) {
         innerList.push(false);
       }
       calendarList.push(innerList);
     }
+    console.log("calendarList hit: ", calendarList);
 
-    /*
-      [
-        
-      ]
-     */
+    // firstDay: var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
+    // numofDays: timeRange
+    var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
+    var ddCreated = String(dateCreated.getDate()).padStart(2, "0");
+    // var hrCreated = String(dateCreated.getHours()).padStart(2, "0");
+    var hrStartRange = parseInt(eventData.meetingStartTime.substring(0, 2)); // this is the hour star
+    // var minCreated = String(dateCreated.getMinutes()).padStart(2, "0");
+    var minStartRange = eventData.meetingStartTime.substring(3);
+    var mmCreated = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyyCreated = dateCreated.getFullYear();
 
-    // initializes intervals in the db
-    let intervals = [];
-    for (let i = 0; i < eventData.maxTimeRange; i++) {
-      let curDaysIntervals = [];
-      let meetingTime = eventData.meetingStartTime;
-      for (let j = 0; j < timeRange; j++) {
-        let curInterval = [];
-        if (meetingTime.substring(3) == "30") {
-          meetingTime = meetingTime.replace(
-            meetingTime.substring(0, 2),
-            String(parseInt(meetingTime.substring(0, 2)) + 1)
-          );
-          meetingTime = meetingTime.replace(meetingTime.substring(3), "00");
-        } else {
-          meetingTime = meetingTime.replace(meetingTime.substring(3), "30");
-        }
-        curInterval.push(meetingTime);
-        curInterval.push(0);
-        curInterval.push(0);
-        curInterval.push([]);
-        curInterval.push([]);
-        curDaysIntervals.push(curInterval);
+    for (let i = 0; i < calendarEvents.items.length; i++) {
+      var startDateOfEvent = new Date(calendarEvents.items[i].start.dateTime);
+      // console.log("startDateOfEvent", startDateOfEvent);
+      var endDateOfEvent = new Date(calendarEvents.items[i].end.dateTime);
+      var dd = String(startDateOfEvent.getDate()).padStart(2, "0");
+      var mm = String(startDateOfEvent.getMonth() + 1).padStart(2, "0"); //January is 0!
+      var yyyy = startDateOfEvent.getFullYear();
+
+      // To calculate the time difference of two dates
+      var calendarDay = new Date(yyyy, mm, dd);
+      var createdDay = new Date(yyyyCreated, mmCreated, ddCreated);
+      var Difference_In_Time = Math.abs(
+        calendarDay.getTime() - createdDay.getTime()
+      );
+
+      // To calculate the no. of days between two dates
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      // console.log("Difference_In_Days", Difference_In_Days);
+
+      var hr = String(startDateOfEvent.getHours()).padStart(2, "0");
+      var hrend = parseInt(String(endDateOfEvent.getHours()).padStart(2, "0"));
+      var min = String(startDateOfEvent.getMinutes()).padStart(2, "0");
+      // var hrDistance = hrStartRange -
+      console.log("HOUR: ", hr, "hrStartRange: ", hrStartRange);
+      var timeRange = (parseInt(hr) - parseInt(hrStartRange)) * 2;
+      if (min == "30") {
+        timeRange++;
       }
-      intervals.push(curDaysIntervals);
+      if (minStartRange == "30") {
+        timeRange--;
+      }
+
+      // var latestTime = eventData.meetingEndTime; // 12:00
+      // var earliestTime = eventData.meetingStartTime; // 09:00
+      // if (hrStartRange > hrend) {
+      //   continue;
+      // }
+      // if (latestTime <= current_event_time(start)) {
+      //   continue;
+      // }
+      console.log("ESSAM CALENDAR LIST: ", calendarList);
+      if (timeRange < 0 || timeRange >= calendarList[i].length) {
+        console.log(
+          "hit in timerange if statement - timerange:",
+          timeRange,
+          "calendar list length",
+          calendarList[i].length
+        );
+        continue;
+      }
+
+      calendarList[Difference_In_Days][timeRange] = true;
     }
 
-    console.log(calendarList);
-    console.log(intervals);
+    for (let i = 0; i < calendarList.length; i++) {
+      for (let j = 0; j < calendarList[i].length; ++j) {
+        let temp = calendarList[i][j];
+        calendarList[i][j] = ["", temp];
+      }
+    }
+
+    console.log("hit calednarlist after for loop", calendarList);
+
+    /*
+      calendarList[
+        [["", false], false, false, false, false, false]
+        [false, false, false, false, true, false]
+        [false, false, false, false, false, false]
+        [false, false, false, false, false, false]
+      ]
+      [
+        [
+          ["9am", false],
+          ["930am", false],
+          ["10am", true],
+          ["1030am", false],
+          ["11am", false],
+          ["1130m", false],
+          ["12pm", false],
+          ["1230pm", false],
+          ["1230pm", false],
+        ],
+      ]
+    */
+
     setCalendarListState(calendarList);
+    console.log("calendarList: ", calendarList);
   }
 
   useEffect(() => {
@@ -141,7 +235,7 @@ function Availability(props) {
 
             setCalendarEvents(response.data);
 
-            createCalendarList();
+            // createCalendarList();
           } else {
             console.log("hit error in calendar get axios call");
           }
@@ -223,16 +317,6 @@ function Availability(props) {
   //   console.log("DD MM YY", dd, mm, yyyy);
   // }
 
-  // const [days, setDays] = useState([
-  //   {id: 0, date: '4/12/2021', group: 0, first: true, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 1, date: '4/13/2021', group: 0, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 2, date: '4/22/2021', group: 1, first: true, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 3, date: '4/23/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 4, date: '4/24/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 5, date: '4/25/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 6, date: '4/26/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  //   {id: 7, date: '4/27/2021', group: 1, first: false, times: JSON.parse(JSON.stringify(intervals))},
-  // ])
   const [daysState, setDaysState] = useState([]);
   function format(date) {
     var dd = String(date.getDate()).padStart(2, "0");
@@ -242,38 +326,6 @@ function Availability(props) {
   }
 
   function setupDates() {
-    // var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
-    // var dd = String(dateCreated.getDate()).padStart(2, "0");
-    // var mm = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
-    // var yyyy = dateCreated.getFullYear();
-
-    // var daysInitial = []; // the days initial object
-    // // get number of days after:
-    // var days = eventData.maxTimeRange;
-
-    // var loop = new Date(dateCreated);
-    // var end = new Date(dateCreated);
-    // end.setDate(end.getDate() + days);
-    // var counter = 0;
-    // var curArr;
-    // while (loop <= end) {
-    //   var obj = {
-    //     id: counter,
-    //     date: format(loop), // method to format datetime in "MM/DD/YYYY"
-    //     group: 0, // all objects in group 0 for now
-    //     times: JSON.parse(JSON.stringify(calendarListState[counter])),
-    //   };
-    //   if (counter == 0) {
-    //     curArr = [obj];
-    //   } else {
-    //     curArr.push(obj);
-    //   }
-
-    //   ++counter;
-    //   var newDate = loop.setDate(loop.getDate() + 1);
-    //   loop = new Date(newDate);
-    // }
-
     setDaysState(eventData.daysObject);
   }
 
@@ -333,7 +385,8 @@ function Availability(props) {
     {
       id: 0,
       calendarLabel: calendarEvents.summary,
-      times: calendar1_intervals,
+      // times: calendar1_intervals,
+      times: calendarListState,
     },
   ];
   // const calendars = [
@@ -403,8 +456,8 @@ function Availability(props) {
           <button type="button" onClick={setupDates}>
             hi guys
           </button>
-          <button type="button" onClick={generateInterval}>
-            james' button
+          <button type="button" onClick={createCalendarList}>
+            Essam's button
           </button>
         </div>
       </div>
