@@ -142,6 +142,7 @@ function Availability(props) {
       var hr = String(startDateOfEvent.getHours()).padStart(2, "0");
       var hrend = parseInt(String(endDateOfEvent.getHours()).padStart(2, "0"));
       var min = String(startDateOfEvent.getMinutes()).padStart(2, "0");
+      var minend = String(endDateOfEvent.getMinutes()).padStart(2, "0");
       // var hrDistance = hrStartRange -
       console.log("HOUR: ", hr, "hrStartRange: ", hrStartRange);
       var timeRange = (parseInt(hr) - parseInt(hrStartRange)) * 2;
@@ -160,7 +161,7 @@ function Availability(props) {
       // if (latestTime <= current_event_time(start)) {
       //   continue;
       // }
-      
+
       console.log("ESSAM CALENDAR LIST: ", calendarList, "i", Difference_In_Days);
       if (timeRange < 0 || timeRange >= calendarList[Difference_In_Days].length) {
         console.log(
@@ -172,7 +173,20 @@ function Availability(props) {
         continue;
       }
 
-      calendarList[Difference_In_Days][timeRange] = true;
+      // so get total time amount: i.e. 10am - 11:30am = 1h30 = 90min:
+      // 90min / 30 min (1/2 hr) = 3 - (3 half hour time blocks) => call this t
+      // startDateOfEvent and endDateOfEvent
+      // another for loop from i = 0 -> i = t
+      // 
+      let hoursTotal = hrend - parseInt(hr);
+      let minTotal = minend - min; // time 10:30 - 11:00 = -30
+      hoursTotal = hoursTotal * 60;
+      let totalTime = hoursTotal + minTotal;
+      let t = Math.ceil(totalTime / 30);
+      for (let i = 0; i < t; ++i) {
+        if(timeRange + i < calendarList[Difference_In_Days].length)
+          calendarList[Difference_In_Days][timeRange + i] = true;
+      }
     }
 
     for (let i = 0; i < calendarList.length; i++) {
