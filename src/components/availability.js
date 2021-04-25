@@ -26,6 +26,7 @@ function Availability(props) {
   const [eventData, setEventData] = useState({});
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [calendarListState, setCalendarListState] = useState([]);
+  const [isMeetingHost, setIsMeetingHost] = useState(true); 
 
   // var isHost = props.user.user.id === ;
   const [viewingGroup, setViewingGroup] = useState(false);
@@ -314,6 +315,7 @@ function Availability(props) {
                 setUserInfo={setUserInfo}
                 setInputDisabled={setInputDisabled}
                 meetingHostName={eventData.hostName}
+                isMeetingHost={isMeetingHost} 
               />
             ) : (
               <div> Is Host </div>
