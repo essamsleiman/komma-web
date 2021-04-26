@@ -40,7 +40,6 @@ function Availability(props) {
   // if part of their time falls in the times listed in interval[i][j][0], where i represents the day and j represents the position of the interval
   // then mark those specific entries as true
 
-
   function createCalendarList() {
     for (let i = 0; i < eventData.maxTimeRange; i++) {
       var timeRange =
@@ -106,8 +105,16 @@ function Availability(props) {
         timeRange--;
       }
 
-      console.log("ESSAM CALENDAR LIST: ", calendarList, "i", Difference_In_Days);
-      if (timeRange < 0 || timeRange >= calendarList[Difference_In_Days].length) {
+      console.log(
+        "ESSAM CALENDAR LIST: ",
+        calendarList,
+        "i",
+        Difference_In_Days
+      );
+      if (
+        timeRange < 0 ||
+        timeRange >= calendarList[Difference_In_Days].length
+      ) {
         console.log(
           "hit in timerange if statement - timerange:",
           timeRange,
@@ -122,7 +129,6 @@ function Availability(props) {
       // startDateOfEvent and endDateOfEvent
       // another for loop from i = 0 -> i = t
 
-
       // this stuff here is to get each of the hour intervals
       let hoursTotal = hrend - parseInt(hr);
       let minTotal = minend - min; // time 10:30 - 11:00 = -30
@@ -130,7 +136,7 @@ function Availability(props) {
       let totalTime = hoursTotal + minTotal;
       let t = Math.ceil(totalTime / 30);
       for (let i = 0; i < t; ++i) {
-        if(timeRange + i < calendarList[Difference_In_Days].length)
+        if (timeRange + i < calendarList[Difference_In_Days].length)
           calendarList[Difference_In_Days][timeRange + i] = true;
       }
     }
@@ -238,9 +244,7 @@ function Availability(props) {
   date.setDate(date.getDate() + 1);
   const [daysState, setDaysState] = useState([]);
 
-  console.log("DAYS STATE: ", daysState)
-
-
+  console.log("DAYS STATE: ", daysState);
 
   function format(date) {
     var dd = String(date.getDate()).padStart(2, "0");
@@ -252,8 +256,6 @@ function Availability(props) {
   function setupDates() {
     setDaysState(eventData.daysObject);
   }
-
- 
 
   // events data is stored in the state: calendarEvents
 
@@ -288,7 +290,6 @@ function Availability(props) {
   // if (daysState[0]) {
   //   numResponses = daysState[0].times[0][2];
 
-  
   // const numResponses = 3;
   console.log("props.user.user", props.user.user);
 
@@ -306,7 +307,8 @@ function Availability(props) {
         <div className="row no-gutters justify-content-center shadow-card top-margin">
           <div className="col-3">
             <LeftBar
-              viewingGroup={(viewingGroup, eventData)}
+              viewingGroup={viewingGroup}
+              eventData={eventData}
               setViewingGroup={setViewingGroup}
               respondents={eventData.respondentName}
               title={eventData.title}

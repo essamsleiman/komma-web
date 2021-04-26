@@ -32,10 +32,15 @@ function LeftBar(props) {
   // ];
   var inviteLink = `komma.com${props.urlId}`;
   const [linkFieldContent, setLinkFieldContent] = useState(inviteLink);
-  console.log("respondentName: ", props.respondents)
+  console.log("props.viewingGroup: ", props.viewingGroup);
   function changeViewButton() {
-    if (props.viewingGroup) props.setViewingGroup(false);
-    else props.setViewingGroup(true);
+    if (props.viewingGroup == true) {
+      console.log("SET TO FALSE");
+      props.setViewingGroup(false);
+    } else if (props.viewingGroup == false) {
+      props.setViewingGroup(true);
+      console.log("SET TO TRUE");
+    }
   }
 
   function handleCopyButtonClick(event) {
@@ -50,8 +55,8 @@ function LeftBar(props) {
   if (!props.respondents) {
     respondents = ["Nobody has responded Yet"];
   } else {
-    console.log()
-   respondents = props.respondents;
+    console.log();
+    respondents = props.respondents;
   }
   console.log("IS HOST: ", props.isHost);
 
