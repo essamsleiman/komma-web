@@ -69,17 +69,19 @@ function TopBar(props) {
     return;
   }
 
+  console.log(props.isMeetingHost, props.userInfo.signedIn); 
+
   return (
     <div className="top-content-container top-bar">
       <h3 className="bold">{welcomeMessage}</h3>
       <div className="backdrop">
         <div className="backdrop-content">
-          {props.userInfo.signedIn && props.isMeetingHost ? 
-              null
-            :
+          {!props.isMeetingHost && !props.userInfo.signedIn ? 
               <p className="white">{instructions}</p> 
+            :
+              null
           }
-          {!props.userInfo.signedIn ? 
+          {!props.isMeetingHost && !props.userInfo.signedIn ? 
             !respondAsGuest ? 
                 // Sign in with Google display 
                 <>
