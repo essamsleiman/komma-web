@@ -25,7 +25,10 @@ const eventSchema = new Schema({
   meetingEndTime: { type: String, required: true },
   // minTimeRange: { type: Date, required: true },
   maxTimeRange: { type: Number, required: true },
-  respondents: { type: [String] },
+
+  respondentName: { type: [String] },
+  respondentEmail: { type: [String] },
+
   hostAvailability: { type: [Date, Date] },
   availabilities: { type: [[Date, Date]] },
   finalMeetingTime: { type: Date },

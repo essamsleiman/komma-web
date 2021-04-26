@@ -53,7 +53,8 @@ function StepFour(props) {
         meetingEndTime: props.event.meetingEndTime,
         maxTimeRange: props.event.maxTimeRange,
 
-        respondents: [],
+        respondentName: [],
+        respondentEmail: [],
         daysSentAfter: props.event.num_days,
         // respondedSentAfter:
         sendInDaysBool: curEvent.numDaysSelected,
@@ -73,7 +74,8 @@ function StepFour(props) {
         maxTimeRange: props.event.meetingRange,
         sendInDaysBool: curEvent.numDaysSelected,
 
-        respondents: [],
+        respondentName: [],
+        respondentEmail: [],
         // daysSentAfter:
         respondedSentAfter: props.event.respondedSentAfter,
 
