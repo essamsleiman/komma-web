@@ -122,8 +122,9 @@ function Availability(props) {
         calendarEvents.items,
       );
 
-      if (Difference_In_Days >= calendarList.length) { 
-        Difference_In_Days = calendarList.length - 1;
+      // temporary fix to new month not working :)
+      if (mmCreated != mm) { 
+        --Difference_In_Days;
       }
       if (
         timeRange < 0 ||

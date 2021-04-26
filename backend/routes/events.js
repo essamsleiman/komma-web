@@ -284,11 +284,6 @@ router.route("/update/:id").post((req, res) => {
         newDaysState.push(JSON.parse(daysState[i]))
       }
       
-      // var daysState = req.query.daysState
-      // console.log("new days state", newDaysState);
-      // iterate through daysState.time
-      // console.log("obj and new days", event.daysObject, "new days", newDaysState);
-
       console.log("testing james", newDaysState[0].times[0][1]);
 
       for (let i = 0; i < newDaysState.length; ++i) {
