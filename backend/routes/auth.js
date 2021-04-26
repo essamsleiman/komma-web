@@ -64,11 +64,13 @@ router.get(
     // console.log("IN SUCCESS", req.user);
     if (req.user) {
       // console.log("NOW USER: ", req.user);
+      console.log("PASS in REQ");
       const user = {
         name: req.user.firstName,
         id: req.user._id,
         accessToken: req.user.accessToken,
         refreshToken: req.user.refreshToken,
+        email: req.user.email
       };
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
       // console.log("I HAVE ACCESS TOKEN: ", accessToken);

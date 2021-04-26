@@ -32,7 +32,7 @@ function LeftBar(props) {
   // ];
   var inviteLink = `komma.com${props.urlId}`;
   const [linkFieldContent, setLinkFieldContent] = useState(inviteLink);
-
+  console.log("respondentName: ", props.respondents)
   function changeViewButton() {
     if (props.viewingGroup) props.setViewingGroup(false);
     else props.setViewingGroup(true);
@@ -50,7 +50,8 @@ function LeftBar(props) {
   if (!props.respondents) {
     respondents = ["Nobody has responded Yet"];
   } else {
-    respondents = props.respondents;
+    console.log()
+   respondents = props.respondents;
   }
   console.log("IS HOST: ", props.isHost);
 

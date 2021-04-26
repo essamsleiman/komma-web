@@ -11,8 +11,7 @@ const secret = process.env.GOOGLE_CLIENT_SECRET;
 
 // const oAuth2Client = new OAuth2(id, secret);
 const oAuth2Client = new OAuth2(
-  "619278648051-qiilealfrh111ajs6ujvn2kam92qevtq.apps.googleusercontent.com",
-  "dhdDPzuhWGs1vz5q1xzts6AM"
+  id, secret
 );
 
 // get event API

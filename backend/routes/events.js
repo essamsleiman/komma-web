@@ -4,6 +4,7 @@ const { google } = require("googleapis");
 const router = require("express").Router();
 require("dotenv").config();
 let Event = require("../models/event.model");
+// const JSONObject = require("org.json.simple.JSONObject")
 
 const { OAuth2 } = google.auth;
 const id = process.env.GOOGLE_CLIENT_ID;
@@ -142,7 +143,8 @@ router.route("/add").post((req, res) => {
   const meetingStartTime = req.body.meetingStartTime;
   const meetingEndTime = req.body.meetingEndTime;
   const maxTimeRange = req.body.maxTimeRange;
-  const respondents = req.body.respondents;
+  const respondentName = req.body.respondentName;
+  const respondentEmail = req.body.respondentEmail;
   const daysSentAfter = req.body.daysSentAfter;
   const notifyOnResponse = req.body.notifyOnResponse;
   const availabilityHidden = req.body.availabilityHidden;
@@ -164,7 +166,8 @@ router.route("/add").post((req, res) => {
       meetingStartTime,
       meetingEndTime,
       maxTimeRange,
-      respondents,
+      respondentName,
+      respondentEmail,
       timePeriod,
       // daysSentAfter,
       notifyOnResponse,
@@ -183,7 +186,8 @@ router.route("/add").post((req, res) => {
       meetingStartTime,
       meetingEndTime,
       maxTimeRange,
-      respondents,
+      respondentName,
+      respondentEmail,
       timePeriod,
       // daysSentAfter,
       notifyOnResponse,
@@ -232,7 +236,7 @@ router.route("/create/:id").post((req, res) => {
           timeZone: "America/Los_Angeles",
         },
         // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
-        attendees: [respondents],
+        attendees: event.respondentEmail,
         // this field is to create the google meet things (don't edit this its really senitive for some)
         conferenceData: {
           createRequest: {
@@ -266,18 +270,49 @@ router.route("/create/:id").post((req, res) => {
     })
     .catch((err) => res.status(400).json("Error in meeting creation" + err));
 });
-
 router.route("/update/:id").post((req, res) => {
+ 
+  console.log("IN UPDATE BACKEND")
+
+  // console.log("REQ PARAMS: ", req.params, "query params", req.query);
   Event.findById(req.params.id)
     .then((event) => {
-      if (event.availabilities) {
-        event.availabilities = event.availabilities.append(
-          req.body.newAvailability
-        );
-      } else {
-        var newAvailability = [];
-        event.availabilities = newAvailability.append(req.body.newAvailability);
+      var newDaysState = []
+      var daysState = req.query.daysState
+
+      for(let i = 0; i < daysState.length; i++) {
+        newDaysState.push(JSON.parse(daysState[i]))
       }
+      
+      // var daysState = req.query.daysState
+      // console.log("new days state", newDaysState);
+      // iterate through daysState.time
+      // console.log("obj and new days", event.daysObject, "new days", newDaysState);
+
+      console.log("testing james", newDaysState[0].times[0][1]);
+
+      for (let i = 0; i < newDaysState.length; ++i) {
+        for (let j = 0; j < newDaysState[i].times.length; ++j) {
+          // case where it is selected
+          if (newDaysState[i].times[j][3] == true) {
+            newDaysState[i].times[j][4].push(req.query.name);
+          } else {
+            newDaysState[i].times[j][5].push(req.query.name);
+          }
+          console.log("james counter", i, j);
+
+          newDaysState[i].times[j][3] = false;
+        }
+      }
+
+      console.log("obj and new days", event.daysObject, "new days", newDaysState);
+
+      event.daysObject = newDaysState;
+    
+      // add email of person who responded => daysObject is object in Mongo
+      event.respondentEmail.push(req.query.email)
+      event.respondentName.push(req.query.name)
+    
 
       event
         .save()
@@ -286,29 +321,7 @@ router.route("/update/:id").post((req, res) => {
     })
     .catch((err) => res.status(400).json("Error1: " + err));
 
-  const name = req.body.name;
-  const hostname = req.body.hostname;
-  const meetingInviteLink = req.body.meetingInviteLink;
-  const googleMeetLink = req.body.googleMeetLink;
-
-  const title = req.body.title;
-  const description = req.body.description;
-  const location = req.body.location;
-  const minTimeRange = Date.parse(req.body.minTimeRange);
-  const maxTimeRange = Date.parse(req.body.minTimeRange);
-
-  const newEvent = new Event({
-    name,
-    hostname,
-    meetingInviteLink,
-    googleMeetLink,
-    title,
-    description,
-    location,
-    minTimeRange,
-    maxTimeRange,
-  });
-  newEvent.save().catch((err) => res.status(400).json("Error1: " + err));
+  
 });
 
 // route to find the event by ID

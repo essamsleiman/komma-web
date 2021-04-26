@@ -26,6 +26,7 @@ function Availability(props) {
   const [eventData, setEventData] = useState({});
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [calendarListState, setCalendarListState] = useState([]);
+  const [numResponses, setNumResponses] = useState(-1);
 
   // var isHost = props.user.user.id === ;
   const [viewingGroup, setViewingGroup] = useState(false);
@@ -142,6 +143,7 @@ function Availability(props) {
     }
     setCalendarListState(calendarList);
   }
+  // var numResponses = -1;
 
   useEffect(() => {
     user = props.user;
@@ -194,7 +196,8 @@ function Availability(props) {
       .then((response) => {
         if (response) {
           console.log("hit response in eventPage", response);
-
+          setNumResponses(response.data.daysObject[0].times[0][2]);
+          console.log("hit numresponses", numResponses);
           setEventData(response.data);
         } else {
           console.log("hit error in eventPage axios call");
@@ -233,10 +236,12 @@ function Availability(props) {
 
   // Add a day
   date.setDate(date.getDate() + 1);
-
-
-
   const [daysState, setDaysState] = useState([]);
+
+  console.log("DAYS STATE: ", daysState)
+
+
+
   function format(date) {
     var dd = String(date.getDate()).padStart(2, "0");
     var mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -280,7 +285,11 @@ function Availability(props) {
   //   { id: 1, calendarLabel: "UCD Calendar", times: calendar2_intervals },
   //   { id: 2, calendarLabel: "Komma Calendar", times: calendar3_intervals },
   // ];
-  const numResponses = 5;
+  // if (daysState[0]) {
+  //   numResponses = daysState[0].times[0][2];
+
+  
+  // const numResponses = 3;
   console.log("props.user.user", props.user.user);
 
   const isHost =
@@ -288,7 +297,7 @@ function Availability(props) {
       ? props.user.user.id === eventData.hostID
       : false;
 
-  if (props.user.user === {}) {
+  if (props.user.user === {} || typeof props.user.user === "undefined") {
     return <div>Loading...</div>;
   } else {
     console.log("EVENTDATA", eventData);
@@ -299,7 +308,7 @@ function Availability(props) {
             <LeftBar
               viewingGroup={(viewingGroup, eventData)}
               setViewingGroup={setViewingGroup}
-              respondents={eventData.respondents}
+              respondents={eventData.respondentName}
               title={eventData.title}
               meetingDuration={eventData.timePeriod}
               isHost={isHost}
@@ -327,6 +336,10 @@ function Availability(props) {
                 inputDisabled={inputDisabled}
                 numResponses={numResponses}
                 calendars={calendars}
+                eventId={eventID}
+                eventData={eventData}
+                email={props.user.user.email}
+                name={props.user.user.name}
               />
             ) : (
               <GroupCalendar

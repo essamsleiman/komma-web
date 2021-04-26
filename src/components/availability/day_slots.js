@@ -165,6 +165,7 @@ function TimeSlots(props) {
           let can_attend = new_days[day].times[block][1];
           let total_responses = new_days[day].times[block][2];
           // check if respondents availabilities have already been calculated for
+          console.log("hit numresponses in day slots", props.numResponses);
           if (total_responses > props.numResponses) {
             adjusted_responses = true;
             break;
