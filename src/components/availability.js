@@ -27,7 +27,6 @@ function Availability(props) {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [calendarListState, setCalendarListState] = useState([]);
   const [numResponses, setNumResponses] = useState(-1);
-  const [isMeetingHost, setIsMeetingHost] = useState(true); 
 
   // var isHost = props.user.user.id === ;
   const [viewingGroup, setViewingGroup] = useState(false);
@@ -148,6 +147,7 @@ function Availability(props) {
         calendarList[i][j] = ["", temp];
       }
     }
+    console.log(calendarList); 
     setCalendarListState(calendarList);
   }
   // var numResponses = -1;
@@ -215,7 +215,9 @@ function Availability(props) {
 
   useEffect(() => {
     if (props.user.user) {
-      if (props.user.user.id === eventData.hostID) setInputDisabled(false);
+      if (props.user.user.id === eventData.hostID) { 
+        setInputDisabled(false); 
+      } 
     }
   }, []);
 
@@ -320,17 +322,14 @@ function Availability(props) {
           </div>
           <div className="col-9">
             <div className="vertical-bar"></div>
-            {props.user.user && props.user.user.id !== eventData.hostID ? (
               <TopBar
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
                 setInputDisabled={setInputDisabled}
                 meetingHostName={eventData.hostName}
-                isMeetingHost={isMeetingHost} 
+                isMeetingHost={isHost} 
+                urlId={window.location.pathname}
               />
-            ) : (
-              <div> Is Host </div>
-            )}
             {!viewingGroup ? (
               <InputCalendar
                 viewingGroup={viewingGroup}
