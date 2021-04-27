@@ -32,9 +32,11 @@ function Availability(props) {
   const [viewingGroup, setViewingGroup] = useState(false);
   const [inputDisabled, setInputDisabled] = useState(false);
   var user = {};
+  var access;
+  var refresh;
 
   
-
+  
 
   // initialize an array of interval.length booleans all set to false
   // loop through all start times, checking their corresponding end time

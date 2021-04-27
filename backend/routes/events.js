@@ -6,6 +6,7 @@ require("dotenv").config();
 let Event = require("../models/event.model");
 let GoogleUser = require("../models/googleuser.model");
 // const JSONObject = require("org.json.simple.JSONObject")
+const axios = require('axios');
 
 const { OAuth2 } = google.auth;
 const id = process.env.GOOGLE_CLIENT_ID;
@@ -288,7 +289,14 @@ router.route("/create/:id").post((req, res) => {
 
           endDate.setMinutes(parseInt(endMinutes));
           endDate.setHours(parseInt(endHours));
+
+          var emailsList = [];
+          for (let i = 0; i < event.respondentEmail.length; ++i) {
+            emailsList.push({'email': event.respondentEmail[i]});
+          }
+          console.log("emails", emailsList);
         
+          
 
           // take the start time and get us the correct time:
           // console.log(event.title, event.description, startDate, endDate, event.respondentEmail);
@@ -298,7 +306,6 @@ router.route("/create/:id").post((req, res) => {
             summary: event.title,
             description: event.description,
             // sends a calendar update to everyone
-            sendUpdates: "all",
             start: {
               dateTime: startDate,
               timeZone: "America/Los_Angeles",
@@ -308,7 +315,7 @@ router.route("/create/:id").post((req, res) => {
               timeZone: "America/Los_Angeles",
             },
             // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
-            attendees: event.respondentEmail,
+            attendees: emailsList,
             // this field is to create the google meet things (don't edit this its really senitive for some)
             conferenceData: {
               createRequest: {
@@ -331,6 +338,7 @@ router.route("/create/:id").post((req, res) => {
           resource: newevent,
           // this should be set to 1 to allow for meet creation
           conferenceDataVersion: 1,
+          sendNotifications: true,
         },
         function (err, event) {
           if (err) {
@@ -355,9 +363,15 @@ router.route("/update/:id").post((req, res) => {
  
   console.log("IN UPDATE BACKEND")
 
+
+
   // console.log("REQ PARAMS: ", req.params, "query params", req.query);
   Event.findById(req.params.id)
     .then((event) => {
+    
+     
+
+
       var newDaysState = []
       var daysState = req.query.daysState
 
@@ -392,13 +406,36 @@ router.route("/update/:id").post((req, res) => {
 
       event
         .save()
-        .then(() => res.json("Event updated!"))
+        .then(() => generateCalendarEvent(event, req.params.id))
         .catch((err) => res.status(400).json("Error1: " + err));
+
+
+
     })
     .catch((err) => res.status(400).json("Error1: " + err));
 
   
 });
+
+
+
+ // case where we want to autogenerate
+ function generateCalendarEvent(event, url) {
+  if (event.respondentName.length - 1 === event.respondedSentAfter) {
+    axios.post(`http://localhost:5000/events/create/${url}`)
+    .then(res => {
+        console.log("Event Creation Success");
+    })
+    .catch(err => {
+      console.log('Error: ', err.message);
+    });
+  }
+}
+
+
+
+
+
 
 // route to find the event by ID
 router.route("/get/:id").get((req, res) => {
