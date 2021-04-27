@@ -134,6 +134,8 @@ function setupDates(eventData, intervals, dateOfEventCreation) {
 // post request tempalte
 router.route("/add").post((req, res) => {
   var dateOfEventCreation = new Date();
+  // sets hour to 0 so availability for current date is good
+  dateOfEventCreation.setHours(0,0,0,0);
   // console.log("hit in route for add"); 
   const title = req.body.title;
   const hostName = req.body.hostName;
