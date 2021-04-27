@@ -35,9 +35,6 @@ function Availability(props) {
   var access;
   var refresh;
 
-  
-  
-
   // initialize an array of interval.length booleans all set to false
   // loop through all start times, checking their corresponding end time
   // if part of their time falls in the times listed in interval[i][j][0], where i represents the day and j represents the position of the interval
@@ -77,10 +74,9 @@ function Availability(props) {
     var mmCreated = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyyCreated = dateCreated.getFullYear();
 
-
-    // Events from a person's calendar on the current day only pull after the current time - meaning previous time blocks won't be pulled 
-    // Events that start before the time blocks start for a day are not parsed through to show up as red for the time blocks that they do cover (i.e. event starts at 830, but meeting blocks start at 9) 
-    // When a new month starts, there is first an empty day on the availabilities UI and then the days start populating by one day delayed 
+    // Events from a person's calendar on the current day only pull after the current time - meaning previous time blocks won't be pulled
+    // Events that start before the time blocks start for a day are not parsed through to show up as red for the time blocks that they do cover (i.e. event starts at 830, but meeting blocks start at 9)
+    // When a new month starts, there is first an empty day on the availabilities UI and then the days start populating by one day delayed
     for (let i = 0; i < calendarEvents.items.length; i++) {
       var startDateOfEvent = new Date(calendarEvents.items[i].start.dateTime);
       // console.log("startDateOfEvent", startDateOfEvent);
@@ -95,7 +91,6 @@ function Availability(props) {
       var Difference_In_Time = Math.abs(
         calendarDay.getTime() - createdDay.getTime()
       );
-
 
       // To calculate the no. of days between two dates
       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
@@ -123,15 +118,15 @@ function Availability(props) {
         "diff: in days",
         Difference_In_Days,
         "calendar events:",
-        calendarEvents.items,
+        calendarEvents.items
       );
 
       // temporary fix to new month not working :)
-      if (mmCreated != mm) { 
+      if (mmCreated != mm) {
         --Difference_In_Days;
       }
       if (
-        ((timeRange < 0) && (timeRangeLate < 0)) ||
+        (timeRange < 0 && timeRangeLate < 0) ||
         timeRange >= calendarList[Difference_In_Days].length
       ) {
         console.log(
@@ -142,7 +137,7 @@ function Availability(props) {
           "i",
           i,
           "timerangelate",
-          timeRangeLate,
+          timeRangeLate
         );
         continue;
       }
@@ -165,14 +160,13 @@ function Availability(props) {
       // function end
     }
 
-
     for (let i = 0; i < calendarList.length; i++) {
       for (let j = 0; j < calendarList[i].length; ++j) {
         let temp = calendarList[i][j];
         calendarList[i][j] = ["", temp];
       }
     }
-    console.log(calendarList); 
+    console.log(calendarList);
     setCalendarListState(calendarList);
   }
   // var numResponses = -1;
@@ -207,7 +201,7 @@ function Availability(props) {
             setCalendarEvents(response.data);
 
             // createCalendarList();
-            setupDates();
+            // setupDates();
           } else {
             console.log("hit error in calendar get axios call");
           }
@@ -245,9 +239,9 @@ function Availability(props) {
 
   useEffect(() => {
     if (props.user.user) {
-      if (props.user.user.id === eventData.hostID) { 
-        setInputDisabled(false); 
-      } 
+      if (props.user.user.id === eventData.hostID) {
+        setInputDisabled(false);
+      }
     }
   }, []);
 
@@ -277,7 +271,7 @@ function Availability(props) {
 
   function setupDates() {
     setDaysState(eventData.daysObject);
-    createCalendarList()
+    // createCalendarList();
   }
   console.log("DAYSSTATE NEW ESSAM: ", daysState);
 
@@ -321,14 +315,14 @@ function Availability(props) {
           </div>
           <div className="col-9">
             <div className="vertical-bar"></div>
-              <TopBar
-                userInfo={userInfo}
-                setUserInfo={setUserInfo}
-                setInputDisabled={setInputDisabled}
-                meetingHostName={eventData.hostName}
-                isMeetingHost={isHost} 
-                urlId={window.location.pathname}
-              />
+            <TopBar
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+              setInputDisabled={setInputDisabled}
+              meetingHostName={eventData.hostName}
+              isMeetingHost={isHost}
+              urlId={window.location.pathname}
+            />
             {!viewingGroup ? (
               <InputCalendar
                 viewingGroup={viewingGroup}
@@ -354,12 +348,12 @@ function Availability(props) {
               />
             )}
           </div>
-          {/* <button type="button" onClick={setupDates}>
+          <button type="button" onClick={setupDates}>
             hi guys
-          </button> */}
-          {/* <button type="button" onClick={createCalendarList}>
+          </button>
+          <button type="button" onClick={createCalendarList}>
             Essam's button
-          </button> */}
+          </button>
         </div>
       </div>
     );

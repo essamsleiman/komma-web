@@ -70,7 +70,7 @@ router.get(
         id: req.user._id,
         accessToken: req.user.accessToken,
         refreshToken: req.user.refreshToken,
-        email: req.user.email
+        email: req.user.email,
       };
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
       // console.log("I HAVE ACCESS TOKEN: ", accessToken);

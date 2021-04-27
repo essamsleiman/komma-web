@@ -10,14 +10,12 @@ const id = process.env.GOOGLE_CLIENT_ID;
 const secret = process.env.GOOGLE_CLIENT_SECRET;
 
 // const oAuth2Client = new OAuth2(id, secret);
-const oAuth2Client = new OAuth2(
-  id, secret
-);
+const oAuth2Client = new OAuth2(id, secret);
 
 // get event API
 router.route("/get").get((req, res1) => {
   // setup host user for calendar grabbing:
-  console.log("in calendar get request");
+  console.log("in calendar get request", req.query);
 
   // console.log("PARAMS ESSAM NEW Query: ", req.query.access, req.query.refresh);
   oAuth2Client.setCredentials({

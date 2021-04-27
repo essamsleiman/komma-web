@@ -6,7 +6,7 @@ require("dotenv").config();
 let Event = require("../models/event.model");
 let GoogleUser = require("../models/googleuser.model");
 // const JSONObject = require("org.json.simple.JSONObject")
-const axios = require('axios');
+const axios = require("axios");
 
 const { OAuth2 } = google.auth;
 const id = process.env.GOOGLE_CLIENT_ID;
@@ -139,8 +139,8 @@ function setupDates(eventData, intervals, dateOfEventCreation) {
 router.route("/add").post((req, res) => {
   var dateOfEventCreation = new Date();
   // sets hour to 0 so availability for current date is good
-  dateOfEventCreation.setHours(0,0,0,0);
-  // console.log("hit in route for add"); 
+  dateOfEventCreation.setHours(0, 0, 0, 0);
+  // console.log("hit in route for add");
   const title = req.body.title;
   const hostName = req.body.hostName;
   const hostID = req.body.hostID;
@@ -215,10 +215,9 @@ router.route("/add").post((req, res) => {
 router.route("/create/:id").post((req, res) => {
   Event.findById(req.params.id)
     .then((event) => {
-
       GoogleUser.findById(event.hostID)
         .then((user) => {
-           // setup host user for calendar insertion:
+          // setup host user for calendar insertion:
           oAuth2Client.setCredentials({
             access_token: user.accessToken,
             refresh_token: user.refreshToken,
@@ -241,7 +240,10 @@ router.route("/create/:id").post((req, res) => {
               let counter = 0;
               let k = j;
               // console.log("i,j", i, j, "times obj", daysObject[i].times[j], "length", daysObject[i].times.length);
-              while (daysObject[i].times[k][1] === daysObject[i].times[k][2] && k < daysObject[i].times.length) {
+              while (
+                daysObject[i].times[k][1] === daysObject[i].times[k][2] &&
+                k < daysObject[i].times.length
+              ) {
                 // console.log("i,k", i, k, "times obj", daysObject[i].times[j], "length", daysObject[i].times.length, "counter", counter, "meetingLength", meetingLength);
                 ++k;
                 ++counter;
@@ -253,11 +255,9 @@ router.route("/create/:id").post((req, res) => {
                   break;
                 }
               }
-              if (finished)
-                break;
+              if (finished) break;
             }
-            if (finished)
-              break;
+            if (finished) break;
           }
 
           // start is now a string like: "09:30". Start index is the index i, so days after dateOfEventCreation:
@@ -266,15 +266,14 @@ router.route("/create/:id").post((req, res) => {
           let startDate = event.dateOfEventCreation;
           startDate.setDate(startDate.getDate() + startIndex);
 
-
-          // get us the correct start time 
+          // get us the correct start time
           let hours = start.slice(0, 2);
           let minutes = start.slice(3, 5);
           startDate.setHours(parseInt(hours));
           startDate.setMinutes(parseInt(minutes));
           // console.log("hours, minutes", parseInt(hours), parseInt(minutes));
           // console.log("startdate", startDate);
-          
+
           // correct end date variable
           let endMinutes = parseInt(minutes) + parseInt(event.timePeriod);
           let hoursToAdd = 0;
@@ -293,11 +292,9 @@ router.route("/create/:id").post((req, res) => {
 
           var emailsList = [];
           for (let i = 0; i < event.respondentEmail.length; ++i) {
-            emailsList.push({'email': event.respondentEmail[i]});
+            emailsList.push({ email: event.respondentEmail[i] });
           }
           console.log("emails", emailsList);
-        
-          
 
           // take the start time and get us the correct time:
           // console.log(event.title, event.description, startDate, endDate, event.respondentEmail);
@@ -325,74 +322,56 @@ router.route("/create/:id").post((req, res) => {
                 // requestId: req.params.id,
                 conferenceSolutionKey: { type: "hangoutsMeet" },
               },
-        },
-      };
+            },
+          };
 
-      // insert event into calendar
-      calendar.events.insert(
-        {
-          // auth is auth details
-          auth: oAuth2Client,
-          // we want the primary calendar
-          calendarId: "primary",
-          // resource field is the template up above
-          resource: newevent,
-          // this should be set to 1 to allow for meet creation
-          conferenceDataVersion: 1,
-          sendNotifications: true,
-        },
-        function (err, event) {
-          if (err) {
-            console.log("there was an error with inserting an event: ", +err);
-            return;
-          }
-          console.log("Event created!");
-        }
-      );
-
-
-        }).catch((err) => res.status(400).json("Error in finding user during meeting creation" + err));
-
-
-     
+          // insert event into calendar
+          calendar.events.insert(
+            {
+              // auth is auth details
+              auth: oAuth2Client,
+              // we want the primary calendar
+              calendarId: "primary",
+              // resource field is the template up above
+              resource: newevent,
+              // this should be set to 1 to allow for meet creation
+              conferenceDataVersion: 1,
+              sendNotifications: true,
+            },
+            function (err, event) {
+              if (err) {
+                console.log(
+                  "there was an error with inserting an event: ",
+                  +err
+                );
+                return;
+              }
+              console.log("Event created!");
+            }
+          );
+        })
+        .catch((err) =>
+          res
+            .status(400)
+            .json("Error in finding user during meeting creation" + err)
+        );
     })
     .catch((err) => res.status(400).json("Error in meeting creation" + err));
 });
 
-
 router.route("/update/:id").post((req, res) => {
   console.log("IN UPDATE BACKEND");
-
-
 
   // console.log("REQ PARAMS: ", req.params, "query params", req.query);
   Event.findById(req.params.id)
     .then((event) => {
-<<<<<<< HEAD
       var newDaysState = [];
       var daysState = req.query.daysState;
-=======
-    
-     
-
-
-      var newDaysState = []
-      var daysState = req.query.daysState
->>>>>>> jamesBranch2
 
       for (let i = 0; i < daysState.length; i++) {
         newDaysState.push(JSON.parse(daysState[i]));
       }
-<<<<<<< HEAD
 
-      // var daysState = req.query.daysState
-      // console.log("new days state", newDaysState);
-      // iterate through daysState.time
-      // console.log("obj and new days", event.daysObject, "new days", newDaysState);
-
-=======
-      
->>>>>>> jamesBranch2
       console.log("testing james", newDaysState[0].times[0][1]);
 
       for (let i = 0; i < newDaysState.length; ++i) {
@@ -426,32 +405,23 @@ router.route("/update/:id").post((req, res) => {
         .save()
         .then(() => generateCalendarEvent(event, req.params.id))
         .catch((err) => res.status(400).json("Error1: " + err));
-
-
-
     })
     .catch((err) => res.status(400).json("Error1: " + err));
 });
 
-
-
- // case where we want to autogenerate
- function generateCalendarEvent(event, url) {
+// case where we want to autogenerate
+function generateCalendarEvent(event, url) {
   if (event.respondentName.length - 1 === event.respondedSentAfter) {
-    axios.post(`http://localhost:5000/events/create/${url}`)
-    .then(res => {
+    axios
+      .post(`http://localhost:5000/events/create/${url}`)
+      .then((res) => {
         console.log("Event Creation Success");
-    })
-    .catch(err => {
-      console.log('Error: ', err.message);
-    });
+      })
+      .catch((err) => {
+        console.log("Error: ", err.message);
+      });
   }
 }
-
-
-
-
-
 
 // route to find the event by ID
 router.route("/get/:id").get((req, res) => {
