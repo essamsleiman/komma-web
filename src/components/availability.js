@@ -104,6 +104,7 @@ function Availability(props) {
       var minend = String(endDateOfEvent.getMinutes()).padStart(2, "0");
       // var hrDistance = hrStartRange -
       var timeRange = (parseInt(hr) - parseInt(hrStartRange)) * 2;
+      var timeRangeLate = (parseInt(hrend) - parseInt(hrStartRange)) * 2;
       if (min == "30") {
         timeRange++;
       }
@@ -127,14 +128,18 @@ function Availability(props) {
         --Difference_In_Days;
       }
       if (
-        timeRange < 0 ||
+        ((timeRange < 0) && (timeRangeLate < 0)) ||
         timeRange >= calendarList[Difference_In_Days].length
       ) {
         console.log(
           "hit in timerange if statement - timerange:",
           timeRange,
           "calendar list length",
-          calendarList[Difference_In_Days].length
+          calendarList[Difference_In_Days].length,
+          "i",
+          i,
+          "timerangelate",
+          timeRangeLate,
         );
         continue;
       }
@@ -154,7 +159,9 @@ function Availability(props) {
         if (timeRange + i < calendarList[Difference_In_Days].length)
           calendarList[Difference_In_Days][timeRange + i] = true;
       }
+      // function end
     }
+
 
     for (let i = 0; i < calendarList.length; i++) {
       for (let j = 0; j < calendarList[i].length; ++j) {
