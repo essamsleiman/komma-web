@@ -137,6 +137,7 @@ function TimeSlots(props) {
       adjustAttendance(line_number);
     }
   }
+  console.log("ESSAM PROPS DAYS: , ", props.days);
 
   function isNotAvailable(day, time_block) {
     let not_available_status = false;
@@ -149,7 +150,6 @@ function TimeSlots(props) {
         console.log("hit props error", props, i);
       }
     }
-
     // if they are not available, then update the overall group availability numbers
     if (not_available_status) {
       let new_days = props.days;
@@ -210,6 +210,8 @@ function TimeSlots(props) {
   function calculateGroupAvailability(num_can_attend, num_responses) {
     return "rgba(71, 203, 108, " + num_can_attend / (num_responses - 1) + ")";
   }
+
+  console.log("ESSAM PROPS INTERVALS: ", props.intervals);
 
   return (
     <div className={"day-container" + (props.inputDisabled ? " disabled" : "")}>
@@ -284,7 +286,7 @@ function TimeSlots(props) {
                   <p className="label bold frac-people">
                     {props.days[props.id].times[line_number][1] + " Available"}
                   </p>
-                  {props.intervals[line_number][3].map((name) => (
+                  {props.days[props.id].times[line_number][4].map((name) => (
                     <p className="label">{name}</p>
                   ))}
                 </div>
@@ -296,7 +298,7 @@ function TimeSlots(props) {
                       props.days[props.id].times[line_number][2] +
                       " Unavailable"}
                   </p>
-                  {props.intervals[line_number][4].map((name) => (
+                  {props.days[props.id].times[line_number][5].map((name) => (
                     <p className="label">{name}</p>
                   ))}
                 </div>

@@ -46,7 +46,7 @@ function getCalendarList(eventData) {
     }
     calendarList.push(innerList);
   }
-      /*
+  /*
       [
         
       ]
@@ -76,6 +76,8 @@ function getCalendarList(eventData) {
     }
     intervals.push(curDaysIntervals);
   }
+
+  // logic for keep my avail hidden logic
 
   // console.log("what is intervals", intervals, "what is calendar List", calendarList);
   return intervals;
@@ -134,7 +136,7 @@ function setupDates(eventData, intervals, dateOfEventCreation) {
 // post request tempalte
 router.route("/add").post((req, res) => {
   var dateOfEventCreation = new Date();
-  // console.log("hit in route for add"); 
+  // console.log("hit in route for add");
   const title = req.body.title;
   const hostName = req.body.hostName;
   const hostID = req.body.hostID;
@@ -149,10 +151,9 @@ router.route("/add").post((req, res) => {
   const notifyOnResponse = req.body.notifyOnResponse;
   const availabilityHidden = req.body.availabilityHidden;
   const timePeriod = req.body.timePeriod;
-  
+
   const intervals = getCalendarList(req.body, dateOfEventCreation);
   const daysObject = setupDates(req.body, intervals, dateOfEventCreation);
-
 
   var newEvent;
   if (req.body.sendInDaysBool) {
@@ -271,19 +272,18 @@ router.route("/create/:id").post((req, res) => {
     .catch((err) => res.status(400).json("Error in meeting creation" + err));
 });
 router.route("/update/:id").post((req, res) => {
- 
-  console.log("IN UPDATE BACKEND")
+  console.log("IN UPDATE BACKEND");
 
   // console.log("REQ PARAMS: ", req.params, "query params", req.query);
   Event.findById(req.params.id)
     .then((event) => {
-      var newDaysState = []
-      var daysState = req.query.daysState
+      var newDaysState = [];
+      var daysState = req.query.daysState;
 
-      for(let i = 0; i < daysState.length; i++) {
-        newDaysState.push(JSON.parse(daysState[i]))
+      for (let i = 0; i < daysState.length; i++) {
+        newDaysState.push(JSON.parse(daysState[i]));
       }
-      
+
       // var daysState = req.query.daysState
       // console.log("new days state", newDaysState);
       // iterate through daysState.time
@@ -305,14 +305,18 @@ router.route("/update/:id").post((req, res) => {
         }
       }
 
-      console.log("obj and new days", event.daysObject, "new days", newDaysState);
+      console.log(
+        "obj and new days",
+        event.daysObject,
+        "new days",
+        newDaysState
+      );
 
       event.daysObject = newDaysState;
-    
+
       // add email of person who responded => daysObject is object in Mongo
-      event.respondentEmail.push(req.query.email)
-      event.respondentName.push(req.query.name)
-    
+      event.respondentEmail.push(req.query.email);
+      event.respondentName.push(req.query.name);
 
       event
         .save()
@@ -320,8 +324,6 @@ router.route("/update/:id").post((req, res) => {
         .catch((err) => res.status(400).json("Error1: " + err));
     })
     .catch((err) => res.status(400).json("Error1: " + err));
-
-  
 });
 
 // route to find the event by ID
@@ -330,6 +332,17 @@ router.route("/get/:id").get((req, res) => {
     .then((event) => {
       // console.log("SUCCESS ESSAM GET", event);
       res.json(event);
+    })
+    .catch((err) => res.status(400).json("error: " + err));
+  // console.log("hit res specific event", res);
+});
+router.route("/get/availability/:id").get((req, res) => {
+  Event.findById(req.params.id)
+    .then((event) => {
+      if (event.availabilityHidden) {
+        // implement don't show availability of host
+      }
+      res.json(event.daysObject);
     })
     .catch((err) => res.status(400).json("error: " + err));
   // console.log("hit res specific event", res);

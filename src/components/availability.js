@@ -205,6 +205,7 @@ function Availability(props) {
           setNumResponses(response.data.daysObject[0].times[0][2]);
           console.log("hit numresponses", numResponses);
           setEventData(response.data);
+          setDaysState(eventData.daysObject);
         } else {
           console.log("hit error in eventPage axios call");
         }
@@ -244,7 +245,7 @@ function Availability(props) {
   date.setDate(date.getDate() + 1);
   const [daysState, setDaysState] = useState([]);
 
-  console.log("DAYS STATE: ", daysState);
+  console.log("DAYS STATE: availability", daysState);
 
   function format(date) {
     var dd = String(date.getDate()).padStart(2, "0");
@@ -256,6 +257,7 @@ function Availability(props) {
   function setupDates() {
     setDaysState(eventData.daysObject);
   }
+  console.log("DAYSSTATE NEW ESSAM: ", daysState);
 
   // events data is stored in the state: calendarEvents
 
@@ -346,7 +348,7 @@ function Availability(props) {
             ) : (
               <GroupCalendar
                 viewingGroup={viewingGroup}
-                intervals={intervals}
+                intervals={daysState}
                 days={daysState}
                 setDays={setDaysState}
                 inputDisabled={inputDisabled}
