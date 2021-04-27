@@ -283,6 +283,7 @@ function Availability(props) {
 
   function setupDates() {
     setDaysState(eventData.daysObject);
+    createCalendarList()
   }
 
   // events data is stored in the state: calendarEvents
@@ -383,9 +384,9 @@ function Availability(props) {
           <button type="button" onClick={setupDates}>
             hi guys
           </button>
-          <button type="button" onClick={createCalendarList}>
+          {/* <button type="button" onClick={createCalendarList}>
             Essam's button
-          </button>
+          </button> */}
         </div>
       </div>
     );
