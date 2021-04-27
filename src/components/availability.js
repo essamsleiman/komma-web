@@ -32,8 +32,9 @@ function Availability(props) {
   const [viewingGroup, setViewingGroup] = useState(false);
   const [inputDisabled, setInputDisabled] = useState(false);
   var user = {};
-  var access;
-  var refresh;
+
+  
+
 
   // initialize an array of interval.length booleans all set to false
   // loop through all start times, checking their corresponding end time
@@ -87,7 +88,7 @@ function Availability(props) {
       var yyyy = startDateOfEvent.getFullYear();
 
       // To calculate the time difference of two dates
-      var calendarDay = new Date(yyyy, mm, dd);
+      var calendarDay = new Date(yyyy, mm, dd); //12 midnight
       var createdDay = new Date(yyyyCreated, mmCreated, ddCreated);
       var Difference_In_Time = Math.abs(
         calendarDay.getTime() - createdDay.getTime()

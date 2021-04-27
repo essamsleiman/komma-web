@@ -55,7 +55,7 @@ function StepFour(props) {
 
         respondentName: [],
         respondentEmail: [],
-        daysSentAfter: props.event.num_days,
+        daysSentAfter: curEvent.daysSentAfter,
         // respondedSentAfter:
         sendInDaysBool: curEvent.numDaysSelected,
         notifyOnResponse: curEvent.notifyOnResponse,
@@ -71,19 +71,19 @@ function StepFour(props) {
         timePeriod: props.event.timePeriod,
         meetingStartTime: props.event.meetingStartTime,
         meetingEndTime: props.event.meetingEndTime,
-        maxTimeRange: props.event.meetingRange,
+        maxTimeRange: props.event.maxTimeRange,
         sendInDaysBool: curEvent.numDaysSelected,
 
         respondentName: [],
         respondentEmail: [],
         // daysSentAfter:
-        respondedSentAfter: props.event.respondedSentAfter,
-
+        respondedSentAfter: curEvent.respondedSentAfter,
         notifyOnResponse: curEvent.notifyOnResponse,
         availabilityHidden: curEvent.availabilityHidden,
       };
     }
 
+    console.log("ESSAM CHCK: ", postArgs)
     axios.post(`http://localhost:5000/events/add`, postArgs).then((res) => {
       console.log("in this .then part");
       console.log(`EVENT ADDED TO USER ${res.data}`);

@@ -4,6 +4,7 @@ const { google } = require("googleapis");
 const router = require("express").Router();
 require("dotenv").config();
 let Event = require("../models/event.model");
+let GoogleUser = require("../models/googleuser.model");
 // const JSONObject = require("org.json.simple.JSONObject")
 
 const { OAuth2 } = google.auth;
@@ -198,7 +199,7 @@ router.route("/add").post((req, res) => {
       daysObject,
     });
   }
-  // console.log("AT THIS POINT", newEvent);
+  console.log("NEW EVENT ESSAM: ", newEvent);
   newEvent
     .save()
     .then(() => res.json(newEvent))
@@ -212,79 +213,110 @@ router.route("/add").post((req, res) => {
 router.route("/create/:id").post((req, res) => {
   Event.findById(req.params.id)
     .then((event) => {
-      // setup host user for calendar insertion:
-      oAuth2Client.setCredentials({
-        access_token: event.hostAccessToken,
-        refresh_token: event.hostRefreshToken,
-      });
 
-      // find availability algorithm?
-      var daysObject = req.query.daysObject;
-      var start;
-      var startIndex;
+      GoogleUser.findById(event.hostID)
+        .then((user) => {
+           // setup host user for calendar insertion:
+          oAuth2Client.setCredentials({
+            access_token: user.accessToken,
+            refresh_token: user.refreshToken,
+          });
 
-      // get first time where everyone is available
-      for (let i = 0; i < daysObject.length; ++i) {
-        for (let j = 0; j < daysObject[i].times.length; ++j) {
-          if (daysObject[i].times[j][1] === daysObject[i].times[j][2]) {
-            start = daysObject[i].times[j][0];
-            break;
+          const calendar = google.calendar({ version: "v3", oAuth2Client });
+
+          // find availability algorithm?
+          var daysObject = event.daysObject;
+          var start;
+          var startIndex;
+          var meetingLength = event.timePeriod;
+          meetingLength = meetingLength / 30;
+          console.log("running");
+
+          // get first time where everyone is available
+          for (let i = 0; i < daysObject.length; ++i) {
+            let finished = false;
+            for (let j = 0; j < daysObject[i].times.length; ++j) {
+              let counter = 0;
+              let k = j;
+              // console.log("i,j", i, j, "times obj", daysObject[i].times[j], "length", daysObject[i].times.length);
+              while (daysObject[i].times[k][1] === daysObject[i].times[k][2] && k < daysObject[i].times.length) {
+                // console.log("i,k", i, k, "times obj", daysObject[i].times[j], "length", daysObject[i].times.length, "counter", counter, "meetingLength", meetingLength);
+                ++k;
+                ++counter;
+                if (counter === meetingLength) {
+                  console.log("finished counter", counter);
+                  start = daysObject[i].times[j][0];
+                  startIndex = i;
+                  finished = true;
+                  break;
+                }
+              }
+              if (finished)
+                break;
+            }
+            if (finished)
+              break;
           }
-        }
-      }
 
-      // start is now a string like: "9:30". Start index is the index i, so days after dateOfEventCreation:
+          // start is now a string like: "09:30". Start index is the index i, so days after dateOfEventCreation:
 
-      // take the startdate and get us the correct day
-      var startDate = dateOfEventCreation;
-      startDate.setDate(startDate.getDate() + startIndex);
+          // take the startdate and get us the correct day
+          let startDate = event.dateOfEventCreation;
+          startDate.setDate(startDate.getDate() + startIndex);
 
-      // get us the correct start time 
-      let hours = start.slice(0, 2);
-      let minutes = start.slice(2, 4);
-      startDate.setHours(parseInt(hours));
-      startDate.setMinutes(parseInt(minutes));
-      
-      // correct end date variable
-      let endMinutes = minutes + daysObject.timePeriod
-      let hoursToAdd = 0;
-      // lets say we have endMinutes = 90: need to add 1 hour and make minutes = 30
-      while (endMinutes >= 60) {
-        endMinutes -= 60;
-        hoursToAdd += 1;
-      }
-      let endHours = hours + hoursToAdd;
-      var endDate = startDate;
-      endDate.setMinutes(parseInt(endMinutes));
-      endDate.setHours(parseInt(endHours));
 
-      // take the start time and get us the correct time:
+          // get us the correct start time 
+          let hours = start.slice(0, 2);
+          let minutes = start.slice(3, 5);
+          startDate.setHours(parseInt(hours));
+          startDate.setMinutes(parseInt(minutes));
+          // console.log("hours, minutes", parseInt(hours), parseInt(minutes));
+          // console.log("startdate", startDate);
+          
+          // correct end date variable
+          let endMinutes = parseInt(minutes) + parseInt(event.timePeriod);
+          let hoursToAdd = 0;
+          // lets say we have endMinutes = 90: need to add 1 hour and make minutes = 30
+          while (endMinutes >= 60) {
+            endMinutes -= 60;
+            hoursToAdd += 1;
+          }
 
-      // setup event template:
-      var newevent = {
-        // summary is the name of the event
-        summary: "event.title",
-        description: "event.description",
-        // sends a calendar update to everyone
-        sendUpdates: "all",
-        start: {
-          dateTime: startDate,
-          timeZone: "America/Los_Angeles",
-        },
-        end: {
-          dateTime: endDate,
-          timeZone: "America/Los_Angeles",
-        },
-        // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
-        attendees: event.respondentEmail,
-        // this field is to create the google meet things (don't edit this its really senitive for some)
-        conferenceData: {
-          createRequest: {
-            // request ID is just a randomly generated string
-            requestId: "sample123",
-            // requestId: req.params.id,
-            conferenceSolutionKey: { type: "hangoutsMeet" },
-          },
+          let endHours = parseInt(hours) + parseInt(hoursToAdd);
+
+          var endDate = new Date(startDate);
+
+          endDate.setMinutes(parseInt(endMinutes));
+          endDate.setHours(parseInt(endHours));
+        
+
+          // take the start time and get us the correct time:
+          // console.log(event.title, event.description, startDate, endDate, event.respondentEmail);
+          // setup event template:
+          var newevent = {
+            // summary is the name of the event
+            summary: event.title,
+            description: event.description,
+            // sends a calendar update to everyone
+            sendUpdates: "all",
+            start: {
+              dateTime: startDate,
+              timeZone: "America/Los_Angeles",
+            },
+            end: {
+              dateTime: endDate,
+              timeZone: "America/Los_Angeles",
+            },
+            // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
+            attendees: event.respondentEmail,
+            // this field is to create the google meet things (don't edit this its really senitive for some)
+            conferenceData: {
+              createRequest: {
+                // request ID is just a randomly generated string
+                requestId: "sample123",
+                // requestId: req.params.id,
+                conferenceSolutionKey: { type: "hangoutsMeet" },
+              },
         },
       };
 
@@ -292,7 +324,7 @@ router.route("/create/:id").post((req, res) => {
       calendar.events.insert(
         {
           // auth is auth details
-          auth: auth,
+          auth: oAuth2Client,
           // we want the primary calendar
           calendarId: "primary",
           // resource field is the template up above
@@ -308,9 +340,17 @@ router.route("/create/:id").post((req, res) => {
           console.log("Event created!");
         }
       );
+
+
+        }).catch((err) => res.status(400).json("Error in finding user during meeting creation" + err));
+
+
+     
     })
     .catch((err) => res.status(400).json("Error in meeting creation" + err));
 });
+
+
 router.route("/update/:id").post((req, res) => {
  
   console.log("IN UPDATE BACKEND")
