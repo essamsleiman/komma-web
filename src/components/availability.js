@@ -207,6 +207,7 @@ function Availability(props) {
             setCalendarEvents(response.data);
 
             // createCalendarList();
+            setupDates();
           } else {
             console.log("hit error in calendar get axios call");
           }
@@ -384,9 +385,9 @@ function Availability(props) {
               />
             )}
           </div>
-          <button type="button" onClick={setupDates}>
+          {/* <button type="button" onClick={setupDates}>
             hi guys
-          </button>
+          </button> */}
           {/* <button type="button" onClick={createCalendarList}>
             Essam's button
           </button> */}

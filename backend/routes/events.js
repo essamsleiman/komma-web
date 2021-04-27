@@ -200,7 +200,7 @@ router.route("/add").post((req, res) => {
       daysObject,
     });
   }
-  console.log("NEW EVENT ESSAM: ", newEvent);
+  // console.log("NEW EVENT ESSAM: ", newEvent);
   newEvent
     .save()
     .then(() => res.json(newEvent))
