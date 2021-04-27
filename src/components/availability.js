@@ -258,17 +258,6 @@ function Availability(props) {
     googleEmail: "edward@email.com",
   });
 
-  /* 
-
-    These variables exist to server input_calendar.js. 
-    intervals: [the time range's start point, num marked attending/num responded so far, 
-                current user can attend] 
-    days: [{id, date, a copy of intervals showing availability for that specific day}]
-    
-  */
-  // must use JSON.parse(JSON.stringify(intervals)) to create unique multi-dimensional array copies
-
-  // EXAMPLE CODE OF INCREMENTING A DATE: https://stackoverflow.com/questions/24312296/add-one-day-to-date-in-javascript#:~:text=getDate%20only%20returns%20the%20day,setDate%20and%20appending%201.&text=JavaScript%20will%20automatically%20update%20the%20month%20and%20year%20for%20you.
   // Create new Date instance
   var date = new Date();
 
@@ -292,21 +281,6 @@ function Availability(props) {
 
   // events data is stored in the state: calendarEvents
 
-  // algorithm outline for generating a calendar interval:
-  function generateInterval() {
-    // get number of days => (0-7).
-    // get time range: i.e. 9am - 5pm
-    // map days to dates: i.e. 0->4/21, 1->4/22, 2->4/23, .... etc
-    // generates a template using dates and time ranges: (NOTE: All fields will be true)
-
-    // var template = [];
-
-    // iterate through calendarEvents state, and check for time ranges for events.
-    // algorithm to update the template when an event is found, and update those availabilities to false.
-    // return template
-    console.log("hit calendarevent inside generate Interval", calendarEvents);
-  }
-
   const calendars = [
     {
       id: 0,
@@ -315,13 +289,6 @@ function Availability(props) {
       times: calendarListState,
     },
   ];
-  // const calendars = [
-  //   { id: 0, calendarLabel: "Personal Calendar", times: calendar1_intervals },
-  //   { id: 1, calendarLabel: "UCD Calendar", times: calendar2_intervals },
-  //   { id: 2, calendarLabel: "Komma Calendar", times: calendar3_intervals },
-  // ];
-  // if (daysState[0]) {
-  //   numResponses = daysState[0].times[0][2];
 
   // const numResponses = 3;
   console.log("props.user.user", props.user.user);
