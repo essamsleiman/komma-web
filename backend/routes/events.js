@@ -219,9 +219,47 @@ router.route("/create/:id").post((req, res) => {
       });
 
       // find availability algorithm?
-
+      var daysObject = req.query.daysObject;
       var start;
-      var end;
+      var startIndex;
+
+      // get first time where everyone is available
+      for (let i = 0; i < daysObject.length; ++i) {
+        for (let j = 0; j < daysObject[i].times.length; ++j) {
+          if (daysObject[i].times[j][1] === daysObject[i].times[j][2]) {
+            start = daysObject[i].times[j][0];
+            break;
+          }
+        }
+      }
+
+      // start is now a string like: "9:30". Start index is the index i, so days after dateOfEventCreation:
+
+      // take the startdate and get us the correct day
+      var startDate = dateOfEventCreation;
+      startDate.setDate(startDate.getDate() + startIndex);
+
+      // get us the correct start time 
+      let hours = start.slice(0, 2);
+      let minutes = start.slice(2, 4);
+      startDate.setHours(parseInt(hours));
+      startDate.setMinutes(parseInt(minutes));
+      
+      // correct end date variable
+      let endMinutes = minutes + daysObject.timePeriod
+      let hoursToAdd = 0;
+      // lets say we have endMinutes = 90: need to add 1 hour and make minutes = 30
+      while (endMinutes >= 60) {
+        endMinutes -= 60;
+        hoursToAdd += 1;
+      }
+      let endHours = hours + hoursToAdd;
+      var endDate = startDate;
+      endDate.setMinutes(parseInt(endMinutes));
+      endDate.setHours(parseInt(endHours));
+
+      // take the start time and get us the correct time:
+
       // setup event template:
       var newevent = {
         // summary is the name of the event
@@ -230,11 +268,11 @@ router.route("/create/:id").post((req, res) => {
         // sends a calendar update to everyone
         sendUpdates: "all",
         start: {
-          dateTime: start,
+          dateTime: startDate,
           timeZone: "America/Los_Angeles",
         },
         end: {
-          dateTime: end,
+          dateTime: endDate,
           timeZone: "America/Los_Angeles",
         },
         // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
@@ -244,6 +282,7 @@ router.route("/create/:id").post((req, res) => {
           createRequest: {
             // request ID is just a randomly generated string
             requestId: "sample123",
+            // requestId: req.params.id,
             conferenceSolutionKey: { type: "hangoutsMeet" },
           },
         },
