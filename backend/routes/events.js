@@ -4,7 +4,9 @@ const { google } = require("googleapis");
 const router = require("express").Router();
 require("dotenv").config();
 let Event = require("../models/event.model");
+let GoogleUser = require("../models/googleuser.model");
 // const JSONObject = require("org.json.simple.JSONObject")
+const axios = require('axios');
 
 const { OAuth2 } = google.auth;
 const id = process.env.GOOGLE_CLIENT_ID;
@@ -136,7 +138,9 @@ function setupDates(eventData, intervals, dateOfEventCreation) {
 // post request tempalte
 router.route("/add").post((req, res) => {
   var dateOfEventCreation = new Date();
-  // console.log("hit in route for add");
+  // sets hour to 0 so availability for current date is good
+  dateOfEventCreation.setHours(0,0,0,0);
+  // console.log("hit in route for add"); 
   const title = req.body.title;
   const hostName = req.body.hostName;
   const hostID = req.body.hostID;
@@ -197,7 +201,7 @@ router.route("/add").post((req, res) => {
       daysObject,
     });
   }
-  // console.log("AT THIS POINT", newEvent);
+  // console.log("NEW EVENT ESSAM: ", newEvent);
   newEvent
     .save()
     .then(() => res.json(newEvent))
@@ -211,40 +215,116 @@ router.route("/add").post((req, res) => {
 router.route("/create/:id").post((req, res) => {
   Event.findById(req.params.id)
     .then((event) => {
-      // setup host user for calendar insertion:
-      oAuth2Client.setCredentials({
-        access_token: event.hostAccessToken,
-        refresh_token: event.hostRefreshToken,
-      });
 
-      // find availability algorithm?
+      GoogleUser.findById(event.hostID)
+        .then((user) => {
+           // setup host user for calendar insertion:
+          oAuth2Client.setCredentials({
+            access_token: user.accessToken,
+            refresh_token: user.refreshToken,
+          });
 
-      var start;
-      var end;
-      // setup event template:
-      var newevent = {
-        // summary is the name of the event
-        summary: "event.title",
-        description: "event.description",
-        // sends a calendar update to everyone
-        sendUpdates: "all",
-        start: {
-          dateTime: start,
-          timeZone: "America/Los_Angeles",
-        },
-        end: {
-          dateTime: end,
-          timeZone: "America/Los_Angeles",
-        },
-        // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
-        attendees: event.respondentEmail,
-        // this field is to create the google meet things (don't edit this its really senitive for some)
-        conferenceData: {
-          createRequest: {
-            // request ID is just a randomly generated string
-            requestId: "sample123",
-            conferenceSolutionKey: { type: "hangoutsMeet" },
-          },
+          const calendar = google.calendar({ version: "v3", oAuth2Client });
+
+          // find availability algorithm?
+          var daysObject = event.daysObject;
+          var start;
+          var startIndex;
+          var meetingLength = event.timePeriod;
+          meetingLength = meetingLength / 30;
+          console.log("running");
+
+          // get first time where everyone is available
+          for (let i = 0; i < daysObject.length; ++i) {
+            let finished = false;
+            for (let j = 0; j < daysObject[i].times.length; ++j) {
+              let counter = 0;
+              let k = j;
+              // console.log("i,j", i, j, "times obj", daysObject[i].times[j], "length", daysObject[i].times.length);
+              while (daysObject[i].times[k][1] === daysObject[i].times[k][2] && k < daysObject[i].times.length) {
+                // console.log("i,k", i, k, "times obj", daysObject[i].times[j], "length", daysObject[i].times.length, "counter", counter, "meetingLength", meetingLength);
+                ++k;
+                ++counter;
+                if (counter === meetingLength) {
+                  console.log("finished counter", counter);
+                  start = daysObject[i].times[j][0];
+                  startIndex = i;
+                  finished = true;
+                  break;
+                }
+              }
+              if (finished)
+                break;
+            }
+            if (finished)
+              break;
+          }
+
+          // start is now a string like: "09:30". Start index is the index i, so days after dateOfEventCreation:
+
+          // take the startdate and get us the correct day
+          let startDate = event.dateOfEventCreation;
+          startDate.setDate(startDate.getDate() + startIndex);
+
+
+          // get us the correct start time 
+          let hours = start.slice(0, 2);
+          let minutes = start.slice(3, 5);
+          startDate.setHours(parseInt(hours));
+          startDate.setMinutes(parseInt(minutes));
+          // console.log("hours, minutes", parseInt(hours), parseInt(minutes));
+          // console.log("startdate", startDate);
+          
+          // correct end date variable
+          let endMinutes = parseInt(minutes) + parseInt(event.timePeriod);
+          let hoursToAdd = 0;
+          // lets say we have endMinutes = 90: need to add 1 hour and make minutes = 30
+          while (endMinutes >= 60) {
+            endMinutes -= 60;
+            hoursToAdd += 1;
+          }
+
+          let endHours = parseInt(hours) + parseInt(hoursToAdd);
+
+          var endDate = new Date(startDate);
+
+          endDate.setMinutes(parseInt(endMinutes));
+          endDate.setHours(parseInt(endHours));
+
+          var emailsList = [];
+          for (let i = 0; i < event.respondentEmail.length; ++i) {
+            emailsList.push({'email': event.respondentEmail[i]});
+          }
+          console.log("emails", emailsList);
+        
+          
+
+          // take the start time and get us the correct time:
+          // console.log(event.title, event.description, startDate, endDate, event.respondentEmail);
+          // setup event template:
+          var newevent = {
+            // summary is the name of the event
+            summary: event.title,
+            description: event.description,
+            // sends a calendar update to everyone
+            start: {
+              dateTime: startDate,
+              timeZone: "America/Los_Angeles",
+            },
+            end: {
+              dateTime: endDate,
+              timeZone: "America/Los_Angeles",
+            },
+            // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
+            attendees: emailsList,
+            // this field is to create the google meet things (don't edit this its really senitive for some)
+            conferenceData: {
+              createRequest: {
+                // request ID is just a randomly generated string
+                requestId: "sample123",
+                // requestId: req.params.id,
+                conferenceSolutionKey: { type: "hangoutsMeet" },
+              },
         },
       };
 
@@ -252,13 +332,14 @@ router.route("/create/:id").post((req, res) => {
       calendar.events.insert(
         {
           // auth is auth details
-          auth: auth,
+          auth: oAuth2Client,
           // we want the primary calendar
           calendarId: "primary",
           // resource field is the template up above
           resource: newevent,
           // this should be set to 1 to allow for meet creation
           conferenceDataVersion: 1,
+          sendNotifications: true,
         },
         function (err, event) {
           if (err) {
@@ -268,27 +349,50 @@ router.route("/create/:id").post((req, res) => {
           console.log("Event created!");
         }
       );
+
+
+        }).catch((err) => res.status(400).json("Error in finding user during meeting creation" + err));
+
+
+     
     })
     .catch((err) => res.status(400).json("Error in meeting creation" + err));
 });
+
+
 router.route("/update/:id").post((req, res) => {
   console.log("IN UPDATE BACKEND");
+
+
 
   // console.log("REQ PARAMS: ", req.params, "query params", req.query);
   Event.findById(req.params.id)
     .then((event) => {
+<<<<<<< HEAD
       var newDaysState = [];
       var daysState = req.query.daysState;
+=======
+    
+     
+
+
+      var newDaysState = []
+      var daysState = req.query.daysState
+>>>>>>> jamesBranch2
 
       for (let i = 0; i < daysState.length; i++) {
         newDaysState.push(JSON.parse(daysState[i]));
       }
+<<<<<<< HEAD
 
       // var daysState = req.query.daysState
       // console.log("new days state", newDaysState);
       // iterate through daysState.time
       // console.log("obj and new days", event.daysObject, "new days", newDaysState);
 
+=======
+      
+>>>>>>> jamesBranch2
       console.log("testing james", newDaysState[0].times[0][1]);
 
       for (let i = 0; i < newDaysState.length; ++i) {
@@ -320,11 +424,34 @@ router.route("/update/:id").post((req, res) => {
 
       event
         .save()
-        .then(() => res.json("Event updated!"))
+        .then(() => generateCalendarEvent(event, req.params.id))
         .catch((err) => res.status(400).json("Error1: " + err));
+
+
+
     })
     .catch((err) => res.status(400).json("Error1: " + err));
 });
+
+
+
+ // case where we want to autogenerate
+ function generateCalendarEvent(event, url) {
+  if (event.respondentName.length - 1 === event.respondedSentAfter) {
+    axios.post(`http://localhost:5000/events/create/${url}`)
+    .then(res => {
+        console.log("Event Creation Success");
+    })
+    .catch(err => {
+      console.log('Error: ', err.message);
+    });
+  }
+}
+
+
+
+
+
 
 // route to find the event by ID
 router.route("/get/:id").get((req, res) => {

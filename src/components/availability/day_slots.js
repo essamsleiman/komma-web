@@ -94,11 +94,7 @@ function TimeSlots(props) {
     // first, increment all group responses by 1 if this is the person's first response
     let adjusted_responses = false;
     for (let day = 0; day < new_days.length && !adjusted_responses; day++) {
-      for (
-        let block = 0;
-        block < new_days[day].times.length && !adjusted_responses;
-        block++
-      ) {
+      for (let block = 0; block < new_days[day].times.length && !adjusted_responses; block++) {
         let can_attend = new_days[day].times[block][1];
         let total_responses = new_days[day].times[block][2];
         // check if respondents availabilities have already been calculated for
@@ -121,6 +117,7 @@ function TimeSlots(props) {
       new_days[props.id].times[line_number][3] = false;
     } else {
       // have not yet marked attending
+      console.log("marked as false", new_days[props.id].times[line_number]); 
       new_days[props.id].times[line_number][1] = ++can_attend;
       new_days[props.id].times[line_number][2] = total_responses;
       new_days[props.id].times[line_number][3] = true;
@@ -143,6 +140,7 @@ function TimeSlots(props) {
     let not_available_status = false;
     for (let i = 0; i < props.selectedCalendars.length; i++) {
       // each calendar
+      console.log(props.selectedCalendars);
       try {
         if (props.selectedCalendars[i][day][time_block][1])
           not_available_status = true;

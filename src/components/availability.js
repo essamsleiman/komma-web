@@ -35,6 +35,9 @@ function Availability(props) {
   var access;
   var refresh;
 
+  
+  
+
   // initialize an array of interval.length booleans all set to false
   // loop through all start times, checking their corresponding end time
   // if part of their time falls in the times listed in interval[i][j][0], where i represents the day and j represents the position of the interval
@@ -74,6 +77,10 @@ function Availability(props) {
     var mmCreated = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyyCreated = dateCreated.getFullYear();
 
+
+    // Events from a person's calendar on the current day only pull after the current time - meaning previous time blocks won't be pulled 
+    // Events that start before the time blocks start for a day are not parsed through to show up as red for the time blocks that they do cover (i.e. event starts at 830, but meeting blocks start at 9) 
+    // When a new month starts, there is first an empty day on the availabilities UI and then the days start populating by one day delayed 
     for (let i = 0; i < calendarEvents.items.length; i++) {
       var startDateOfEvent = new Date(calendarEvents.items[i].start.dateTime);
       // console.log("startDateOfEvent", startDateOfEvent);
@@ -83,14 +90,16 @@ function Availability(props) {
       var yyyy = startDateOfEvent.getFullYear();
 
       // To calculate the time difference of two dates
-      var calendarDay = new Date(yyyy, mm, dd);
+      var calendarDay = new Date(yyyy, mm, dd); //12 midnight
       var createdDay = new Date(yyyyCreated, mmCreated, ddCreated);
       var Difference_In_Time = Math.abs(
         calendarDay.getTime() - createdDay.getTime()
       );
 
+
       // To calculate the no. of days between two dates
       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      // Difference_In_Days;
 
       var hr = String(startDateOfEvent.getHours()).padStart(2, "0");
       var hrend = parseInt(String(endDateOfEvent.getHours()).padStart(2, "0"));
@@ -98,6 +107,7 @@ function Availability(props) {
       var minend = String(endDateOfEvent.getMinutes()).padStart(2, "0");
       // var hrDistance = hrStartRange -
       var timeRange = (parseInt(hr) - parseInt(hrStartRange)) * 2;
+      var timeRangeLate = (parseInt(hrend) - parseInt(hrStartRange)) * 2;
       if (min == "30") {
         timeRange++;
       }
@@ -109,17 +119,30 @@ function Availability(props) {
         "ESSAM CALENDAR LIST: ",
         calendarList,
         "i",
-        Difference_In_Days
+        i,
+        "diff: in days",
+        Difference_In_Days,
+        "calendar events:",
+        calendarEvents.items,
       );
+
+      // temporary fix to new month not working :)
+      if (mmCreated != mm) { 
+        --Difference_In_Days;
+      }
       if (
-        timeRange < 0 ||
+        ((timeRange < 0) && (timeRangeLate < 0)) ||
         timeRange >= calendarList[Difference_In_Days].length
       ) {
         console.log(
           "hit in timerange if statement - timerange:",
           timeRange,
           "calendar list length",
-          calendarList[Difference_In_Days].length
+          calendarList[Difference_In_Days].length,
+          "i",
+          i,
+          "timerangelate",
+          timeRangeLate,
         );
         continue;
       }
@@ -139,7 +162,9 @@ function Availability(props) {
         if (timeRange + i < calendarList[Difference_In_Days].length)
           calendarList[Difference_In_Days][timeRange + i] = true;
       }
+      // function end
     }
+
 
     for (let i = 0; i < calendarList.length; i++) {
       for (let j = 0; j < calendarList[i].length; ++j) {
@@ -147,6 +172,7 @@ function Availability(props) {
         calendarList[i][j] = ["", temp];
       }
     }
+    console.log(calendarList); 
     setCalendarListState(calendarList);
   }
   // var numResponses = -1;
@@ -174,10 +200,14 @@ function Availability(props) {
         .then((response) => {
           if (response) {
             console.log("hit CALENDAR EVENTS: ", response.data);
+            for (let i = 0; i < response.data.items.length; ++i) {
+              console.log("hit dates", response.data.items[i].start);
+            }
 
             setCalendarEvents(response.data);
 
             // createCalendarList();
+            setupDates();
           } else {
             console.log("hit error in calendar get axios call");
           }
@@ -215,7 +245,9 @@ function Availability(props) {
 
   useEffect(() => {
     if (props.user.user) {
-      if (props.user.user.id === eventData.hostID) setInputDisabled(false);
+      if (props.user.user.id === eventData.hostID) { 
+        setInputDisabled(false); 
+      } 
     }
   }, []);
 
@@ -227,17 +259,6 @@ function Availability(props) {
     googleEmail: "edward@email.com",
   });
 
-  /* 
-
-    These variables exist to server input_calendar.js. 
-    intervals: [the time range's start point, num marked attending/num responded so far, 
-                current user can attend] 
-    days: [{id, date, a copy of intervals showing availability for that specific day}]
-    
-  */
-  // must use JSON.parse(JSON.stringify(intervals)) to create unique multi-dimensional array copies
-
-  // EXAMPLE CODE OF INCREMENTING A DATE: https://stackoverflow.com/questions/24312296/add-one-day-to-date-in-javascript#:~:text=getDate%20only%20returns%20the%20day,setDate%20and%20appending%201.&text=JavaScript%20will%20automatically%20update%20the%20month%20and%20year%20for%20you.
   // Create new Date instance
   var date = new Date();
 
@@ -256,25 +277,11 @@ function Availability(props) {
 
   function setupDates() {
     setDaysState(eventData.daysObject);
+    createCalendarList()
   }
   console.log("DAYSSTATE NEW ESSAM: ", daysState);
 
   // events data is stored in the state: calendarEvents
-
-  // algorithm outline for generating a calendar interval:
-  function generateInterval() {
-    // get number of days => (0-7).
-    // get time range: i.e. 9am - 5pm
-    // map days to dates: i.e. 0->4/21, 1->4/22, 2->4/23, .... etc
-    // generates a template using dates and time ranges: (NOTE: All fields will be true)
-
-    // var template = [];
-
-    // iterate through calendarEvents state, and check for time ranges for events.
-    // algorithm to update the template when an event is found, and update those availabilities to false.
-    // return template
-    console.log("hit calendarevent inside generate Interval", calendarEvents);
-  }
 
   const calendars = [
     {
@@ -284,13 +291,6 @@ function Availability(props) {
       times: calendarListState,
     },
   ];
-  // const calendars = [
-  //   { id: 0, calendarLabel: "Personal Calendar", times: calendar1_intervals },
-  //   { id: 1, calendarLabel: "UCD Calendar", times: calendar2_intervals },
-  //   { id: 2, calendarLabel: "Komma Calendar", times: calendar3_intervals },
-  // ];
-  // if (daysState[0]) {
-  //   numResponses = daysState[0].times[0][2];
 
   // const numResponses = 3;
   console.log("props.user.user", props.user.user);
@@ -321,16 +321,14 @@ function Availability(props) {
           </div>
           <div className="col-9">
             <div className="vertical-bar"></div>
-            {props.user.user && props.user.user.id !== eventData.hostID ? (
               <TopBar
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
                 setInputDisabled={setInputDisabled}
                 meetingHostName={eventData.hostName}
+                isMeetingHost={isHost} 
+                urlId={window.location.pathname}
               />
-            ) : (
-              <div> Is Host </div>
-            )}
             {!viewingGroup ? (
               <InputCalendar
                 viewingGroup={viewingGroup}
@@ -356,12 +354,12 @@ function Availability(props) {
               />
             )}
           </div>
-          <button type="button" onClick={setupDates}>
+          {/* <button type="button" onClick={setupDates}>
             hi guys
-          </button>
-          <button type="button" onClick={createCalendarList}>
+          </button> */}
+          {/* <button type="button" onClick={createCalendarList}>
             Essam's button
-          </button>
+          </button> */}
         </div>
       </div>
     );

@@ -21,6 +21,7 @@ function InputCalendar(props) {
   const [unsavedChanges, setUnsavedChanges] = useState("none");
 
   function findCalendarLabels() {
+    console.log('calendars', props.calendars); 
     if (props.calendars == undefined) return;
     else {
       return props.calendars.map(function (calendar) {

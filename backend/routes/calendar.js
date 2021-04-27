@@ -17,6 +17,7 @@ const oAuth2Client = new OAuth2(
 // get event API
 router.route("/get").get((req, res1) => {
   // setup host user for calendar grabbing:
+  console.log("in calendar get request");
 
   // console.log("PARAMS ESSAM NEW Query: ", req.query.access, req.query.refresh);
   oAuth2Client.setCredentials({
