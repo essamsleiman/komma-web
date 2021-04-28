@@ -7,7 +7,7 @@ body {
   overflow-x: hidden;
 }
 
-.nav-bar h3 {
+.nav-bar p, .nav-bar h3 {
   margin: 0;
 }
 
@@ -20,20 +20,24 @@ body {
   align-items: center;
 }
 .nav-bar .left img {
-  width: 2.75rem;
+  width: 2rem;
   transition: all 0.3s;
   cursor: pointer;
 }
 .nav-bar .left img:hover {
   opacity: 0.8;
 }
+.beta-text {
+  display: flex;
+  align-items: baseline;
+}
 .nav-bar .komma {
-  margin-left: 0.5rem;
+  margin-left: 0.75rem;
 }
 .nav-bar .beta {
-  margin: 0 0.5rem;
+  margin: 0 0.25rem 0 0.5rem;
 }
-.nav-bar .left span {
+.nav-bar p {
   color: var(--mediumgray);
 }
 
