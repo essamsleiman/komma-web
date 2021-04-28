@@ -113,7 +113,10 @@ function TimeSlots(props) {
       new_days[props.id].times[line_number][1] = ++can_attend;
       new_days[props.id].times[line_number][2] = total_responses;
       new_days[props.id].times[line_number][3] = true;
-      new_days[props.id].times[line_number][6] = 1; // update the red calendar import block testing state 
+      if (new_days[props.id].times[line_number][6] == 2) 
+        new_days[props.id].times[line_number][6] = 1;
+      else
+        new_days[props.id].times[line_number][6] = 3; // update the red calendar import block testing state 
     }
     console.log(new_days);
 

@@ -199,7 +199,8 @@ function Availability(props) {
             if (responseJson) {
 
               // update the red calendar import block testing state 
-              // 0 = white, 1 = green, 2 = red 
+              // 0 = white, 1 = green and used to be red, 2 = red, 3 = green and was never red 
+              // if a white block is clicked go from 0 to 3 
               // if a red block is clicked go from 2 to 1 
               // if it is clicked again, go from 1 to 2 
               for (let i = 0; i < responseEvent.data.daysObject; i++) { 
