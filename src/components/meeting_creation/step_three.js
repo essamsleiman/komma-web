@@ -137,20 +137,28 @@ function StepThree(props) {
       value: 1,
     },
     {
+      label: "the next 2 days",
+      value: 2,
+    },
+    {
       label: "the next 3 days",
       value: 3,
+    },
+    {
+      label: "the next 4 days",
+      value: 4,
     },
     {
       label: "the next 5 days",
       value: 5,
     },
     {
-      label: "the next 7 days",
-      value: 7,
+      label: "the next 6 days",
+      value: 6,
     },
     {
-      label: "the next month",
-      value: 30,
+      label: "the next 7 days",
+      value: 7,
     },
   ];
 
@@ -167,16 +175,8 @@ function StepThree(props) {
 
   const meetingDurationsMinutes = [
     {
-      label: "15",
-      value: "15",
-    },
-    {
       label: "30",
       value: "30",
-    },
-    {
-      label: "45",
-      value: "45",
     },
     {
       label: "60",

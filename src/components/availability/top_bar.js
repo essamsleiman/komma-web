@@ -3,6 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/top_bar.css";
 import googleCompanyLogo from "../../img/google_company_logo.png";
 import placeholderProfilePic from "../../img/placeholder_profile_pic.png";
+import { fetchUser } from "../../../src/Redux/actions/userActions";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 function TopBar(props) {
   console.log(props.viewingGroup); 
@@ -89,6 +92,7 @@ function TopBar(props) {
   }
 
   // console.log(props.isMeetingHost, props.userInfo.signedIn);
+  console.log(props.user.user); 
 
   return (
     <div className="top-content-container top-bar">
@@ -218,4 +222,18 @@ function TopBar(props) {
   );
 }
 
-export default TopBar;
+
+
+TopBar.propTypes = {
+
+  fetchUser: PropTypes.func.isRequired,
+  user: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
+
+export default connect(mapStateToProps, { fetchUser })(
+  TopBar
+);

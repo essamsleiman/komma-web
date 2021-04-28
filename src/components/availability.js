@@ -183,7 +183,7 @@ function Availability(props) {
           setNumResponses(responseEvent.data.daysObject[0].times[0][2]);
           // console.log("hit numresponses", numResponses);
           setEventData(responseEvent.data);
-          setDaysState(eventData.daysObject);
+          // setDaysState(eventData.daysObject);
         } else {
           console.log("hit error in eventPage axios call");
         }
@@ -197,7 +197,7 @@ function Availability(props) {
           })
           .then((responseJson) => {
             if (responseJson) {
-
+              
               // update the red calendar import block testing state 
               // 0 = white, 1 = green and used to be red, 2 = red, 3 = green and was never red 
               // if a white block is clicked go from 0 to 3 
@@ -213,7 +213,8 @@ function Availability(props) {
               var dateCreated = new Date(responseEvent.data.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
               var first = new Date(dateCreated);
               var end = new Date(dateCreated);
-              end.setDate(end.getDate() + responseEvent.data.maxTimeRange);
+              // add 1 extra day because the dates set set to time 0000 (midnight aka. earliest time in next day);
+              end.setDate(end.getDate() + responseEvent.data.maxTimeRange + 1);
 
               axios
                 .get(`http://localhost:5000/calendar/get`, {
