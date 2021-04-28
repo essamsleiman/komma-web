@@ -4,13 +4,7 @@ import "../css/left_bar.css";
 import copy_icon from "../../img/copy_icon.svg";
 
 function LeftBar(props) {
-  //   var data = {
-  //     name: props.eventData.title,
-  //     meetingDuration: "60",
-  //     meetingDurationUnits: "minutes",
-  //     location: props.eventData.location,
-  //     address: "Some Fake Address",
-  //   };
+
   console.log("hit leftbar props", props);
   var data = {
     name: props.title,
@@ -31,12 +25,6 @@ function LeftBar(props) {
   }
 
 
-  // var respondents = [
-  //   "Edward Chew",
-  //   "James Junaidi",
-  //   "Omid Mogasemi",
-  //   "Essam Sleiman",
-  // ];
   var inviteLink = `komma.com${props.urlId}`;
   const [linkFieldContent, setLinkFieldContent] = useState(inviteLink);
   function changeViewButton() {
