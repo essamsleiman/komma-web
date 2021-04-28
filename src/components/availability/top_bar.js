@@ -87,7 +87,7 @@ function TopBar(props) {
     return;
   }
 
-  console.log(props.isMeetingHost, props.userInfo.signedIn);
+  // console.log(props.isMeetingHost, props.userInfo.signedIn);
 
   return (
     <div className="top-content-container top-bar">

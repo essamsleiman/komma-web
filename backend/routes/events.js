@@ -396,12 +396,7 @@ router.route("/update/:id").post((req, res) => {
         }
       }
 
-      // console.log(
-      //   "obj and new days",
-      //   event.daysObject,
-      //   "new days",
-      //   newDaysState
-      // );
+    
 
       event.daysObject = newDaysState;
 

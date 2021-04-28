@@ -244,7 +244,6 @@ class DropdownMultiple extends Component {
       scrollList,
     } = styles;
 
-    console.log(disabled); 
 
     return (
       <div
