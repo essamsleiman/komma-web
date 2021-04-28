@@ -356,7 +356,7 @@ function Availability(props) {
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               setInputDisabled={setInputDisabled}
-              meetingHostName={eventData.hostName}
+              meetingHostName={eventData.hostName.substring(0, eventData.hostName.indexOf(' '))}
               isMeetingHost={isHost}
               urlId={window.location.pathname}
               viewingGroup={viewingGroup}

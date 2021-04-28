@@ -6,6 +6,7 @@ import placeholderProfilePic from "../../img/placeholder_profile_pic.png";
 import { fetchUser } from "../../../src/Redux/actions/userActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import axios from "axios";
 
 function TopBar(props) {
   console.log(props.viewingGroup); 
@@ -116,7 +117,15 @@ function TopBar(props) {
                   <button
                     className="google-button"
                     onClick={() => {
-                      window.open("http://localhost:5000/auth/google", "_self");
+                      console.log(props.urlId.substring(14))
+                      console.log(props.urlId)
+                      axios
+                      .get(`http://localhost:5000/auth/reroute/${props.urlId.substring(14)}`)
+                      .then(() => {
+                        console.log("in .then")
+                        window.open("http://localhost:5000/auth/google", "_self");
+
+                      });
                     }}
                   >
                     <img

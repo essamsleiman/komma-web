@@ -14,6 +14,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 // let Event = require("../models/event.model");
 // let Org = require("../models/org.model");
+var reroute = "";
 
 // we can grab these keys from .env file
 
@@ -23,7 +24,11 @@ const oAuth2Client = new OAuth2(
 );
 
 const mongoose = require("mongoose");
-router.get("/", (req, res) => res.send("hi"));
+router.get("/reroute/:id", (req, res) => {
+  console.log(req.params.id);
+  reroute = req.params.id;
+  res.json("SUCCESS");
+});
 router.get("/failed", (req, res) => res.send("failure"));
 
 // Calls google auth api
@@ -49,7 +54,15 @@ router.get(
   }),
   function (req, res, next) {
     // res.send(req.user);
-    res.redirect("http://localhost:3000/create/");
+    console.log("second redirect");
+
+    // res.redirect("back");
+    if (reroute != "") {
+      res.redirect(`http://localhost:3000/availability/${reroute}`);
+      reroute = "";
+    } else {
+      res.redirect("http://localhost:3000/create/");
+    }
   }
 );
 
@@ -66,7 +79,9 @@ router.get(
       // console.log("NOW USER: ", req.user);
       // console.log("PASS in REQ");
       const user = {
-        name: req.user.firstName,
+        name: `${req.user.firstName} ${req.user.lastName}`,
+        firstName: `${req.user.firstName} `,
+        lastName: `${req.user.firstName} `,
         id: req.user._id,
         accessToken: req.user.accessToken,
         refreshToken: req.user.refreshToken,
