@@ -82,6 +82,10 @@ input:checked + .slider:before {
   color: var(--mediumgray);
 }
 
+.advanced-select-text-wrapper .label {
+  color: var(--mediumgray);
+}
+
 .left-inline-text { 
   display: inline-block;
   padding-right: 10px;

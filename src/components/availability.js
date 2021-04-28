@@ -30,7 +30,7 @@ function Availability(props) {
 
   // var isHost = props.user.user.id === ;
   const [viewingGroup, setViewingGroup] = useState(false);
-  const [inputDisabled, setInputDisabled] = useState(false);
+  const [inputDisabled, setInputDisabled] = useState(true);
   var user = {};
   var access;
   var refresh;
@@ -269,13 +269,13 @@ function Availability(props) {
     // alert("axios call finished");
   }, []);
 
-  useEffect(() => {
-    if (props.user.user) {
-      if (props.user.user.id === eventData.hostID) {
-        setInputDisabled(false);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (props.user.user) {
+  //     if (props.user.user.id === eventData.hostID) {
+  //       setInputDisabled(false);
+  //     }
+  //   }
+  // }, []);
 
   const [userInfo, setUserInfo] = useState({
     signedIn: false,
@@ -318,7 +318,7 @@ function Availability(props) {
   var isHost;
   
   // console.log("JAMES CHECK: ", isHost)
-  if (props.user.user === {} || typeof props.user.user === "undefined" || typeof eventData.hostID === "undefined" || typeof daysState === "undefined" ) {
+  if (typeof eventData.hostID === "undefined" || typeof daysState === "undefined" ) {
     return ( 
       <div align="center" style={{marginTop: "100px"}}>
         <div class="spinner-border text-primary" role="status">
@@ -331,6 +331,8 @@ function Availability(props) {
      typeof props.user.user !== "undefined" && props.user.user !== {}
       ? props.user.user.id === eventData.hostID
       : false;
+
+      console.log(props.user.user); 
    
     return (
       <div>
@@ -345,7 +347,12 @@ function Availability(props) {
               meetingDuration={eventData.timePeriod}
               isHost={isHost}
               urlId={window.location.pathname}
-              name={props.user.user.name}
+              name={() => {
+                if (props.user.user.name == undefined)
+                  return "garbage name"
+                else
+                  return props.user.user.name == undefined
+              }}
               responded={responded}
             />
           </div>
@@ -367,13 +374,23 @@ function Availability(props) {
                 // intervals={intervals}
                 days={daysState}
                 setDays={setDaysState}
-                inputDisabled={inputDisabled}
+                inputDisabled={props.user.user == undefined}
                 numResponses={numResponses}
                 calendars={calendars}
                 eventId={eventID}
                 eventData={eventData}
-                email={props.user.user.email}
-                name={props.user.user.name}
+                name={() => {
+                  if (props.user.user.email == undefined)
+                    return "garbage email"
+                  else
+                    return props.user.user.email == undefined
+                }}
+                name={() => {
+                  if (props.user.user.name == undefined)
+                    return "garbage name"
+                  else
+                    return props.user.user.name == undefined
+                }}
                 setResponded={setResponded}
               />
             ) : (
@@ -382,7 +399,7 @@ function Availability(props) {
                 // intervals={daysState}
                 days={daysState}
                 setDays={setDaysState}
-                inputDisabled={inputDisabled}
+                inputDisabled={props.user.user == undefined}
                 numResponses={numResponses}
                 name={props.user.user.name}
                 responded={responded}

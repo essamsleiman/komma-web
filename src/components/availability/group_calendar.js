@@ -38,6 +38,7 @@ function GroupCalendar(props) {
   function getHourLabels() {
     let label_list = [];
     // Base labels off of first day in the list's times (props.days[0].times)
+    label_list.push(getPrevHour());
     props.days[0].times.map((interval) => {
       let hour = parseInt(interval[0].split(":")[0]);
       let minutes = parseInt(interval[0].split(":")[1]);
@@ -46,10 +47,16 @@ function GroupCalendar(props) {
       if (minutes == "00")
         label_list.push(<p className="label">{twelveHour + " " + period}</p>);
     });
-    label_list.push(getNextHour());
     return label_list;
   }
 
+  function getPrevHour() {
+    let firstHour = parseInt(props.days[0].times[0][0]);
+    let period = firstHour >= 12 ? "pm" : "am";
+    return <p className="label">{firstHour + " " + period}</p>;
+  }
+
+  // ** This function will only be used if we decide to store start times **
   function getNextHour() {
     // Check second to last interval to calculate
     // lastHour is the start time of the last interval (ex "10")
