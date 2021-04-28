@@ -19,7 +19,7 @@ import axios from "axios";
 function InputCalendar(props) {
   const [selectedCalendars, setSelectedCalendars] = useState([]);
   const [unsavedChanges, setUnsavedChanges] = useState("none");
-
+  
   function findCalendarLabels() {
     // console.log('calendars', props.calendars); 
     if (props.calendars == undefined) return;
@@ -64,7 +64,8 @@ function InputCalendar(props) {
 
   function getHourLabels() {
     let label_list = [];
-    props.intervals.map((interval) => {
+    // Base labels off of first day in the list's times (props.days[0].times)
+    props.days[0].times.map((interval) => {
       let hour = parseInt(interval[0].split(":")[0]);
       let minutes = parseInt(interval[0].split(":")[1]);
       let twelveHour = ((hour + 11) % 12) + 1;
@@ -79,8 +80,7 @@ function InputCalendar(props) {
   function getNextHour() {
     // Check second to last interval to calculate
     // lastHour is the start time of the last interval (ex "10")
-    let lastHour = parseInt(props.intervals.slice(-2)[0][0]);
-    // console.log("last hr: " + lastHour);
+    let lastHour = parseInt(props.days[0].times.slice(-2)[0][0]);
     let nextHour = ((lastHour + 1 + 11) % 12) + 1;
     if (nextHour == 0) nextHour = 12;
     let period = lastHour >= 11 ? "pm" : "am";
@@ -221,6 +221,7 @@ function InputCalendar(props) {
                     selectedCalendars={selectedCalendars}
                     inputDisabled={props.inputDisabled}
                     setUnsavedChanges={setUnsavedChanges}
+                    setResponded={props.setResponded}
                   />
                 </div>
               );
@@ -238,16 +239,10 @@ function InputCalendar(props) {
           className="label italic"
           style={unsavedChanges == "none" ? { display: "none" } : {}}
         >
-          {unsavedChanges == "true"
-            ? "Unsaved changes."
-            : "Availabilities sent!"}
+          {unsavedChanges == "true" ? "Unsaved changes." : "Availabilities sent!"}
         </p>
         <button
-          className={
-            props.inputDisabled || unsavedChanges == "false"
-              ? "disabled-button"
-              : "solid-button"
-          }
+          className={props.inputDisabled || unsavedChanges == "false" ? "disabled-button" : "solid-button"}
           disabled={props.inputDisabled}
           onClick={handleSendAvailability}
         >

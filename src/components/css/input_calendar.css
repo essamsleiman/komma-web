@@ -53,14 +53,16 @@
   display: inline-block; 
 }
 .hour-labels {
-  margin: 2.5rem 1rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 2.5rem 1rem -0.4rem 2rem;
   text-align: right;
 }
 .hour-labels p {
   margin-bottom: 1.25rem;
   user-select: none; 
 }
-
 .submit-container {
   display: flex;
   flex-direction: column;

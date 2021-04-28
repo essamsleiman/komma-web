@@ -35,6 +35,8 @@ function Availability(props) {
   var access;
   var refresh;
 
+  const [responded, setResponded] = useState(false);  // Respondent has clicked the availability input, regardless of if changes sent
+
   // initialize an array of interval.length booleans all set to false
   // loop through all start times, checking their corresponding end time
   // if part of their time falls in the times listed in interval[i][j][0], where i represents the day and j represents the position of the interval
@@ -341,6 +343,8 @@ function Availability(props) {
               meetingDuration={eventData.timePeriod}
               isHost={isHost}
               urlId={window.location.pathname}
+              name={props.user.user.name}
+              responded={responded}
             />
           </div>
           <div className="col-9">
@@ -353,11 +357,12 @@ function Availability(props) {
               meetingHostName={eventData.hostName}
               isMeetingHost={isHost}
               urlId={window.location.pathname}
+              viewingGroup={viewingGroup}
             />
             {!viewingGroup ? (
               <InputCalendar
                 viewingGroup={viewingGroup}
-                intervals={intervals}
+                // intervals={intervals}
                 days={daysState}
                 setDays={setDaysState}
                 inputDisabled={inputDisabled}
@@ -367,15 +372,18 @@ function Availability(props) {
                 eventData={eventData}
                 email={props.user.user.email}
                 name={props.user.user.name}
+                setResponded={setResponded}
               />
             ) : (
               <GroupCalendar
                 viewingGroup={viewingGroup}
-                intervals={daysState}
+                // intervals={daysState}
                 days={daysState}
                 setDays={setDaysState}
                 inputDisabled={inputDisabled}
                 numResponses={numResponses}
+                name={props.user.user.name}
+                responded={responded}
               />
             )}
           </div>
