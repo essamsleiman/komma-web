@@ -37,21 +37,7 @@ function InputCalendar(props) {
     }
     setSelectedCalendars(newSelectedCalendars);
     props.setResponded(true);
-    // Faster, better method that doesn't re-render and pass down into day_slots.js
-    // console.log(selectedCalendars);
-    // let newDays = props.days;
-    // for (let i = 0; i < selectedCalendars.length; i++) { // each calendar
-    //     for (let j = 0; j < newDays.length; j++) { // each day
-    //         for (let k = 0; k < newDays[j].times.length; k++) { // each time slot
-    //             if (selectedCalendars[i][j][k][1]) { // set unavailable if calendar indicates busy
-    //                 newDays[j].times[k].push(false);
-    //             }
-    //             // console.log(selectedCalendars[i][j][k][1], props.days[i].times[j][2])
-    //         }
-    //     }
-    // }
-    // console.log(newDays);
-    // setUnavailableHours(newDays);
+
   }
 
   function adjustIntervals() {
@@ -139,31 +125,13 @@ function InputCalendar(props) {
       )
       .then(
         (res) => {
-          // console.log("SUCESSFULLY UPDATED");
-          // console.log(`EVENT ADDED TO USER ${res.data}`);
+;
         },
         (err) => {
           console.log("ERROR: ", err);
         }
       );
 
-    // for (let day = 0; day < new_days.length; day++) {
-    //     for (let block = 0; block < new_days[day].times.length; block++) {
-    //         let old_attendance_num = new_days[day].times[block][1]
-    //         let can_attend = parseInt(old_attendance_num.substring(0, old_attendance_num.indexOf(',')))
-    //         let total_responses = parseInt(old_attendance_num.substring(old_attendance_num.indexOf(',') + 1))
-    //         total_responses++;
-    //         if (new_days[day].times[block][2]) { // can attend this time block
-    //             new_days[day].times[block][1] = ++can_attend + '/' + total_responses
-    //         }
-    //         else { // cannot attend this time block
-    //             new_days[day].times[block][1] = can_attend + '/' + total_responses
-    //         }
-    //     }
-    // }
-
-    // console.log(new_days)
-    // props.setDays(JSON.parse(JSON.stringify(new_days)))
     setUnsavedChanges("false");
   }
 

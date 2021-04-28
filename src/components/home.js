@@ -45,26 +45,7 @@ function Home(props) {
   function signin() {}
   console.log("COOKIE", document.cookie);
   useEffect(() => {
-    //   val = profileInfoState.userEventData;
-    // fetch("http://localhost:5000/auth/success", {
-    //   method: "GET",
-    //   credentials: "include",
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) return response.json();
-    //     throw new Error("failed to authenticate user");
-    //   })
-    //   .then((responseJson) => {
-    //     if (responseJson) {
-    //       console.log("RESPONSE In HOme: ", responseJson);
-    //       setUserToken(responseJson);
-    //     } else {
-    //       console.log("no response from server");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(`error: ${error}`);
-    //   });
+
 
     console.log("hit fetchuser", props.fetchUser());
   }, []);
@@ -116,77 +97,7 @@ function Home(props) {
           </div>
         </div>
       </div>
-
     </div>
-
-      /* <button
-        onClick={() => {
-          window.open("http://localhost:5000/auth/google", "_self");
-        }}
-
-        // onClick={() => {
-        //   axios.get("http://localhost:5000/auth/google").then((response) => {
-
-        //       if (response) {
-        //         console.log("ESSAM RESPONSE: ",response)
-        //       } else {
-        //         console.log("no response from server");
-        //       }
-        //     });
-        //window.open("http://localhost:5000/auth/events", "_self");
-        // }}
-      >
-        Sign in with Google
-      </button>
-
-      <button
-        onClick={() => {
-          console.log("FRONTEND ERROR ESSAM");
-          // console.log("userToken:", userToken);
-
-          props.fetchCalendar(props.user.accessToken);
-          // axios
-          //   .get("http://localhost:5000/auth/events", {
-          //     headers: {
-          //       Authorization: `Bearer ${props.user.accessToken}`,
-          //     },
-          //   })
-          //   .then((response) => {
-          //     if (response) {
-          //       console.log(response);
-          //     } else {
-          //       console.log("no response from server");
-          //     }
-          //   });
-          //window.open("http://localhost:5000/auth/events", "_self");
-        }}
-      >
-        Sync with Calendar
-      </button>
-      <button
-        onClick={() => {
-          // history.push(`/events/${eventId}`)
-          history.push(`/events`)
-        }}
-      >
-        Render an Event Page 
-      </button>
-      <button
-        onClick={() => {
-          // history.push(`/events/${eventId}`)
-          window.open("http://localhost:5000/events")
-        }}
-      >
-        Log the Events in Console
-      </button>
-      
-      <button
-        onClick={() => {
-          createEvent();
-        }}
-      >
-        add a new event to the DB
-      </button> */
   );
 }
 

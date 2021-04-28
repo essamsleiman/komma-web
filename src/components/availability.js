@@ -11,14 +11,7 @@ import { fetchUser } from "../Redux/actions/userActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-// import testing data
-import {
-  intervals,
-  calendar1_intervals,
-  calendar2_intervals,
-  calendar3_intervals,
-} from "./test_data";
-// import { NULL } from "node-sass";
+
 
 function Availability(props) {
   // variables to hold event data
@@ -252,30 +245,9 @@ function Availability(props) {
             console.log(`error1: ${error}`);
           });
         });
-    // axios call to get the data:
-    // axios
-    //   .get(`http://localhost:5000/events/get/${eventID}`)
-    //   .then((response) => {
-    //     if (response) {
-    //       console.log("hit response in eventPage", response);
-    //       setNumResponses(response.data.daysObject[0].times[0][2]);
-    //       console.log("hit numresponses", numResponses);
-    //       setEventData(response.data);
-    //       setDaysState(eventData.daysObject);
-    //     } else {
-    //       console.log("hit error in eventPage axios call");
-    //     }
-    //   });
-    // alert("axios call finished");
+ 
   }, []);
 
-  // useEffect(() => {
-  //   if (props.user.user) {
-  //     if (props.user.user.id === eventData.hostID) {
-  //       setInputDisabled(false);
-  //     }
-  //   }
-  // }, []);
 
   const [userInfo, setUserInfo] = useState({
     signedIn: false,
@@ -410,12 +382,6 @@ function Availability(props) {
               />
             )}
           </div>
-          {/* <button type="button" onClick={setupDates}>
-            hi guys
-          </button>
-          <button type="button" onClick={createCalendarList}>
-            Essam's button
-          </button> */}
         </div>
       </div>
     );

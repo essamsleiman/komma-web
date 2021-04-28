@@ -104,11 +104,7 @@ function format(date) {
 
 function setupDates(eventData, intervals, dateOfEventCreation) {
   var dateCreated = new Date(dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
-  // var dd = String(dateCreated.getDate()).padStart(2, "0");
-  // var mm = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
-  // var yyyy = dateCreated.getFullYear();
 
-  // var daysInitial = []; // the days initial object
   // get number of days after:
   var days = eventData.maxTimeRange;
 
