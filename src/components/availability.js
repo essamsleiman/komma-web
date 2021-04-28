@@ -348,9 +348,10 @@ function Availability(props) {
       : false;
 
       console.log(props.user.user); 
-   
+      console.log("ESSAM EVENTDATA: ", eventData)
       var name = getName()
       var email = getEmail()
+      console.log("hit days state", daysState);
     return (
       <div>
         <div className="row no-gutters justify-content-center shadow-card top-margin">
@@ -403,7 +404,7 @@ function Availability(props) {
                 setDays={setDaysState}
                 inputDisabled={props.user.user == undefined}
                 numResponses={numResponses}
-                name={props.user.user.name}
+                name={name}
                 responded={responded}
                 setResponded={setResponded}
               />

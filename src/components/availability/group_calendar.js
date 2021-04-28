@@ -36,6 +36,8 @@ function GroupCalendar(props) {
   }
 
   function getHourLabels() {
+    console.log("Gen hour labels:");
+    console.log(props.days[0].times);
     let label_list = [];
     // Base labels off of first day in the list's times (props.days[0].times)
     label_list.push(getPrevHour());
@@ -52,8 +54,9 @@ function GroupCalendar(props) {
 
   function getPrevHour() {
     let firstHour = parseInt(props.days[0].times[0][0]);
+    let twelveHour = ((firstHour + 11) % 12) + 1;
     let period = firstHour >= 12 ? "pm" : "am";
-    return <p className="label">{firstHour + " " + period}</p>;
+    return <p className="label">{twelveHour + " " + period}</p>;
   }
 
   // ** This function will only be used if we decide to store start times **

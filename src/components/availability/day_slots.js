@@ -228,7 +228,7 @@ function TimeSlots(props) {
     // prevHour in 12 hour time
     let prevHour = nextMinutes == 0 ? ((nextHour - 1 + 11) % 12) + 1 : ((nextHour + 11) % 12) + 1;
     let prevMinutes = nextMinutes == 0 ? "30" : "00";
-    let period = (prevHour <= 11) ? "am" : "pm";
+    let period = ((nextHour <= 11) || (prevHour == 11 && prevMinutes == 30))? "am" : "pm";
     return prevHour + ":" + prevMinutes + " " + period;
   }
 

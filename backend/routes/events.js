@@ -61,10 +61,19 @@ function getCalendarList(eventData) {
     for (let j = 0; j < timeRange; j++) {
       let curInterval = [];
       if (meetingTime.substring(3) == "30") {
+        let tempHour = parseInt(meetingTime.substring(0, 2)) + 1;
+        let tempHourStr = "";
+        if (tempHour < 10) {
+          tempHourStr = "0" + tempHour.toString();
+        } else {
+          tempHourStr = tempHour.toString();
+        }
+        // tempHourStr = HH in HH:MM
         meetingTime = meetingTime.replace(
           meetingTime.substring(0, 2),
-          String(parseInt(meetingTime.substring(0, 2)) + 1)
+          tempHourStr
         );
+
         meetingTime = meetingTime.replace(meetingTime.substring(3), "00");
       } else {
         meetingTime = meetingTime.replace(meetingTime.substring(3), "30");
@@ -305,7 +314,7 @@ router.route("/create/:id").post((req, res) => {
           }
 
           //console.log("emails", emailsList);
-          
+
           let newevent = {};
 
           // check if event in person
@@ -410,7 +419,7 @@ router.route("/update/:id").post((req, res) => {
 
       for (let i = 0; i < newDaysState.length; ++i) {
         for (let j = 0; j < newDaysState[i].times.length; ++j) {
-          // OMID'S COMMENT - isn's this gonna break when edward adjusts groups to automatically readjust those lists? 
+          // OMID'S COMMENT - isn's this gonna break when edward adjusts groups to automatically readjust those lists?
           // case where it is selected
           if (newDaysState[i].times[j][3] == true) {
             newDaysState[i].times[j][4].push(req.query.name);
@@ -422,8 +431,6 @@ router.route("/update/:id").post((req, res) => {
           newDaysState[i].times[j][3] = false;
         }
       }
-
-    
 
       event.daysObject = newDaysState;
 
