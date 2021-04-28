@@ -105,7 +105,7 @@ function InputCalendar(props) {
       },
     };
 
-    // console.log("PARAMS: ", parameters);
+    console.log("PARAMS: ", parameters);
     axios
       .post(
         `http://localhost:5000/events/update/${props.eventId}`,

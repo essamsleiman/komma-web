@@ -414,7 +414,7 @@ router.route("/update/:id").post((req, res) => {
 
 // case where we want to autogenerate
 function generateCalendarEvent(event, url) {
-  if (event.respondentName.length - 1 === event.respondedSentAfter) {
+  if (event.respondentName.length - 1 >= event.respondedSentAfter) {
     axios
       .post(`http://localhost:5000/events/create/${url}`)
       .then((res) => {
