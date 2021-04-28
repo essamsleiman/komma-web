@@ -213,6 +213,7 @@ router.route("/add").post((req, res) => {
 
 // TODO - Check if the actual event is even a hangouts event and fix the field accordingly.
 router.route("/create/:id").post((req, res) => {
+  console.log("In create Meeting API");
   Event.findById(req.params.id)
     .then((event) => {
       GoogleUser.findById(event.hostID)
@@ -248,7 +249,7 @@ router.route("/create/:id").post((req, res) => {
                 ++k;
                 ++counter;
                 if (counter === meetingLength) {
-                  console.log("finished counter", counter);
+                  // console.log("finished counter", counter);
                   start = daysObject[i].times[j][0];
                   startIndex = i;
                   finished = true;
@@ -269,6 +270,13 @@ router.route("/create/:id").post((req, res) => {
           // get us the correct start time
           let hours = start.slice(0, 2);
           let minutes = start.slice(3, 5);
+          // fixing how it's off by 30 mins:
+          if (parseInt(minutes) === 30) {
+            minutes = 0;
+          } else if (parseInt(minutes) === 0) {
+            minutes = 30;
+            hours--;
+          }
           startDate.setHours(parseInt(hours));
           startDate.setMinutes(parseInt(minutes));
           // console.log("hours, minutes", parseInt(hours), parseInt(minutes));
@@ -372,7 +380,7 @@ router.route("/update/:id").post((req, res) => {
         newDaysState.push(JSON.parse(daysState[i]));
       }
 
-      console.log("testing james", newDaysState[0].times[0][1]);
+      // console.log("testing james", newDaysState[0].times[0][1]);
 
       for (let i = 0; i < newDaysState.length; ++i) {
         for (let j = 0; j < newDaysState[i].times.length; ++j) {
@@ -382,18 +390,18 @@ router.route("/update/:id").post((req, res) => {
           } else {
             newDaysState[i].times[j][5].push(req.query.name);
           }
-          console.log("james counter", i, j);
+          // console.log("james counter", i, j);
 
           newDaysState[i].times[j][3] = false;
         }
       }
 
-      console.log(
-        "obj and new days",
-        event.daysObject,
-        "new days",
-        newDaysState
-      );
+      // console.log(
+      //   "obj and new days",
+      //   event.daysObject,
+      //   "new days",
+      //   newDaysState
+      // );
 
       event.daysObject = newDaysState;
 

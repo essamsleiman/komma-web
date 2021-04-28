@@ -12,10 +12,31 @@ const secret = process.env.GOOGLE_CLIENT_SECRET;
 // const oAuth2Client = new OAuth2(id, secret);
 const oAuth2Client = new OAuth2(id, secret);
 
+router.route("/getCalendars").get((req, res) => {
+  // console.log("intside getcalendars api", req.query);
+  oAuth2Client.setCredentials({
+    access_token: req.query.access,
+    refresh_token: req.query.refresh,
+  });
+
+  const calendar = google.calendar({ version: "v3", oAuth2Client });
+  calendar.calendarList.list(
+    {},
+    (err, result) => {
+      if (err) {
+        console.log("error in calendar list output" + err);
+      } else {
+        console.log("Output of calendar list" + JSON.stringify(result));
+        res.json(result);
+      }
+    }
+  )
+})
+
 // get event API
 router.route("/get").get((req, res1) => {
   // setup host user for calendar grabbing:
-  console.log("in calendar get request", req.query);
+  // console.log("in calendar get request", req.query);
 
   // console.log("PARAMS ESSAM NEW Query: ", req.query.access, req.query.refresh);
   oAuth2Client.setCredentials({
@@ -67,7 +88,7 @@ router.route("/get").get((req, res1) => {
         // orderBy: "startTime",
       },
       (err, res) => {
-        if (err) return console.log("The API returned an error: " + err);
+        if (err) return console.log("The API returned an error calendar: " + err);
         const events = res.data.items;
         res1.json(res.data);
         if (events.length) {

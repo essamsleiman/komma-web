@@ -40,7 +40,7 @@ function Availability(props) {
   // if part of their time falls in the times listed in interval[i][j][0], where i represents the day and j represents the position of the interval
   // then mark those specific entries as true
 
-  function createCalendarList() {
+  function createCalendarList(eventData, calendarEvents) {
     for (let i = 0; i < eventData.maxTimeRange; i++) {
       var timeRange =
         (parseInt(eventData.meetingEndTime.substring(0, 2)) -
@@ -179,34 +179,7 @@ function Availability(props) {
     var first = new Date(dateCreated);
     var end = new Date(dateCreated);
     end.setDate(end.getDate() + eventData.maxTimeRange);
-    if (props.user.user) {
-      axios
-        .get(`http://localhost:5000/calendar/get`, {
-          params: {
-            // access and refresh tokens being passed in
-            access: props.user.user.accessToken,
-            refresh: props.user.user.refreshToken,
-            // time min and max parameters being passed in
-            timeMin: first,
-            timeMax: end,
-          },
-        })
-        .then((response) => {
-          if (response) {
-            console.log("hit CALENDAR EVENTS: ", response.data);
-            for (let i = 0; i < response.data.items.length; ++i) {
-              console.log("hit dates", response.data.items[i].start);
-            }
 
-            setCalendarEvents(response.data);
-
-            // createCalendarList();
-            // setupDates();
-          } else {
-            console.log("hit error in calendar get axios call");
-          }
-        });
-    }
   }, [props.user]);
 
   useEffect(() => {
@@ -219,21 +192,89 @@ function Availability(props) {
   }, []);
 
   useEffect(() => {
-    props.fetchUser();
-    // axios call to get the data:
+    props.fetchUser()
     axios
       .get(`http://localhost:5000/events/get/${eventID}`)
-      .then((response) => {
-        if (response) {
-          console.log("hit response in eventPage", response);
-          setNumResponses(response.data.daysObject[0].times[0][2]);
+      .then((responseEvent) => {
+        if (responseEvent) {
+          console.log("hit response in eventPage", responseEvent);
+          setNumResponses(responseEvent.data.daysObject[0].times[0][2]);
           console.log("hit numresponses", numResponses);
-          setEventData(response.data);
+          setEventData(responseEvent.data);
           setDaysState(eventData.daysObject);
         } else {
           console.log("hit error in eventPage axios call");
         }
-      });
+        fetch("http://localhost:5000/auth/success", {
+          method: "GET",
+          credentials: "include",
+        })
+          .then((response) => {
+            if (response.status === 200) return response.json();
+            throw new Error("failed to authenticate user");
+          })
+          .then((responseJson) => {
+            if (responseJson) {
+              console.log("responseJson", responseJson);
+              console.log("ESSSSSAAAAAM CHECK: ", responseEvent)
+              setDaysState(responseEvent.data.daysObject);
+              var dateCreated = new Date(responseEvent.data.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
+              var first = new Date(dateCreated);
+              var end = new Date(dateCreated);
+              end.setDate(end.getDate() + responseEvent.data.maxTimeRange);
+
+              axios
+                .get(`http://localhost:5000/calendar/get`, {
+                params: {
+                  // access and refresh tokens being passed in
+                  access: responseJson.user.accessToken,
+                  refresh: responseJson.user.refreshToken,
+                  // time min and max parameters being passed in
+                  timeMin: first,
+                  timeMax: end,
+                },
+            })
+            .then((response) => {
+              if (response) {
+                console.log("hit CALENDAR EVENTS: ", response.data);
+                for (let i = 0; i < response.data.items.length; ++i) {
+                  console.log("hit dates", response.data.items[i].start);
+                }
+
+                setCalendarEvents(response.data);
+                createCalendarList(responseEvent.data, response.data)
+                // createCalendarList();
+                // setupDates();
+              } else {
+                console.log("hit error in calendar get axios call");
+              }
+            });
+
+
+          
+
+            } else {
+              console.log("no response from server");
+            }
+          })
+          .catch((error) => {
+            console.log(`error1: ${error}`);
+          });
+        });
+    // axios call to get the data:
+    // axios
+    //   .get(`http://localhost:5000/events/get/${eventID}`)
+    //   .then((response) => {
+    //     if (response) {
+    //       console.log("hit response in eventPage", response);
+    //       setNumResponses(response.data.daysObject[0].times[0][2]);
+    //       console.log("hit numresponses", numResponses);
+    //       setEventData(response.data);
+    //       setDaysState(eventData.daysObject);
+    //     } else {
+    //       console.log("hit error in eventPage axios call");
+    //     }
+    //   });
     // alert("axios call finished");
   }, []);
 
@@ -270,7 +311,55 @@ function Availability(props) {
   }
 
   function setupDates() {
-    setDaysState(eventData.daysObject);
+    // setDaysState(eventData.daysObject);
+    // var dateCreated = new Date(eventData.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
+    // var first = new Date(dateCreated);
+    // var end = new Date(dateCreated);
+    // end.setDate(end.getDate() + eventData.maxTimeRange);
+    // if (props.user.user) {
+      // axios
+      //   .get(`http://localhost:5000/calendar/get`, {
+      //     params: {
+      //       // access and refresh tokens being passed in
+      //       access: props.user.user.accessToken,
+      //       refresh: props.user.user.refreshToken,
+      //       // time min and max parameters being passed in
+      //       timeMin: first,
+      //       timeMax: end,
+      //     },
+      //   })
+      //   .then((response) => {
+      //     if (response) {
+      //       console.log("hit CALENDAR EVENTS: ", response.data);
+      //       for (let i = 0; i < response.data.items.length; ++i) {
+      //         console.log("hit dates", response.data.items[i].start);
+      //       }
+
+      //       setCalendarEvents(response.data);
+
+      //       // createCalendarList();
+      //       // setupDates();
+      //     } else {
+      //       console.log("hit error in calendar get axios call");
+      //     }
+      //   });
+
+      // axios
+      //   .get(`http://localhost:5000/calendar/getCalendars`, {
+      //     params: {
+      //       // access and refresh tokens being passed in
+      //       access: props.user.user.accessToken,
+      //       refresh: props.user.user.refreshToken,
+      //     },
+      //   })
+      //   .then((response) => {
+      //     if (response) {
+      //       console.log("hit get the calendars", response.data);
+      //     } else {
+      //       console.log("hit error in calender list get axios call")
+      //     }
+      //   });
+    // }
     // createCalendarList();
   }
   console.log("DAYSSTATE NEW ESSAM: ", daysState);
@@ -288,15 +377,20 @@ function Availability(props) {
 
   // const numResponses = 3;
   console.log("props.user.user", props.user.user);
-
-  const isHost =
-    props.user.user && props.user.user !== {}
-      ? props.user.user.id === eventData.hostID
-      : false;
-
-  if (props.user.user === {} || typeof props.user.user === "undefined") {
+var isHost;
+  
+  // console.log("JAMES CHECK: ", isHost)
+  if (props.user.user === {} || typeof props.user.user === "undefined" || typeof eventData.hostID === "undefined" || typeof daysState === "undefined" ) {
+    console.log("props.user.user: ", props.user.user, "eventData", eventData, "daysState", daysState)
     return <div>Loading...</div>;
   } else {
+     isHost =
+     typeof props.user.user !== "undefined" && props.user.user !== {}
+      ? props.user.user.id === eventData.hostID
+      : false;
+    if(isHost == false) {
+      console.log("HOST IS FALSE: ", "props.user.user", props.user.user, "eventData.hostID", eventData.hostID)
+    }
     console.log("EVENTDATA", eventData);
     return (
       <div>
