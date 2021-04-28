@@ -25,11 +25,17 @@ function App() {
     window.addEventListener('resize', handleResize)
   })
 
+  console.log(window.location); 
+
   return (
     <Provider store={store}>
       <div id="background">
-        <div id="content-container">
-          <div id="bg-circle"></div>
+        <div id="content-container"> 
+          { window.location.pathname != "/privacy_policy" && window.location.pathname != "/terms_of_service" ? 
+            <div id="bg-circle"></div>
+          :
+            null
+          }
           <Navbar />
           { screenWidth > 700 ? 
           (<Router>
