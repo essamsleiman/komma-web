@@ -384,6 +384,7 @@ router.route("/update/:id").post((req, res) => {
 
       for (let i = 0; i < newDaysState.length; ++i) {
         for (let j = 0; j < newDaysState[i].times.length; ++j) {
+          // OMID'S COMMENT - isn's this gonna break when edward adjusts groups to automatically readjust those lists? 
           // case where it is selected
           if (newDaysState[i].times[j][3] == true) {
             newDaysState[i].times[j][4].push(req.query.name);

@@ -56,8 +56,7 @@ function StepTwo(props) {
         <div className="col-md-7">
           <div className="shadow-card">
             <h3 className="bold">📍 Where is your meeting?</h3>
-            <p>For online meetings, we'll generate the link for you!</p>
-
+            <p className="p-spacing">For online meetings, we'll generate the link for you!</p>
             <button
               type="button"
               className={"loc-option " + (googleMeetSelected ? " active" : "")}

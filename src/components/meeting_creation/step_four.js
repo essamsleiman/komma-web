@@ -120,12 +120,19 @@ function StepFour(props) {
     const re = /^[0-9\b]+$/; // Only allow positive integer input
     if (re.test(event.target.value) && event.target.value[0] != 0)
       setNumDays(event.target.value);
+    else if (event.target.value == "") { 
+        setNumDays(event.target.value); 
+      } 
   }
 
   function handleNumResponsesChange(event) {
     const re = /^[0-9\b]+$/; // Only allow positive integer input
     if (re.test(event.target.value) && event.target.value[0] != 0)
       setNumResponses(event.target.value);
+    else if (event.target.value == "") { 
+      setNumResponses(event.target.value);
+    } 
+    console.log(event.target.value == ""); 
   }
 
   return (
@@ -192,13 +199,14 @@ function StepFour(props) {
 
             <div className="options">
               <h3 className="bold">⚡️ Additional Options</h3>
-              <p>Enable some super powered features.</p>
+              <p>Unfortunately, these features aren't quite ready yet. Check back soon!</p>
               <div className="custom-control custom-checkbox">
                 <input
                   type="checkbox"
                   className="custom-control-input"
                   id="notify"
                   onClick={changeNotifyMeSelected}
+                  disabled
                 />
                 <label className="custom-control-label" for="notify">
                   &nbsp;&nbsp;Notify me each time someone responds
@@ -210,6 +218,7 @@ function StepFour(props) {
                   className="custom-control-input"
                   id="hidden"
                   onClick={changeKeepHiddenSelected}
+                  disabled
                 />
                 <label className="custom-control-label" for="hidden">
                   &nbsp;&nbsp;Keep my availability hidden from respondents
@@ -246,9 +255,21 @@ function StepFour(props) {
                 </button>
               </div>
               <div className="col d-flex justify-content-end">
-                <button className="solid-button" onClick={next}>
-                  Confirm Meeting
-                </button>
+                {(() => {
+                  console.log(numResponses == "" && numResponsesSelected, numDays == "" && numDaysSelected)
+                  if ((numResponses == "" && numResponsesSelected) || (numDays == "" && numDaysSelected)) 
+                    return (
+                      <button disabled className="disabled-button">
+                        Confirm Meeting
+                      </button>
+                    );
+                  else
+                    return (
+                      <button className="solid-button" onClick={next}>
+                        Confirm Meeting
+                      </button>
+                    );
+                })()}
               </div>
             </div>
           </div>

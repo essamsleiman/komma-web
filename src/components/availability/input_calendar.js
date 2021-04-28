@@ -113,6 +113,14 @@ function InputCalendar(props) {
       },
     };
 
+    // clear the red calendar import block extra testing state 
+    let newDays = props.days; 
+    for (let i = 0; i < newDays; i++) { 
+      for (let j = 0; j < newDays[i].times; j++) { 
+        newDays[i].times[j].pop(); 
+      }
+    }
+
     console.log("PARAMS: ", parameters);
     axios
       .post(
@@ -122,7 +130,7 @@ function InputCalendar(props) {
           params: {
             email: props.email,
             name: props.name,
-            daysState: props.days,
+            daysState: newDays,
           },
         }
       )
@@ -227,7 +235,9 @@ function InputCalendar(props) {
             return day_slots_list;
           })()
         ) : (
-          <p>Loading...</p>
+          <div class="spinner-border text-primary" role="status" style={{marginLeft: "25px"}}>
+            <span class="sr-only">Loading...</span>
+          </div>
         )}
       </div>
       <div className="submit-container">

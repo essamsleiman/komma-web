@@ -5,18 +5,16 @@ import googleCompanyLogo from "../../img/google_company_logo.png";
 import placeholderProfilePic from "../../img/placeholder_profile_pic.png";
 
 function TopBar(props) {
+  console.log(props.viewingGroup); 
   const [respondAsGuest, setRespondAsGuest] = useState(false);
   const [instructions, setInstructions] = useState(
     "Connect your calendar to make checking your availability faster. Or, respond as a guest instead."
   );
-  const [welcomeMessage, setWelcomeMessage] = useState(() => {
-    if (props.isMeetingHost)
-      return `Hi ${props.meetingHostName}! Welome to your meeting's response page`;
-    else if (props.viewingGroup)
-      return "💼 Here’s what the group’s responses look like.";
-    else
-      return `😄 Hey there! Add times below to let ${props.meetingHostName} know what works best for you.`;
-  });
+  const [welcomeMessage, setWelcomeMessage] = useState(
+    props.isMeetingHost
+      ? `😄 Hi ${props.meetingHostName}! Welome to your meeting's response page.`
+      : `😄 Hey there! Add times below to let ${props.meetingHostName} know what works best for you.`
+  );
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   var inviteLink = `komma.com${props.urlId}`;
@@ -66,15 +64,6 @@ function TopBar(props) {
     props.setUserInfo(localUserInfo);
   }, [name]);
 
-  useEffect(() => {
-    if (props.isMeetingHost)
-      setWelcomeMessage(`Hi ${props.meetingHostName}! Welome to your meeting's response page`);
-    else if (props.viewingGroup)
-      setWelcomeMessage("💼 Here’s what the group’s responses look like.");
-    else
-      setWelcomeMessage(`😄 Hey there! Add times below to let ${props.meetingHostName} know what works best for you.`);
-  }, [props.viewingGroup]);
-
   function handleEmailChange(event) {
     setEmail(event.target.value);
     checkInfoProvided();
@@ -103,8 +92,14 @@ function TopBar(props) {
 
   return (
     <div className="top-content-container top-bar">
-      <h3 className="bold">{welcomeMessage}</h3>
-      {!props.viewingGroup &&
+      <h3 className="bold">
+        {props.viewingGroup ? 
+            `💼 Here's what the the group's responses look like.`
+          : 
+            welcomeMessage
+        }
+      </h3>
+      {!props.viewingGroup ? ( 
         <div className="backdrop">
           <div className="backdrop-content">
             {!props.isMeetingHost && !props.userInfo.signedIn ? (
@@ -129,6 +124,7 @@ function TopBar(props) {
                   <p
                     className="label alt-choice-text white"
                     onClick={changeResponseType}
+                    style={{display: 'none'}} /* make guest response option invisible */ 
                   >
                     Respond as a guest instead
                   </p>
@@ -214,7 +210,9 @@ function TopBar(props) {
               </>
             )}
           </div>
-        </div>
+        </div>)
+        :
+          <></> 
       }
     </div>
   );
