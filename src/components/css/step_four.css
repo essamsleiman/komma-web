@@ -1,0 +1,51 @@
+.shadow-card {
+  padding: 2.5rem 2rem;
+  background: var(--white);
+  box-shadow: var(--drop-shadow); 
+  border: none;
+  border-radius: 4px;
+}
+.shadow-card h3 {
+  margin-bottom: 0.625rem;
+}
+
+.when-send, .options {
+  margin-bottom: 2rem;
+}
+.when-send p, .options p {
+  margin-bottom: 1rem;
+}
+.when-send input[type="text"], .when-send input[type="number"] {
+  display: inline-block;
+  width: 5.2rem;
+  margin: 0 0.5rem;
+}
+
+/* Styling the radio and checkbox buttons */
+.custom-control-label::before, 
+.custom-control-label::after,
+.custom-control-input {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    top: 0 !important;
+}
+.custom-control {
+  min-height: 1.25rem !important;
+  padding-left: 1.25rem !important;
+  margin-left: 0.25rem;
+  margin-bottom: 1rem !important;
+}
+.custom-radio {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.next p {
+  margin-bottom: 0.4rem;
+}
+
+.end-message {
+  margin-top: -1rem;
+  float: right;
+  color: var(--mediumgray);
+}

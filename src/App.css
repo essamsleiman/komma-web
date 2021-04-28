@@ -1,0 +1,185 @@
+/*
+  Page Display
+*/
+
+@media (min-width: 1300px) {
+  #content-container {
+    max-width: 1295px;
+    margin: auto;
+  }
+}
+body {
+  overflow-x: hidden;
+}
+#background {
+  position: relative;
+  overflow-y: hidden;
+  background-color: var(--verylightblue);
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+#bg-circle {
+  position: absolute;
+  margin-top: 25rem;
+  margin-left: -15rem;
+  height: 55rem;
+  width: 55rem;
+  border-radius: 50%;
+  background: var(--gradient);
+}
+@media (max-width: 700px) {
+  #bg-circle {
+    display: none;
+  }
+}
+
+/*
+  Typography
+*/
+
+* {
+  font-family: 'Lato';
+}
+h1, h2, h3, h4, p {
+  color: var(--kommablack);
+}
+h1 {
+  font-size: 4rem !important;
+}
+h2 {
+  font-size: 3rem !important;
+}
+h3 {
+  font-size: 1.5rem !important;
+}
+h4 {
+  font-size: 1.25rem !important;
+}
+p {
+  font-size: 1rem !important;
+}
+.label {
+  font-size: 0.75rem !important;
+}
+.tiny {
+  font-size: 0.625rem !important;
+}
+.bold {
+  font-weight: 700 !important;
+}
+.black {
+  font-weight: 900 !important;
+}
+.italic {
+  font-style: italic !important;
+}
+
+/*
+  Other HTML Components
+*/
+input[type="text"], input[type="number"] {
+  box-sizing: border-box !important;
+  height: 2rem !important;
+  border: 1px solid var(--lightgray) !important;
+  border-radius: 4px !important;
+}
+input[type="text"]:disabled, input[type="number"]:disabled {
+  color: var(--lightgray) !important;
+  background-color: var(--disabledgray) !important;
+  border: 1px solid var(--lightgray) !important;
+}
+
+/*
+  Colors & Effects
+*/
+
+:root {
+  --kommablack: #333333;
+  --kommapurple: #9F84EA;
+  --disabledgray: #F7F7F7;
+  --verylightgray: #E7E7E7;
+  --lightgray: #C4C4C4;
+  --mediumgray: #999999;
+  --kommagreen: #47CB6C;
+  --kommared: #FF6E6E;
+  --kommablue: #75ACF1;
+  --verylightblue: #F9FBFC;
+  --lightred: #FFDEDE;
+  --white: #FFFFFF;
+  --highlightpurple: rgba(159, 132, 234, 0.08);
+  --highlightred: rgba(255, 110, 110, 0.08);
+  --gradient: linear-gradient(253.87deg, #9F84EA 23.87%, #78CEFF 101.41%);
+  --drop-shadow: 2px 4px 20px rgba(64, 64, 64, 0.05);
+  --purple-shadow: 2px 4px 10px rgba(159, 132, 234, 0.5);
+  --small-drop-shadow: 1px 1px 5px rgba(64, 64, 64, 0.15);
+  --small-purple-shadow: 1px 2px 5px rgba(159, 132, 234, 0.5);
+  --blue-shadow: 2px 4px 10px rgba(132, 173, 234, 0.5);
+  --white-shadow: 1px 1px 5px rgba(64, 64, 64, 0.15); 
+}
+
+/*
+  Components
+*/
+
+.solid-button, .hollow-button, .transparent-button, .disabled-button {
+  border: 0px;
+  border-radius: 4px;
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  width: 156px;
+  height: 40px;
+}
+.solid-button {
+  background-color: var(--kommapurple);
+  color: var(--white);
+  box-shadow: var(--purple-shadow);
+}
+.solid-button:hover {
+  background-color: #8e75d1;
+}
+.hollow-button {
+  border: 1px solid var(--mediumgray); 
+  background: var(--white);
+  color: var(--mediumgray); 
+}
+.hollow-button:hover {
+  background-color: #f2f2f2;
+}
+.transparent-button {
+  border: none; 
+  background: rgba(159, 132, 234, 0.08);
+  color: var(--kommapurple); 
+}
+.transparent-button:hover {
+  background: rgba(159, 132, 234, 0.18);
+}
+.disabled-button {
+  background: var(--verylightgray);
+  color: var(--lightgray);
+}
+.google-button {
+  border: none;
+  background-color: var(--white);
+  box-shadow: var(--white-shadow); 
+  border-radius: 4px; 
+  font-weight: 700;
+  padding: 12px; 
+}
+.google-company-logo {
+  padding-right: 10px;
+}
+.google-button:hover {
+  background: #f2f2f2;;
+}
+.field {
+  box-sizing: border-box;
+  width: 15rem;
+  background: var(--white);
+  border: 1px solid var(--lightgray);
+  border-radius: 4px;
+}
+.field-spacing {
+  margin-bottom: 0.4rem; 
+}

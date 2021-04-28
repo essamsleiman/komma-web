@@ -1,0 +1,60 @@
+@media (min-width: 1285px) {
+  .container-fluid {
+    max-width: 1280px;
+  }
+}
+body {
+  overflow-x: hidden;
+}
+
+.clickable { 
+  cursor: pointer;
+}
+
+.nav-bar p, .nav-bar h3 {
+  margin: 0;
+}
+
+.nav-bar {
+  padding: 1.5rem;
+}
+
+.nav-bar .left {
+  display: flex;
+  align-items: center;
+}
+.nav-bar .left img {
+  width: 2rem;
+  transition: all 0.3s;
+}
+.nav-bar .left img:hover {
+  opacity: 0.8;
+}
+.beta-text {
+  display: flex;
+  align-items: baseline;
+}
+.nav-bar .komma {
+  margin-left: 0.75rem;
+}
+.nav-bar .beta {
+  margin: 0 0.25rem 0 0.5rem;
+}
+.nav-bar p {
+  color: var(--mediumgray);
+}
+
+.nav-bar .right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.nav-bar .right a {
+  color: var(--kommablack) !important;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+.nav-bar .right a:hover {
+  color: var(--kommapurple) !important;
+  text-decoration: none;
+}

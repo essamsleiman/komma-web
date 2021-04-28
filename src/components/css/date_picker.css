@@ -1,0 +1,75 @@
+.DayPicker { 
+    font-size: 0.875rem;
+    font-family: 'Lato';
+    color: var(--kommablack);
+    font-weight: 700;
+    border: 1px solid #E7E7E7;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.DayPicker-TodayButton { 
+    color: var(--kommapurple);
+}
+
+.DayPicker-Day--today {
+    color: var(--kommapurple);
+}
+
+.DayPicker-Day--disabled {
+    color: var(--lightgray);
+}
+
+.DayPicker-NavButton--prev {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAQCAYAAAAvf+5AAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB4SURBVHgBjdJRCoAgDAbgNfAeXqF3EXaTulmdZHSj3gWr9RCaOv1hsIcPhnMASpjZSkk/acgYw9KHEGbsIBtjPIjonDpo994vxegWyqCGPthDLxxBkuzViHhBI8Xopzbn3FqFI7i5nj9WF57i6l/X8OhREGhJz+wGqFhg7Vv341wAAAAASUVORK5CYII=);
+    outline: none;
+  }
+
+  .DayPicker-NavButton--next {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAQCAYAAAAvf+5AAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACJSURBVHgBjdJRCoAgDAZgHfjeEbpKJ6mb1U0k8b0rdA/B2gSjclv9EG30NRE1BuO97+kxSiwB55ynJqU0YHYOAn3IOa9Ylx+kybYWIYQFAEYsd26yvTcatu8lJNxACbOQwyBBRIeRNlMTY5zxNalLc6iZKKEH1NAFv1CBeLYdnvFGjXYpSv5csxOXKHuQXl0xbwAAAABJRU5ErkJggg==);
+    outline: none;
+  }
+
+  .DayPicker-Months {
+    font-weight: 700;
+  }
+
+  .DayPicker-Caption {
+    font-weight: 700;
+  }
+
+.DayPicker-Day {
+    /* border-radius: 10px/31px; */
+    /* this would make the border a circle/oval shape, but the
+       border-radius is 0 for now due to the gray outer circle it weirdly leaves */
+    -webkit-box-shadow:inset 0px 0px 0px 9px #FFF;
+    -moz-box-shadow:inset 0px 0px 0px 9px #FFF;
+    box-shadow:inset 0px 0px 0px 9px #FFF;
+    border: transparent;
+    border-radius: 0px;
+    padding: 0.9em;
+}
+
+.DayPicker-Weekday {
+    color: var(--mediumgray);
+}
+
+.DayPicker-Day--today {
+  color: var(--kommapurple);
+  font-weight: 700;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  background-color: var(--kommapurple);
+  color: var(--white);
+}
+  
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
+  background-color: var(--kommapurple);
+}
+  
+.DayPicker:not(.DayPicker--interactionDisabled)
+  .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+  background-color: var(--kommapurple);
+  color: var(--white);
+}

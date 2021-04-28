@@ -1,0 +1,33 @@
+.shadow-card {
+  padding: 2.5rem 2rem;
+  background: var(--white);
+  box-shadow: var(--drop-shadow); 
+  border: none;
+  border-radius: 4px;
+}
+.asterisk {
+  color: var(--kommapurple);
+}
+.name-box, .description-box { 
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.name-box {
+  width: 15rem !important;
+}
+.description-box { 
+  width: 100%;
+}
+#name-input { 
+  height: 2.375rem !important;
+}
+.field-spacing { 
+  margin-top: 16px;
+}
+.shadow-card { 
+  margin-bottom: 0.4rem; 
+} 
+.question-spacing { 
+  margin-top: 40px; 
+} 

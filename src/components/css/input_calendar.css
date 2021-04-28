@@ -1,0 +1,77 @@
+.input-cal-container {
+  margin-left: 0;
+}
+.input-cal-container p {
+  margin: 0;
+}
+
+.header {
+  margin-left: 2rem;
+}
+.legend {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0 1.5rem 0;
+}
+.legend .label {
+  margin-left: 6px;
+}
+.calendar-dropdown {
+  display: flex;
+  flex-direction: column;
+  padding-right: 25px;
+}
+.unavailable-left {
+  height: 1.5rem;
+  width: 0.75rem;
+  border: solid 1px var(--lightgray);
+  border-right: none;
+  border-radius: 0.75rem 0 0 0.75rem;
+}
+.unavailable-right {
+  height: 1.5rem;
+  width: 0.75rem;
+  border: solid 1px var(--lightgray);
+  border-left: none;
+  border-radius: 0 0.75rem 0.75rem 0;
+  background-color: var(--lightred);
+}
+.available {
+  margin-left: 1rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--kommagreen);
+}
+
+.labels-and-slots {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.day-slots-container {
+  display: inline-block; 
+}
+.hour-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 2.5rem 1rem -0.4rem 2rem;
+  text-align: right;
+}
+.hour-labels p {
+  user-select: none; 
+}
+.submit-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.submit-container p {
+  margin-bottom: 0.5rem;
+  color: var(--mediumgray);
+}
+
+.disabled p {
+  color: var(--mediumgray);
+}
