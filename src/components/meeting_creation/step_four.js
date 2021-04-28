@@ -199,7 +199,7 @@ function StepFour(props) {
 
             <div className="options">
               <h3 className="bold">⚡️ Additional Options</h3>
-              <p>Unfortunately, these features aren't quite ready yet. Check back soon!</p>
+              <p>These features aren't quite ready yet. Check back soon!</p>
               <div className="custom-control custom-checkbox">
                 <input
                   type="checkbox"

@@ -22,7 +22,7 @@
 .home-wrapper .solid-button, .home-wrapper .google-button {
   margin-top: 1.5rem;
 }
-.google-button {
+.home-wrapper .google-button {
   color: var(--komma-black);
 }
 .welcome-text {

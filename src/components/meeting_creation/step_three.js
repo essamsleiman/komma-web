@@ -374,7 +374,7 @@ function StepThree(props) {
                 <span class="slider round disabled" disabled></span>
               </label>
               <div className="advanced-select-text-wrapper">
-                <p className="label">Advanced Date Selection (unfortunately, this feature isn't quite ready yet. Check back soon!)</p>
+                <p className="label">Advanced Date Selection (This feature isn't quite ready yet. Check back soon!)</p>
               </div>
               <br />
               {!props.showAdvanced && (
