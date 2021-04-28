@@ -24,8 +24,9 @@
 }
 
 .slider {
-  position: absolute;
-  cursor: pointer;
+  position: absolute; 
+  /* disabled for beta */ 
+  /* cursor: pointer; */ 
   top: 0;
   left: 0;
   right: 0;

@@ -197,6 +197,16 @@ function Availability(props) {
           })
           .then((responseJson) => {
             if (responseJson) {
+
+              // update the red calendar import block testing state 
+              // 0 = white, 1 = green, 2 = red 
+              // if a red block is clicked go from 2 to 1 
+              // if it is clicked again, go from 1 to 2 
+              for (let i = 0; i < responseEvent.data.daysObject; i++) { 
+                for (let j = 0; j < responseEvent.data.daysObject[i].times; j++) { 
+                  responseEvent.data.daysObject[i].times[j].push(0); 
+                }
+              }
         
               setDaysState(responseEvent.data.daysObject);
               var dateCreated = new Date(responseEvent.data.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
@@ -307,7 +317,13 @@ function Availability(props) {
   
   // console.log("JAMES CHECK: ", isHost)
   if (props.user.user === {} || typeof props.user.user === "undefined" || typeof eventData.hostID === "undefined" || typeof daysState === "undefined" ) {
-    return <div>Loading...</div>;
+    return ( 
+      <div align="center" style={{marginTop: "100px"}}>
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>  
+    ); 
   } else {
      isHost =
      typeof props.user.user !== "undefined" && props.user.user !== {}
@@ -334,6 +350,7 @@ function Availability(props) {
           <div className="col-9">
             <div className="vertical-bar"></div>
             <TopBar
+              viewingGroup={viewingGroup} 
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               setInputDisabled={setInputDisabled}

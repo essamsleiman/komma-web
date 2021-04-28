@@ -101,11 +101,19 @@ function TimeSlots(props) {
       new_days[props.id].times[line_number][1] = --can_attend;
       new_days[props.id].times[line_number][2] = total_responses;
       new_days[props.id].times[line_number][3] = false;
+      // update the red calendar import block testing state 
+      let is_red = false; 
+      for (let i = 0; i < props.selectedCalendars.length; i++) {
+        if (props.selectedCalendars[i][props.id][line_number][1])
+          is_red = true;
+      }
+      new_days[props.id].times[line_number][6] = is_red ? 2 : 0; 
     } else {
       // have not yet marked attending
       new_days[props.id].times[line_number][1] = ++can_attend;
       new_days[props.id].times[line_number][2] = total_responses;
       new_days[props.id].times[line_number][3] = true;
+      new_days[props.id].times[line_number][6] = 1; // update the red calendar import block testing state 
     }
     console.log(new_days);
 
@@ -161,7 +169,7 @@ function TimeSlots(props) {
       new_days[day].times[time_block][1] = can_attend;
       new_days[day].times[time_block][2] = total_responses;
       new_days[day].times[time_block][3] = false;
-    
+      new_days[day].times[time_block][6] = 2;
       props.setDays(new_days);
     }
 
@@ -242,8 +250,11 @@ function TimeSlots(props) {
                     props.days[props.id].times[line_number][1],
                     props.days[props.id].times[line_number][2]
                   );
-                }
-                else if (!props.viewingGroup && isNotAvailable(props.id, line_number))
+                } else if (
+                  !props.viewingGroup &&
+                  props.days[props.id].times[line_number][6] != 1 && 
+                  isNotAvailable(props.id, line_number)
+                )
                   return "var(--lightred)";
                 else if (props.days[props.id].times[line_number][3])
                   return "var(--kommagreen)";

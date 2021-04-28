@@ -12,6 +12,7 @@ p {
 } 
 .date, .day-of-week {
   text-align: center;
+  user-select: none; 
 }
 p.day-of-week {
   margin-bottom: 0.4rem;

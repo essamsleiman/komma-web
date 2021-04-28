@@ -10,24 +10,24 @@ import { timeConversion } from "../utils.js";
 function StepThree(props) {
   const meetingLengths = [
     {
-      label: "15",
-      value: "15m",
+      label: "15 minute",
+      value: "15",
     },
     {
-      label: "30",
-      value: "30m",
+      label: "30 minute",
+      value: "30",
     },
     {
-      label: "45",
-      value: "45m",
+      label: "45 minute",
+      value: "45",
     },
     {
-      label: "60",
-      value: "60m",
+      label: "60 minute",
+      value: "60",
     },
     {
-      label: "90",
-      value: "90m",
+      label: "90 minute",
+      value: "90",
     },
   ];
 
@@ -219,6 +219,7 @@ function StepThree(props) {
   ];
 
   const [meetingLength, setMeetingLength] = useState("60");
+  const [meetingLengthLabel, setMeetingLengthLabel] = useState("60 minute"); 
   const [meetingStartTime, setMeetingStartTime] = useState(
     meetingTimes[9].label
   );
@@ -253,7 +254,8 @@ function StepThree(props) {
   }
 
   function onMeetingLengthChange(item, name) {
-    setMeetingLength(item.label);
+    setMeetingLength(item.value);
+    setMeetingLengthLabel(item.label); 
   }
 
   function onMeetingStartTimeChange(item, name) {
@@ -367,11 +369,12 @@ function StepThree(props) {
                   type="checkbox"
                   checked={props.showAdvanced}
                   onClick={changeAdvancedDisplay}
+                  disabled
                 />
-                <span class="slider round"></span>
+                <span class="slider round disabled" disabled></span>
               </label>
               <div className="advanced-select-text-wrapper">
-                <p className="label">Advanced Date Selection</p>
+                <p className="label">Advanced Date Selection (unfortunately, this feature isn't quite ready yet. Check back soon!)</p>
               </div>
               <br />
               {!props.showAdvanced && (
@@ -380,7 +383,7 @@ function StepThree(props) {
                   <div className="dropdown-wrapper">
                     <Dropdown
                       name="length"
-                      title={meetingLength}
+                      title={meetingLengthLabel}
                       list={meetingLengths}
                       setter={setMeetingLength}
                       size="dd-wrapper-medium"
@@ -388,7 +391,7 @@ function StepThree(props) {
                       onChange={onMeetingLengthChange}
                     />
                   </div>
-                  <p className="middle-inline-text">minute meeting between</p>
+                  <p className="middle-inline-text">meeting between</p>
                   <div className="dropdown-wrapper">
                     <Dropdown
                       name="length"

@@ -4,7 +4,6 @@ import "../css/step_one.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import axios from "axios";
-
 import { updateEvent } from "../../Redux/actions/eventActions";
 import { fetchUser } from "../../Redux/actions/userActions";
 
@@ -52,6 +51,7 @@ function StepOne(props) {
               </p>
               <input
                 className="name-box form-control"
+                id="name-input"
                 type="text"
                 placeholder="Weekly Meeting ..."
                 value={meetingName}

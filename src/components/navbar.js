@@ -8,14 +8,14 @@ function Navbar() {
     <nav>
       <div className="nav-bar row no-gutters">
         <div className="left col">
-          <a className="home-link">
+          <a className="home-link clickable">
             <img
               className="logo"
               onClick={() => (window.location = "/")}
               src={komma_logo}
             />
           </a>
-          <div className="beta-text">
+          <div className="beta-text clickable" onClick={() => (window.location = "/")}>
             <h3 className="bold komma">Komma</h3>
             <p className="beta">beta</p>
             <p className="tiny version">v1.0</p>

@@ -7,6 +7,10 @@ body {
   overflow-x: hidden;
 }
 
+.clickable { 
+  cursor: pointer;
+}
+
 .nav-bar p, .nav-bar h3 {
   margin: 0;
 }
@@ -22,7 +26,6 @@ body {
 .nav-bar .left img {
   width: 2rem;
   transition: all 0.3s;
-  cursor: pointer;
 }
 .nav-bar .left img:hover {
   opacity: 0.8;
