@@ -305,7 +305,13 @@ function Availability(props) {
   
   // console.log("JAMES CHECK: ", isHost)
   if (props.user.user === {} || typeof props.user.user === "undefined" || typeof eventData.hostID === "undefined" || typeof daysState === "undefined" ) {
-    return <div>Loading...</div>;
+    return ( 
+      <div align="center" style={{marginTop: "100px"}}>
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>  
+    ); 
   } else {
      isHost =
      typeof props.user.user !== "undefined" && props.user.user !== {}
@@ -330,6 +336,7 @@ function Availability(props) {
           <div className="col-9">
             <div className="vertical-bar"></div>
             <TopBar
+              viewingGroup={viewingGroup} 
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               setInputDisabled={setInputDisabled}

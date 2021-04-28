@@ -218,7 +218,9 @@ function InputCalendar(props) {
             return day_slots_list;
           })()
         ) : (
-          <p>Loading...</p>
+          <div class="spinner-border text-primary" role="status" style={{marginLeft: "25px"}}>
+            <span class="sr-only">Loading...</span>
+          </div>
         )}
       </div>
       <div className="submit-container">

@@ -17,7 +17,13 @@
   width: 15rem !important;
 }
 .description-box { 
-  width: 100%; 
+  width: 100%;
+}
+#name-input { 
+  height: 2.375rem !important;
+}
+.field-spacing { 
+  margin-top: 16px;
 }
 .shadow-card { 
   margin-bottom: 0.4rem; 
