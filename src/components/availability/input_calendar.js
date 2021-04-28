@@ -36,6 +36,8 @@ function InputCalendar(props) {
       newSelectedCalendars.push(props.calendars[item[i].value].times);
     }
     setSelectedCalendars(newSelectedCalendars);
+    console.log(newSelectedCalendars); 
+
     // Faster, better method that doesn't re-render and pass down into day_slots.js
     // console.log(selectedCalendars);
     // let newDays = props.days;
@@ -105,6 +107,14 @@ function InputCalendar(props) {
       },
     };
 
+    // clear the red calendar import block extra testing state 
+    let newDays = props.days; 
+    for (let i = 0; i < newDays; i++) { 
+      for (let j = 0; j < newDays[i].times; j++) { 
+        newDays[i].times[j].pop(); 
+      }
+    }
+
     console.log("PARAMS: ", parameters);
     axios
       .post(
@@ -114,7 +124,7 @@ function InputCalendar(props) {
           params: {
             email: props.email,
             name: props.name,
-            daysState: props.days,
+            daysState: newDays,
           },
         }
       )
