@@ -11,8 +11,8 @@ import { fetchUser } from "../../Redux/actions/userActions";
 import { updateEvent } from "../../Redux/actions/eventActions";
 
 function StepFour(props) {
-  const [numDaysSelected, setNumDaysSelected] = useState(true);
-  const [numResponsesSelected, setNumResponsesSelected] = useState(false);
+  const [numDaysSelected, setNumDaysSelected] = useState(false);
+  const [numResponsesSelected, setNumResponsesSelected] = useState(true);
   const [numDays, setNumDays] = useState(7);
   const [numResponses, setNumResponses] = useState(5);
   const [notifyMeSelected, setNotifyMeSelected] = useState(false);
@@ -151,6 +151,7 @@ function StepFour(props) {
                   className="custom-control-input"
                   id="num-days"
                   name="whenSend"
+                  disabled
                   checked={numDaysSelected}
                   onChange={() => {
                     setNumDaysSelected(true);
