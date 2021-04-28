@@ -50,7 +50,7 @@ function LeftBar(props) {
   var respondents = [];
 
   if (!props.respondents) {
-    respondents = ["Nobody has responded Yet"];
+    respondents = ["Nobody has responded yet"];
   } else {
     respondents = props.respondents;
   }
@@ -90,6 +90,7 @@ function LeftBar(props) {
         {respondents.map((data, key) => (
           <p>{data}</p>
         ))}
+        { props.responded ? <p>{props.name}</p> : "" } {/* Current user's name */}
       </div>
 
       {props.isHost && props.viewingGroup && (

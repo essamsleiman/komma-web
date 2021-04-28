@@ -68,9 +68,11 @@ function Home(props) {
 
     console.log("hit fetchuser", props.fetchUser());
   }, []);
+
   if (props.calendar)
     console.log("CALENDAR REDUX: ", props.calendar.events);
   console.log("USER REDUX: ", props.user.accessToken);
+
   return (
     <div className="home-wrapper">
       <div className="row justify-content-center title-container">
@@ -87,6 +89,19 @@ function Home(props) {
             </p>
             <form action="https://forms.gle/DWAw2XHY9tuAu5VT8">
               <button className="solid-button">Beta Sign Up</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className="row justify-content-center">
+        <div className="col-md-5">
+          <div className="shadow-card">
+            <p>
+              Beta testers and invite respondents, please provide bug reports, feature requests, and general feedback here. Submit comments as often as you like. We appreciate your support.
+            </p>
+            <form action="https://forms.gle/Fqwz6CS5FuACRxTS6">
+              <button className="solid-button">Feedback Form</button>
             </form>
           </div>
         </div>

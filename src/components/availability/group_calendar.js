@@ -6,29 +6,30 @@ import DaySlots from "./day_slots";
 function GroupCalendar(props) {
   function getGroupLegend() {
     let block_list = [];
+    let num_responses = props.days[0].times[0][2]; // Number responses, included current user
     block_list.push(
       <p className="label group-legend-label">
-        {0 + "/" + props.numResponses + " Available"}
+        {0 + "/" + num_responses + " Available"}
       </p>
     );
-    for (let i = 0; i < props.numResponses + 1; i++) {
+    for (let i = 0; i < num_responses + 1; i++) {
       block_list.push(
         <div
           className={(() => {
             if (i == 0) return "legend-block first-block";
-            else if (i == props.numResponses) return "legend-block last-block";
+            else if (i == num_responses) return "legend-block last-block";
             else return "legend-block";
           })()}
           style={{
             backgroundColor:
-              "rgba(71, 203, 108, " + i / props.numResponses + ")",
+              "rgba(71, 203, 108, " + i / num_responses + ")",
           }}
         ></div>
       );
     }
     block_list.push(
       <p className="label group-legend-label">
-        {props.numResponses + "/" + props.numResponses + " Available"}
+        {num_responses + "/" + num_responses + " Available"}
       </p>
     );
     return block_list;
@@ -36,10 +37,8 @@ function GroupCalendar(props) {
 
   function getHourLabels() {
     let label_list = [];
-    console.log("PROPS INTERVALS: ", props.intervals);
-    props.intervals[0].times.map((interval) => {
-      console.log("PROPS INTERVALS innter: ", interval[0]);
-
+    // Base labels off of first day in the list's times (props.days[0].times)
+    props.days[0].times.map((interval) => {
       let hour = parseInt(interval[0].split(":")[0]);
       let minutes = parseInt(interval[0].split(":")[1]);
       let twelveHour = ((hour + 11) % 12) + 1;
@@ -54,15 +53,12 @@ function GroupCalendar(props) {
   function getNextHour() {
     // Check second to last interval to calculate
     // lastHour is the start time of the last interval (ex "10")
-    let lastHour = parseInt(props.intervals.slice(-2)[0][0]);
-    console.log("last hr: " + lastHour);
+    let lastHour = parseInt(props.days[0].times.slice(-2)[0][0]);
     let nextHour = ((lastHour + 1 + 11) % 12) + 1;
     if (nextHour == 0) nextHour = 12;
     let period = lastHour >= 11 ? "pm" : "am";
     return <p className="label">{nextHour + " " + period}</p>;
   }
-
-  console.log(props);
 
   return (
     <div className="input-cal-container top-content-container vertical-spacing">
@@ -92,6 +88,8 @@ function GroupCalendar(props) {
                     setDays={props.setDays}
                     numResponses={props.numResponses}
                     intervals={props.intervals}
+                    name={props.name}
+                    responded={props.responded}
                   />
                 </div>
               );

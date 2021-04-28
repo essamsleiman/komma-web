@@ -37,7 +37,7 @@ function TimeSlots(props) {
   function getFormattedDate(date) {
     let date_split = date.split("/");
     let month = date_split[0];
-    let day = date_split[1];
+    let day = parseInt(date_split[1]);
     switch (parseInt(month)) {
       case 1:
         return "Jan " + day;
@@ -66,28 +66,14 @@ function TimeSlots(props) {
     }
   }
 
-  function getNextHalfHour(time) {
-    // Check second to last interval to calculate
-    // prevHour is the start time of the last interval (ex "14"), in 24 hour time
-    let prevHour = parseInt(time.slice(0, -2));
-    let prevMinutes = parseInt(time.slice(-2));
-    // nextHour in 12 hour time
-    let nextHour =
-      prevMinutes == 0
-        ? ((prevHour + 11) % 12) + 1
-        : ((prevHour + 1 + 11) % 12) + 1;
-    let nextMinutes = prevMinutes == 0 ? "30" : "00";
-    let period = "am";
-    if (prevHour >= 12 || (prevHour == 11 && prevMinutes == 30)) period = "pm";
-    return nextHour + " " + period;
-  }
-
   //
   // Functions below apply to input calendar only
   //
   function adjustAttendance(line_number) {
     if (props.inputDisabled) return;
     if (props.viewingGroup) return;
+
+    props.setResponded(true);
 
     let new_days = props.days;
 
@@ -121,6 +107,7 @@ function TimeSlots(props) {
       new_days[props.id].times[line_number][2] = total_responses;
       new_days[props.id].times[line_number][3] = true;
     }
+    console.log(new_days);
 
     props.setDays(JSON.parse(JSON.stringify(new_days)));
     props.setUnsavedChanges("true");
@@ -174,7 +161,7 @@ function TimeSlots(props) {
       new_days[day].times[time_block][1] = can_attend;
       new_days[day].times[time_block][2] = total_responses;
       new_days[day].times[time_block][3] = false;
-
+    
       props.setDays(new_days);
     }
 
@@ -199,7 +186,28 @@ function TimeSlots(props) {
   }
 
   function calculateGroupAvailability(num_can_attend, num_responses) {
-    return "rgba(71, 203, 108, " + num_can_attend / (num_responses - 1) + ")";
+    return "rgba(71, 203, 108, " + num_can_attend / (num_responses) + ")";
+  }
+
+  // Converts 24hr time string to 12hr (ex. 14:00 -> 2:00 pm)
+  function to12HourTime(time) {
+    let hour = parseInt(time.split(":")[0]);
+    let minutes = time.split(":")[1];
+    let twelveHour = ((hour + 11) % 12) + 1;
+    let period = hour >= 12 ? "pm" : "am";
+    return twelveHour + ":" + minutes + " " + period;
+  }
+
+  function getNextHalfHour(time) {
+    // Check second to last interval to calculate
+    // prevHour is the start time of the last interval (ex "14"), in 24 hour time
+    let prevHour = parseInt(time.slice(0, -2));
+    let prevMinutes = parseInt(time.slice(-2));
+    // nextHour in 12 hour time
+    let nextHour = prevMinutes == 0 ? ((prevHour + 11) % 12) + 1 : ((prevHour + 1 + 11) % 12) + 1;
+    let nextMinutes = prevMinutes == 0 ? "30" : "00";
+    let period = (prevHour >= 12 || (prevHour == 11 && prevMinutes == 30)) ? "pm" : "am";
+    return nextHour + ":" + nextMinutes + " " + period;
   }
 
 
@@ -229,30 +237,28 @@ function TimeSlots(props) {
               backgroundColor: (() => {
                 if (!props.viewingGroup && props.inputDisabled)
                   return "var(--verylightgray)";
-                else if (props.viewingGroup) {
+                else if (props.viewingGroup){
                   return calculateGroupAvailability(
                     props.days[props.id].times[line_number][1],
                     props.days[props.id].times[line_number][2]
                   );
-                } else if (
-                  !props.viewingGroup &&
-                  isNotAvailable(props.id, line_number)
-                )
+                }
+                else if (!props.viewingGroup && isNotAvailable(props.id, line_number))
                   return "var(--lightred)";
                 else if (props.days[props.id].times[line_number][3])
                   return "var(--kommagreen)";
                 else return "var(--kommawhite)";
               })(),
               borderBottom: (() => {
-                if (props.days[props.id].times[line_number][3]) return "";
+                if (props.days[props.id].times[line_number][3] ||
+                    (props.viewingGroup && props.days[props.id].times[line_number][1] != 0)) 
+                  return "";
                 else if (line_number % 2 == 0)
                   return "dotted 1px var(--lightgray)";
                 else return "solid 1px var(--lightgray)";
               })(),
               borderTop: line_number == 0 ? "solid 1px var(--lightgray)" : "",
-              borderLeft: props.days[props.id].first
-                ? "solid 1px var(--lightgray)"
-                : "",
+              borderLeft: props.id == 0 ? "solid 1px var(--lightgray)" : "", // Only works for one group, needs to be changed to check "first" attribute
             }}
           ></div>
           {props.viewingGroup ? (
@@ -263,34 +269,32 @@ function TimeSlots(props) {
             >
               <div className="triangle"></div>
               <p className="label bold header">
-                {getDayOfWeek(props.days[props.id].date) +
-                  ", " +
-                  getFormattedDate(props.days[props.id].date) +
-                  " from " +
-                  props.days[props.id].times[line_number][0] +
-                  " - " +
-                  getNextHalfHour(props.days[props.id].times[line_number][0])}
+                {getDayOfWeek(props.days[props.id].date) + ", " 
+                 + getFormattedDate(props.days[props.id].date) + " from " 
+                 + to12HourTime(props.days[props.id].times[line_number][0]) + " - " 
+                 + getNextHalfHour(props.days[props.id].times[line_number][0])}
               </p>
               <div className="row no-gutters">
                 <div className="col-6">
                   <p className="label bold frac-people">
-                    {props.days[props.id].times[line_number][1] + " Available"}
+                    {props.days[props.id].times[line_number][1] + "/" +
+                      props.days[props.id].times[line_number][2] + " Available"}
                   </p>
                   {props.days[props.id].times[line_number][4].map((name) => (
                     <p className="label">{name}</p>
                   ))}
+                  {props.days[props.id].times[line_number][3] && <p className="label">{props.name}</p>} {/* Current user's name */}
                 </div>
                 <div className="col-6">
                   <p className="label bold frac-people">
                     {props.days[props.id].times[line_number][2] -
-                      props.days[props.id].times[line_number][1] +
-                      "/" +
-                      props.days[props.id].times[line_number][2] +
-                      " Unavailable"}
+                      props.days[props.id].times[line_number][1] + "/" +
+                      props.days[props.id].times[line_number][2] + " Unavailable"}
                   </p>
                   {props.days[props.id].times[line_number][5].map((name) => (
                     <p className="label">{name}</p>
                   ))}
+                  {(!props.days[props.id].times[line_number][3] && props.responded) && <p className="label">{props.name}</p>} {/* Current user's name */}
                 </div>
               </div>
             </div>
