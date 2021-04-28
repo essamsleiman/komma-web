@@ -107,10 +107,12 @@ function TopBar(props) {
       {!props.viewingGroup ? ( 
         <div className="backdrop">
           <div className="backdrop-content">
-            {!props.isMeetingHost && !props.userInfo.signedIn ? (
+            {!props.isMeetingHost ? (
+              props.user.user == undefined ? 
               <p className="white">{instructions}</p>
+              : <p className="white">Hit the purple button when you're finished to send your response. We'll send you a calendar invite soon!</p>
             ) : null}
-            {!props.isMeetingHost && !props.userInfo.signedIn ? (
+            {!props.isMeetingHost && props.user.user == undefined ? (
               !respondAsGuest ? (
                 // Sign in with Google display
                 <>
@@ -215,10 +217,9 @@ function TopBar(props) {
             ) : (
               // Signed in display
               <>
-                <img src={placeholderProfilePic} className="profile-pic"></img>
                 <p className="label login-info white">
-                  Logged in as {props.userInfo.googleName} (
-                  {props.userInfo.googleEmail}){" "}
+                  Logged in as {props.user.user.name} (
+                  {props.user.user.email}){" "}
                 </p>
               </>
             )}

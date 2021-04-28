@@ -7,6 +7,7 @@ let Event = require("../models/event.model");
 let GoogleUser = require("../models/googleuser.model");
 // const JSONObject = require("org.json.simple.JSONObject")
 const axios = require("axios");
+const { events } = require("../models/event.model");
 
 const { OAuth2 } = google.auth;
 const id = process.env.GOOGLE_CLIENT_ID;
@@ -302,36 +303,61 @@ router.route("/create/:id").post((req, res) => {
           for (let i = 0; i < event.respondentEmail.length; ++i) {
             emailsList.push({ email: event.respondentEmail[i] });
           }
-          console.log("emails", emailsList);
+
+          //console.log("emails", emailsList);
+          
+          let newevent = {};
+
+          // check if event in person
+          if (event.location === "") {
+            newevent = {
+              // summary is the name of the event
+              summary: event.title,
+              description: event.description,
+              // sends a calendar update to everyone
+              start: {
+                dateTime: startDate,
+                timeZone: "America/Los_Angeles",
+              },
+              end: {
+                dateTime: endDate,
+                timeZone: "America/Los_Angeles",
+              },
+              // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
+              attendees: emailsList,
+              // this field is to create the google meet things (don't edit this its really senitive for some)
+              conferenceData: {
+                createRequest: {
+                  // request ID is just a randomly generated string
+                  requestId: "sample123",
+                  // requestId: req.params.id,
+                  conferenceSolutionKey: { type: "hangoutsMeet" },
+                },
+              },
+            };
+            console.log("event not in person");
+          } else {
+            console.log("event in person", event.location);
+            newevent = {
+              // summary is the name of the event
+              summary: event.title,
+              description: event.description,
+              // sends a calendar update to everyone
+              start: {
+                dateTime: startDate,
+                timeZone: "America/Los_Angeles",
+              },
+              end: {
+                dateTime: endDate,
+                timeZone: "America/Los_Angeles",
+              },
+              // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
+              attendees: emailsList,
+              location: event.location,
+            };
+          }
 
           // take the start time and get us the correct time:
-          // console.log(event.title, event.description, startDate, endDate, event.respondentEmail);
-          // setup event template:
-          var newevent = {
-            // summary is the name of the event
-            summary: event.title,
-            description: event.description,
-            // sends a calendar update to everyone
-            start: {
-              dateTime: startDate,
-              timeZone: "America/Los_Angeles",
-            },
-            end: {
-              dateTime: endDate,
-              timeZone: "America/Los_Angeles",
-            },
-            // you can pass in attendee emails here, or with other parameters as well outlined in the google API documenation
-            attendees: emailsList,
-            // this field is to create the google meet things (don't edit this its really senitive for some)
-            conferenceData: {
-              createRequest: {
-                // request ID is just a randomly generated string
-                requestId: "sample123",
-                // requestId: req.params.id,
-                conferenceSolutionKey: { type: "hangoutsMeet" },
-              },
-            },
-          };
 
           // insert event into calendar
           calendar.events.insert(

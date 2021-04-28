@@ -4,6 +4,8 @@ import EventPage from "./eventPage";
 import Home from "./home";
 import Create_meeting from "./create_meeting";
 import Availability from "./availability";
+import PrivacyPolicy from "./privacy_policy"; 
+import TermsOfService from "./terms_of_service"; 
 
 export default function RouterPage(props) {
   return (
@@ -28,6 +30,8 @@ export default function RouterPage(props) {
       <Route exact path="/" component={Home} />
       <Route exact path="/create" component={Create_meeting} />
       <Route exact path="/availability" component={Availability} />
+      <Route exact path="/privacy_policy" component={PrivacyPolicy} /> 
+      <Route exact path="/terms_of_service" component={TermsOfService} /> 
     </Switch>
   );
 }

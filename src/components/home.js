@@ -84,25 +84,17 @@ function Home(props) {
       <div className="row justify-content-center">
         <div className="col-md-5">
           <div className="shadow-card">
-            <p>
-              Thanks for checking out the Komma preview as part of PLASMA Demo Day 2021. We are currently in beta, so platform functionality may be limited. This limited preview will close after the event. We would love for you to join our beta waitlist below for continued access to the platform.
+            <p className="welcome-text">
+              Thanks for checking out the Komma preview as part of PLASMA Demo Day 2021. We are currently in beta, so platform functionality may be limited. This limited preview will close after the event. We would love for you to join our beta waitlist below for continued access to the platform. Have any bugs, feature requests, or general feedback? We'd love to hear from you.
             </p>
-            <form action="https://forms.gle/DWAw2XHY9tuAu5VT8">
-              <button className="solid-button">Beta Sign Up</button>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <div className="row justify-content-center">
-        <div className="col-md-5">
-          <div className="shadow-card">
-            <p>
-              Beta testers and invite respondents, please provide bug reports, feature requests, and general feedback here. Submit comments as often as you like. We appreciate your support.
-            </p>
-            <form action="https://forms.gle/Fqwz6CS5FuACRxTS6">
-              <button className="solid-button">Feedback Form</button>
-            </form>
+              <div className="row">
+              <form action="https://forms.gle/DWAw2XHY9tuAu5VT8" style={{marginRight: "1rem"}}>
+                <button className="solid-button">Beta Sign Up</button>
+              </form>
+              <form action="https://forms.gle/Fqwz6CS5FuACRxTS6">
+                <button className="solid-button">Feedback Form</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -111,6 +103,7 @@ function Home(props) {
         <div className="col-md-5">
           <div className="shadow-card">
             <h4 className="welcome-text">Find a time for a group meeting, without the back and forth. Sign in to get started.</h4>
+            <p className="welcome-text">Please note we are pending verification from Google - if a message appears that we aren't verified, click advanced -> Go to Komma</p>
             <button 
               className="google-button" 
               onClick={() => {

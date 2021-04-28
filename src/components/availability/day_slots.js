@@ -209,9 +209,9 @@ function TimeSlots(props) {
     return twelveHour + ":" + minutes + " " + period;
   }
 
+  // ** This function will only be used if we decide to store start times **
   function getNextHalfHour(time) {
-    // Check second to last interval to calculate
-    // prevHour is the start time of the last interval (ex "14"), in 24 hour time
+    // prevHour in 24 hour time
     let prevHour = parseInt(time.slice(0, -2));
     let prevMinutes = parseInt(time.slice(-2));
     // nextHour in 12 hour time
@@ -221,6 +221,16 @@ function TimeSlots(props) {
     return nextHour + ":" + nextMinutes + " " + period;
   }
 
+  function getPrevHalfHour(time) {
+    // nextHour in 24 hour time
+    let nextHour = parseInt(time.slice(0, -2));
+    let nextMinutes = parseInt(time.slice(-2));
+    // prevHour in 12 hour time
+    let prevHour = nextMinutes == 0 ? ((nextHour - 1 + 11) % 12) + 1 : ((nextHour + 11) % 12) + 1;
+    let prevMinutes = nextMinutes == 0 ? "30" : "00";
+    let period = (prevHour <= 11) ? "am" : "pm";
+    return prevHour + ":" + prevMinutes + " " + period;
+  }
 
   return (
     <div className={"day-container" + (props.inputDisabled ? " disabled" : "")}>
@@ -264,8 +274,10 @@ function TimeSlots(props) {
                 else return "var(--kommawhite)";
               })(),
               borderBottom: (() => {
-                if (props.days[props.id].times[line_number][3] ||
-                    (props.viewingGroup && props.days[props.id].times[line_number][1] != 0)) 
+                if (
+                    (props.days[props.id].times[line_number][3] ||
+                    (props.viewingGroup && props.days[props.id].times[line_number][1] != 0)
+                   ) && line_number != props.days[props.id].times.length - 1)
                   return "";
                 else if (line_number % 2 == 0)
                   return "dotted 1px var(--lightgray)";
@@ -285,8 +297,8 @@ function TimeSlots(props) {
               <p className="label bold header">
                 {getDayOfWeek(props.days[props.id].date) + ", " 
                  + getFormattedDate(props.days[props.id].date) + " from " 
-                 + to12HourTime(props.days[props.id].times[line_number][0]) + " - " 
-                 + getNextHalfHour(props.days[props.id].times[line_number][0])}
+                 + getPrevHalfHour(props.days[props.id].times[line_number][0]) + " - " 
+                 + to12HourTime(props.days[props.id].times[line_number][0])}
               </p>
               <div className="row no-gutters">
                 <div className="col-6">

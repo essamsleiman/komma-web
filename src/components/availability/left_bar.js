@@ -11,18 +11,25 @@ function LeftBar(props) {
   //     location: props.eventData.location,
   //     address: "Some Fake Address",
   //   };
+  console.log("hit leftbar props", props);
   var data = {
     name: props.title,
     meetingDuration: props.meetingDuration,
     meetingDurationUnits: "minutes",
-    location: "google",
+    location: props.eventData.location,
     address: "1234 Nowhere Rd. City, CA 12345",
   };
   var name = data.name;
   var meetingDuration = data.meetingDuration;
   var meetingDurationUnits = data.meetingDurationUnits;
   var location = data.location;
-  var address = data.address;
+  // var address = data.address;
+  var address = data.location;
+
+  if (location === "") {
+    location = "google";
+  }
+
 
   // var respondents = [
   //   "Edward Chew",

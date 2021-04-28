@@ -13,6 +13,12 @@ function Navbar(props) {
    props.fetchUser()
   }, []);
 
+  function createNewMeeting() { 
+    if (props.user.user != undefined) 
+      window.location="/create";
+    else 
+      window.open("http://localhost:5000/auth/google", "_self");
+  } 
 
   return (
     <nav>
@@ -32,7 +38,7 @@ function Navbar(props) {
           </div>
         </div>
         <div className="right col">
-          <a href="/create">+ New Meeting</a>
+          <a className="clickable" onClick={createNewMeeting}>+ New Meeting</a>
         </div>
       </div>
     </nav>
