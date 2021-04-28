@@ -36,7 +36,10 @@ function GroupCalendar(props) {
 
   function getHourLabels() {
     let label_list = [];
-    props.intervals.map((interval) => {
+    console.log("PROPS INTERVALS: ", props.intervals);
+    props.intervals[0].times.map((interval) => {
+      console.log("PROPS INTERVALS innter: ", interval[0]);
+
       let hour = parseInt(interval[0].split(":")[0]);
       let minutes = parseInt(interval[0].split(":")[1]);
       let twelveHour = ((hour + 11) % 12) + 1;

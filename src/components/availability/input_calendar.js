@@ -15,13 +15,13 @@ import react, { useState } from "react";
 import "../css/input_calendar.css";
 import DropdownMultiple from "../dropdown_multiple";
 import DaySlots from "./day_slots";
-import axios from "axios"
+import axios from "axios";
 function InputCalendar(props) {
   const [selectedCalendars, setSelectedCalendars] = useState([]);
   const [unsavedChanges, setUnsavedChanges] = useState("none");
 
   function findCalendarLabels() {
-    console.log('calendars', props.calendars); 
+    // console.log('calendars', props.calendars); 
     if (props.calendars == undefined) return;
     else {
       return props.calendars.map(function (calendar) {
@@ -56,7 +56,7 @@ function InputCalendar(props) {
   function adjustIntervals() {
     let new_days = props.days;
     new_days[0].times[2][1] = "5/6";
-    console.log(new_days);
+    // console.log(new_days);
     props.setDays(JSON.parse(JSON.stringify(new_days)));
   }
 
@@ -78,7 +78,7 @@ function InputCalendar(props) {
     // Check second to last interval to calculate
     // lastHour is the start time of the last interval (ex "10")
     let lastHour = parseInt(props.intervals.slice(-2)[0][0]);
-    console.log("last hr: " + lastHour);
+    // console.log("last hr: " + lastHour);
     let nextHour = ((lastHour + 1 + 11) % 12) + 1;
     if (nextHour == 0) nextHour = 12;
     let period = lastHour >= 11 ? "pm" : "am";
@@ -88,10 +88,12 @@ function InputCalendar(props) {
   // Update the internal availabilities object to be sent back to the DB
   function handleSendAvailability() {
     // let new_days = props.days
-    var emails = props.eventData.respondentEmail
-    console.log("hit emails: ", emails, props.email);
-    if(emails.includes(props.email)) {
-      alert("You already responded! Sorry, the current beta does not support updating availabilities :(");
+    var emails = props.eventData.respondentEmail;
+    // console.log("hit emails: ", emails, props.email);
+    if (emails.includes(props.email)) {
+      alert(
+        "You already responded! Sorry, the current beta does not support updating availabilities :("
+      );
       return;
     }
     // make update api request here
@@ -101,28 +103,30 @@ function InputCalendar(props) {
         name: props.name,
         daysState: props.days,
       },
-    }
-   
-    console.log("PARAMS: ", parameters)
-    axios.post(`http://localhost:5000/events/update/${props.eventId}`, {} ,{
-      params: {
-        email: props.email,
-        name: props.name,
-        daysState: props.days,
-      },
-    }).then((res) => {
-      console.log("SUCESSFULLY UPDATED");
-      console.log(`EVENT ADDED TO USER ${res.data}`);
-    }, (err) => {
-      console.log("ERROR: ", err)
-    }
-    );
+    };
 
-
-
-
-
-
+    console.log("PARAMS: ", parameters);
+    axios
+      .post(
+        `http://localhost:5000/events/update/${props.eventId}`,
+        {},
+        {
+          params: {
+            email: props.email,
+            name: props.name,
+            daysState: props.days,
+          },
+        }
+      )
+      .then(
+        (res) => {
+          // console.log("SUCESSFULLY UPDATED");
+          // console.log(`EVENT ADDED TO USER ${res.data}`);
+        },
+        (err) => {
+          console.log("ERROR: ", err);
+        }
+      );
 
     // for (let day = 0; day < new_days.length; day++) {
     //     for (let block = 0; block < new_days[day].times.length; block++) {
@@ -138,7 +142,6 @@ function InputCalendar(props) {
     //         }
     //     }
     // }
-
 
     // console.log(new_days)
     // props.setDays(JSON.parse(JSON.stringify(new_days)))

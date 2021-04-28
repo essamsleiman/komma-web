@@ -117,20 +117,17 @@ function TimeSlots(props) {
       new_days[props.id].times[line_number][3] = false;
     } else {
       // have not yet marked attending
-      console.log("marked as false", new_days[props.id].times[line_number]); 
       new_days[props.id].times[line_number][1] = ++can_attend;
       new_days[props.id].times[line_number][2] = total_responses;
       new_days[props.id].times[line_number][3] = true;
     }
 
-    console.log(new_days);
     props.setDays(JSON.parse(JSON.stringify(new_days)));
     props.setUnsavedChanges("true");
   }
 
   function checkIfMouseEntered(e, line_number) {
     if (e.buttons == 1) {
-      console.log("mouse has been clicked down");
       adjustAttendance(line_number);
     }
   }
@@ -139,7 +136,6 @@ function TimeSlots(props) {
     let not_available_status = false;
     for (let i = 0; i < props.selectedCalendars.length; i++) {
       // each calendar
-      console.log(props.selectedCalendars);
       try {
         if (props.selectedCalendars[i][day][time_block][1])
           not_available_status = true;
@@ -147,7 +143,6 @@ function TimeSlots(props) {
         console.log("hit props error", props, i);
       }
     }
-
     // if they are not available, then update the overall group availability numbers
     if (not_available_status) {
       let new_days = props.days;
@@ -163,7 +158,6 @@ function TimeSlots(props) {
           let can_attend = new_days[day].times[block][1];
           let total_responses = new_days[day].times[block][2];
           // check if respondents availabilities have already been calculated for
-          console.log("hit numresponses in day slots", props.numResponses);
           if (total_responses > props.numResponses) {
             adjusted_responses = true;
             break;
@@ -181,7 +175,6 @@ function TimeSlots(props) {
       new_days[day].times[time_block][2] = total_responses;
       new_days[day].times[time_block][3] = false;
 
-      console.log(new_days);
       props.setDays(new_days);
     }
 
@@ -208,6 +201,7 @@ function TimeSlots(props) {
   function calculateGroupAvailability(num_can_attend, num_responses) {
     return "rgba(71, 203, 108, " + num_can_attend / (num_responses - 1) + ")";
   }
+
 
   return (
     <div className={"day-container" + (props.inputDisabled ? " disabled" : "")}>
@@ -282,7 +276,7 @@ function TimeSlots(props) {
                   <p className="label bold frac-people">
                     {props.days[props.id].times[line_number][1] + " Available"}
                   </p>
-                  {props.intervals[line_number][3].map((name) => (
+                  {props.days[props.id].times[line_number][4].map((name) => (
                     <p className="label">{name}</p>
                   ))}
                 </div>
@@ -294,7 +288,7 @@ function TimeSlots(props) {
                       props.days[props.id].times[line_number][2] +
                       " Unavailable"}
                   </p>
-                  {props.intervals[line_number][4].map((name) => (
+                  {props.days[props.id].times[line_number][5].map((name) => (
                     <p className="label">{name}</p>
                   ))}
                 </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./css/home.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -9,6 +10,8 @@ import { useHistory } from "react-router-dom";
 
 import { fetchUser } from "../../src/Redux/actions/userActions";
 import { fetchCalendar } from "../../src/Redux/actions/calendarActions";
+
+import googleCompanyLogo from "../img/google_company_logo.png";
 
 const cookies = new Cookies();
 var eventId = "123";
@@ -69,8 +72,46 @@ function Home(props) {
     console.log("CALENDAR REDUX: ", props.calendar.events);
   console.log("USER REDUX: ", props.user.accessToken);
   return (
-    <div>
-      <button
+    <div className="home-wrapper">
+      <div className="row justify-content-center title-container">
+        <div className="col-md-10">
+          <h1 className="black title">Fast⚡and friendly 😄 meeting scheduling</h1>
+        </div>
+      </div>
+
+      <div className="row justify-content-center">
+        <div className="col-md-5">
+          <div className="shadow-card">
+            <p>
+              Thanks for checking out the Komma preview as part of PLASMA Demo Day 2021. We are currently in beta, so platform functionality may be limited. This limited preview will close after the event. We would love for you to join our beta waitlist below for continued access to the platform.
+            </p>
+            <form action="https://forms.gle/DWAw2XHY9tuAu5VT8">
+              <button className="solid-button">Beta Sign Up</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className="row justify-content-center">
+        <div className="col-md-5">
+          <div className="shadow-card">
+            <h4 className="welcome-text">Find a time for a group meeting, without the back and forth. Sign in to get started.</h4>
+            <button 
+              className="google-button" 
+              onClick={() => {
+                window.open("http://localhost:5000/auth/google", "_self");
+              }}
+            >
+              <img src={googleCompanyLogo} className="google-company-logo" />
+              Sign In With Google
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+      /* <button
         onClick={() => {
           window.open("http://localhost:5000/auth/google", "_self");
         }}
@@ -89,6 +130,7 @@ function Home(props) {
       >
         Sign in with Google
       </button>
+
       <button
         onClick={() => {
           console.log("FRONTEND ERROR ESSAM");
@@ -136,9 +178,7 @@ function Home(props) {
         }}
       >
         add a new event to the DB
-      </button>
-
-    </div>
+      </button> */
   );
 }
 

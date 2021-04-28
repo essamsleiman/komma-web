@@ -40,7 +40,7 @@ function Availability(props) {
   // if part of their time falls in the times listed in interval[i][j][0], where i represents the day and j represents the position of the interval
   // then mark those specific entries as true
 
-  function createCalendarList() {
+  function createCalendarList(eventData, calendarEvents) {
     for (let i = 0; i < eventData.maxTimeRange; i++) {
       var timeRange =
         (parseInt(eventData.meetingEndTime.substring(0, 2)) -
@@ -74,10 +74,9 @@ function Availability(props) {
     var mmCreated = String(dateCreated.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyyCreated = dateCreated.getFullYear();
 
-
-    // Events from a person's calendar on the current day only pull after the current time - meaning previous time blocks won't be pulled 
-    // Events that start before the time blocks start for a day are not parsed through to show up as red for the time blocks that they do cover (i.e. event starts at 830, but meeting blocks start at 9) 
-    // When a new month starts, there is first an empty day on the availabilities UI and then the days start populating by one day delayed 
+    // Events from a person's calendar on the current day only pull after the current time - meaning previous time blocks won't be pulled
+    // Events that start before the time blocks start for a day are not parsed through to show up as red for the time blocks that they do cover (i.e. event starts at 830, but meeting blocks start at 9)
+    // When a new month starts, there is first an empty day on the availabilities UI and then the days start populating by one day delayed
     for (let i = 0; i < calendarEvents.items.length; i++) {
       var startDateOfEvent = new Date(calendarEvents.items[i].start.dateTime);
       // console.log("startDateOfEvent", startDateOfEvent);
@@ -87,12 +86,11 @@ function Availability(props) {
       var yyyy = startDateOfEvent.getFullYear();
 
       // To calculate the time difference of two dates
-      var calendarDay = new Date(yyyy, mm, dd);
+      var calendarDay = new Date(yyyy, mm, dd); //12 midnight
       var createdDay = new Date(yyyyCreated, mmCreated, ddCreated);
       var Difference_In_Time = Math.abs(
         calendarDay.getTime() - createdDay.getTime()
       );
-
 
       // To calculate the no. of days between two dates
       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
@@ -104,6 +102,7 @@ function Availability(props) {
       var minend = String(endDateOfEvent.getMinutes()).padStart(2, "0");
       // var hrDistance = hrStartRange -
       var timeRange = (parseInt(hr) - parseInt(hrStartRange)) * 2;
+      var timeRangeLate = (parseInt(hrend) - parseInt(hrStartRange)) * 2;
       if (min == "30") {
         timeRange++;
       }
@@ -111,30 +110,16 @@ function Availability(props) {
         timeRange--;
       }
 
-      console.log(
-        "ESSAM CALENDAR LIST: ",
-        calendarList,
-        "i",
-        i,
-        "diff: in days",
-        Difference_In_Days,
-        "calendar events:",
-        calendarEvents.items,
-      );
 
-      if (Difference_In_Days >= calendarList.length) { 
-        Difference_In_Days = calendarList.length - 1;
+      // temporary fix to new month not working :)
+      if (mmCreated != mm) {
+        --Difference_In_Days;
       }
       if (
-        timeRange < 0 ||
+        (timeRange < 0 && timeRangeLate < 0) ||
         timeRange >= calendarList[Difference_In_Days].length
       ) {
-        console.log(
-          "hit in timerange if statement - timerange:",
-          timeRange,
-          "calendar list length",
-          calendarList[Difference_In_Days].length
-        );
+       
         continue;
       }
 
@@ -153,6 +138,7 @@ function Availability(props) {
         if (timeRange + i < calendarList[Difference_In_Days].length)
           calendarList[Difference_In_Days][timeRange + i] = true;
       }
+      // function end
     }
 
     for (let i = 0; i < calendarList.length; i++) {
@@ -161,7 +147,6 @@ function Availability(props) {
         calendarList[i][j] = ["", temp];
       }
     }
-    console.log(calendarList); 
     setCalendarListState(calendarList);
   }
   // var numResponses = -1;
@@ -174,38 +159,12 @@ function Availability(props) {
     var first = new Date(dateCreated);
     var end = new Date(dateCreated);
     end.setDate(end.getDate() + eventData.maxTimeRange);
-    if (props.user.user) {
-      axios
-        .get(`http://localhost:5000/calendar/get`, {
-          params: {
-            // access and refresh tokens being passed in
-            access: props.user.user.accessToken,
-            refresh: props.user.user.refreshToken,
-            // time min and max parameters being passed in
-            timeMin: first,
-            timeMax: end,
-          },
-        })
-        .then((response) => {
-          if (response) {
-            console.log("hit CALENDAR EVENTS: ", response.data);
-            for (let i = 0; i < response.data.items.length; ++i) {
-              console.log("hit dates", response.data.items[i].start);
-            }
 
-            setCalendarEvents(response.data);
-
-            // createCalendarList();
-          } else {
-            console.log("hit error in calendar get axios call");
-          }
-        });
-    }
   }, [props.user]);
 
   useEffect(() => {
     user = props.user;
-    console.log("USER ESSAM :", user);
+    // console.log("USER ESSAM :", user);
     if (user.user) {
       access = user.user.accessToken;
       refresh = user.user.refreshToken;
@@ -213,28 +172,94 @@ function Availability(props) {
   }, []);
 
   useEffect(() => {
-    props.fetchUser();
-    // axios call to get the data:
+    props.fetchUser()
     axios
       .get(`http://localhost:5000/events/get/${eventID}`)
-      .then((response) => {
-        if (response) {
-          console.log("hit response in eventPage", response);
-          setNumResponses(response.data.daysObject[0].times[0][2]);
-          console.log("hit numresponses", numResponses);
-          setEventData(response.data);
+      .then((responseEvent) => {
+        if (responseEvent) {
+          // console.log("hit response in eventPage", responseEvent);
+          setNumResponses(responseEvent.data.daysObject[0].times[0][2]);
+          // console.log("hit numresponses", numResponses);
+          setEventData(responseEvent.data);
+          setDaysState(eventData.daysObject);
         } else {
           console.log("hit error in eventPage axios call");
         }
-      });
+        fetch("http://localhost:5000/auth/success", {
+          method: "GET",
+          credentials: "include",
+        })
+          .then((response) => {
+            if (response.status === 200) return response.json();
+            throw new Error("failed to authenticate user");
+          })
+          .then((responseJson) => {
+            if (responseJson) {
+        
+              setDaysState(responseEvent.data.daysObject);
+              var dateCreated = new Date(responseEvent.data.dateOfEventCreation); // "2021-04-21T17:45:35.198Z"
+              var first = new Date(dateCreated);
+              var end = new Date(dateCreated);
+              end.setDate(end.getDate() + responseEvent.data.maxTimeRange);
+
+              axios
+                .get(`http://localhost:5000/calendar/get`, {
+                params: {
+                  // access and refresh tokens being passed in
+                  access: responseJson.user.accessToken,
+                  refresh: responseJson.user.refreshToken,
+                  // time min and max parameters being passed in
+                  timeMin: first,
+                  timeMax: end,
+                },
+            })
+            .then((response) => {
+              if (response) {
+                // console.log("hit CALENDAR EVENTS: ", response.data);
+              
+
+                setCalendarEvents(response.data);
+                createCalendarList(responseEvent.data, response.data)
+                // createCalendarList();
+                // setupDates();
+              } else {
+                console.log("hit error in calendar get axios call");
+              }
+            });
+
+
+          
+
+            } else {
+              console.log("no response from server");
+            }
+          })
+          .catch((error) => {
+            console.log(`error1: ${error}`);
+          });
+        });
+    // axios call to get the data:
+    // axios
+    //   .get(`http://localhost:5000/events/get/${eventID}`)
+    //   .then((response) => {
+    //     if (response) {
+    //       console.log("hit response in eventPage", response);
+    //       setNumResponses(response.data.daysObject[0].times[0][2]);
+    //       console.log("hit numresponses", numResponses);
+    //       setEventData(response.data);
+    //       setDaysState(eventData.daysObject);
+    //     } else {
+    //       console.log("hit error in eventPage axios call");
+    //     }
+    //   });
     // alert("axios call finished");
   }, []);
 
   useEffect(() => {
     if (props.user.user) {
-      if (props.user.user.id === eventData.hostID) { 
-        setInputDisabled(false); 
-      } 
+      if (props.user.user.id === eventData.hostID) {
+        setInputDisabled(false);
+      }
     }
   }, []);
 
@@ -246,17 +271,6 @@ function Availability(props) {
     googleEmail: "edward@email.com",
   });
 
-  /* 
-
-    These variables exist to server input_calendar.js. 
-    intervals: [the time range's start point, num marked attending/num responded so far, 
-                current user can attend] 
-    days: [{id, date, a copy of intervals showing availability for that specific day}]
-    
-  */
-  // must use JSON.parse(JSON.stringify(intervals)) to create unique multi-dimensional array copies
-
-  // EXAMPLE CODE OF INCREMENTING A DATE: https://stackoverflow.com/questions/24312296/add-one-day-to-date-in-javascript#:~:text=getDate%20only%20returns%20the%20day,setDate%20and%20appending%201.&text=JavaScript%20will%20automatically%20update%20the%20month%20and%20year%20for%20you.
   // Create new Date instance
   var date = new Date();
 
@@ -264,7 +278,7 @@ function Availability(props) {
   date.setDate(date.getDate() + 1);
   const [daysState, setDaysState] = useState([]);
 
-  console.log("DAYS STATE: ", daysState);
+  // console.log("DAYS STATE: availability", daysState);
 
   function format(date) {
     var dd = String(date.getDate()).padStart(2, "0");
@@ -273,26 +287,9 @@ function Availability(props) {
     return mm + "/" + dd + "/" + yyyy;
   }
 
-  function setupDates() {
-    setDaysState(eventData.daysObject);
-  }
+ 
 
   // events data is stored in the state: calendarEvents
-
-  // algorithm outline for generating a calendar interval:
-  function generateInterval() {
-    // get number of days => (0-7).
-    // get time range: i.e. 9am - 5pm
-    // map days to dates: i.e. 0->4/21, 1->4/22, 2->4/23, .... etc
-    // generates a template using dates and time ranges: (NOTE: All fields will be true)
-
-    // var template = [];
-
-    // iterate through calendarEvents state, and check for time ranges for events.
-    // algorithm to update the template when an event is found, and update those availabilities to false.
-    // return template
-    console.log("hit calendarevent inside generate Interval", calendarEvents);
-  }
 
   const calendars = [
     {
@@ -302,26 +299,19 @@ function Availability(props) {
       times: calendarListState,
     },
   ];
-  // const calendars = [
-  //   { id: 0, calendarLabel: "Personal Calendar", times: calendar1_intervals },
-  //   { id: 1, calendarLabel: "UCD Calendar", times: calendar2_intervals },
-  //   { id: 2, calendarLabel: "Komma Calendar", times: calendar3_intervals },
-  // ];
-  // if (daysState[0]) {
-  //   numResponses = daysState[0].times[0][2];
 
   // const numResponses = 3;
-  console.log("props.user.user", props.user.user);
-
-  const isHost =
-    props.user.user && props.user.user !== {}
-      ? props.user.user.id === eventData.hostID
-      : false;
-
-  if (props.user.user === {} || typeof props.user.user === "undefined") {
+  var isHost;
+  
+  // console.log("JAMES CHECK: ", isHost)
+  if (props.user.user === {} || typeof props.user.user === "undefined" || typeof eventData.hostID === "undefined" || typeof daysState === "undefined" ) {
     return <div>Loading...</div>;
   } else {
-    console.log("EVENTDATA", eventData);
+     isHost =
+     typeof props.user.user !== "undefined" && props.user.user !== {}
+      ? props.user.user.id === eventData.hostID
+      : false;
+   
     return (
       <div>
         <div className="row no-gutters justify-content-center shadow-card top-margin">
@@ -339,14 +329,14 @@ function Availability(props) {
           </div>
           <div className="col-9">
             <div className="vertical-bar"></div>
-              <TopBar
-                userInfo={userInfo}
-                setUserInfo={setUserInfo}
-                setInputDisabled={setInputDisabled}
-                meetingHostName={eventData.hostName}
-                isMeetingHost={isHost} 
-                urlId={window.location.pathname}
-              />
+            <TopBar
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+              setInputDisabled={setInputDisabled}
+              meetingHostName={eventData.hostName}
+              isMeetingHost={isHost}
+              urlId={window.location.pathname}
+            />
             {!viewingGroup ? (
               <InputCalendar
                 viewingGroup={viewingGroup}
@@ -364,7 +354,7 @@ function Availability(props) {
             ) : (
               <GroupCalendar
                 viewingGroup={viewingGroup}
-                intervals={intervals}
+                intervals={daysState}
                 days={daysState}
                 setDays={setDaysState}
                 inputDisabled={inputDisabled}
@@ -372,12 +362,12 @@ function Availability(props) {
               />
             )}
           </div>
-          <button type="button" onClick={setupDates}>
+          {/* <button type="button" onClick={setupDates}>
             hi guys
           </button>
           <button type="button" onClick={createCalendarList}>
             Essam's button
-          </button>
+          </button> */}
         </div>
       </div>
     );

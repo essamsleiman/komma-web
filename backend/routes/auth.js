@@ -64,19 +64,19 @@ router.get(
     // console.log("IN SUCCESS", req.user);
     if (req.user) {
       // console.log("NOW USER: ", req.user);
-      console.log("PASS in REQ");
+      // console.log("PASS in REQ");
       const user = {
         name: req.user.firstName,
         id: req.user._id,
         accessToken: req.user.accessToken,
         refreshToken: req.user.refreshToken,
-        email: req.user.email
+        email: req.user.email,
       };
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
       // console.log("I HAVE ACCESS TOKEN: ", accessToken);
       res.json({ user: user });
     } else {
-      console.log("FAIL IN REQ");
+      console.log("FAIL IN USER REQ");
       res.json("Call didn't go through");
     }
   }

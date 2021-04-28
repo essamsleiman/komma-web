@@ -15,10 +15,11 @@ function Navbar() {
               src={komma_logo}
             />
           </a>
-          <h3 className="bold beta-text">
-            Komma <span className="bold beta">beta</span>
-            <span className="tiny version">v1.0</span>
-          </h3>
+          <div className="beta-text">
+            <h3 className="bold komma">Komma</h3>
+            <p className="beta">beta</p>
+            <p className="tiny version">v1.0</p>
+          </div>
         </div>
         <div className="right col">
           <a href="/create">+ New Meeting</a>
