@@ -9,18 +9,12 @@ import { updateEvent } from "../../Redux/actions/eventActions";
 import { timeConversion } from "../utils.js";
 function StepThree(props) {
   const meetingLengths = [
-    {
-      label: "15 minute",
-      value: "15",
-    },
+   
     {
       label: "30 minute",
       value: "30",
     },
-    {
-      label: "45 minute",
-      value: "45",
-    },
+   
     {
       label: "60 minute",
       value: "60",

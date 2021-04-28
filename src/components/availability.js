@@ -301,7 +301,22 @@ function Availability(props) {
     return mm + "/" + dd + "/" + yyyy;
   }
 
- 
+  function getEmail() {
+    if (props.user.user == undefined) {
+    return ["garbage name"]
+    }
+    else {
+      return props.user.user.email
+    }
+   }
+ function getName() {
+  if (props.user.user == undefined) {
+  return ["garbage name"]
+  }
+  else {
+    return props.user.user.name
+  }
+ }
 
   // events data is stored in the state: calendarEvents
 
@@ -334,6 +349,8 @@ function Availability(props) {
 
       console.log(props.user.user); 
    
+      var name = getName()
+      var email = getEmail()
     return (
       <div>
         <div className="row no-gutters justify-content-center shadow-card top-margin">
@@ -347,12 +364,7 @@ function Availability(props) {
               meetingDuration={eventData.timePeriod}
               isHost={isHost}
               urlId={window.location.pathname}
-              name={() => {
-                if (props.user.user.name == undefined)
-                  return "garbage name"
-                else
-                  return props.user.user.name == undefined
-              }}
+              name={name}
               responded={responded}
             />
           </div>
@@ -379,18 +391,8 @@ function Availability(props) {
                 calendars={calendars}
                 eventId={eventID}
                 eventData={eventData}
-                name={() => {
-                  if (props.user.user.email == undefined)
-                    return "garbage email"
-                  else
-                    return props.user.user.email == undefined
-                }}
-                name={() => {
-                  if (props.user.user.name == undefined)
-                    return "garbage name"
-                  else
-                    return props.user.user.name == undefined
-                }}
+                email={email}
+                name={name}
                 setResponded={setResponded}
               />
             ) : (
@@ -403,6 +405,7 @@ function Availability(props) {
                 numResponses={numResponses}
                 name={props.user.user.name}
                 responded={responded}
+                setResponded={setResponded}
               />
             )}
           </div>
