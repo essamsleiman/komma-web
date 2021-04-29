@@ -14,10 +14,11 @@ function Navbar(props) {
   }, []);
 
   function createNewMeeting() { 
-    if (props.user.user != undefined) 
-      window.location="/create";
-    else 
-      window.open("http://login.getkomma.com/auth/google", "_self");
+    // if (props.user.user != undefined) 
+    //   window.location="/create";
+    // else 
+    //   window.open("http://login.getkomma.com/auth/google", "_self");
+    console.log("NO")
   } 
 
   return (

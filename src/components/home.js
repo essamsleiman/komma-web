@@ -88,7 +88,8 @@ function Home(props) {
             <button 
               className="google-button" 
               onClick={() => {
-                window.open("http://login.getkomma.com/auth/google", "_self");
+                console.log("NO")
+                // window.open("http://login.getkomma.com/auth/google", "_self");
               }}
             >
               <img src={googleCompanyLogo} className="google-company-logo" />
