@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { Provider } from "react-redux";
+// import { Provider } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import store from "./Redux/store";
+// import store from "./Redux/store";
 
 import Navbar from "./components/navbar";
 import Home from "./components/home";
@@ -27,20 +27,18 @@ function App() {
   console.log(window.location);
 
   return (
-    <Provider store={store}>
-      <div id="background">
-        <div id="content-container">
-          {window.location.pathname != "/privacy_policy" &&
-          window.location.pathname != "/terms_of_service" ? (
-            <div id="bg-circle"></div>
-          ) : null}
-          <Navbar />
-          <Router>
-            <RouterPage />
-          </Router>
-        </div>
+    <div id="background">
+      <div id="content-container">
+        {window.location.pathname != "/privacy_policy" &&
+        window.location.pathname != "/terms_of_service" ? (
+          <div id="bg-circle"></div>
+        ) : null}
+        <Navbar />
+        <Router>
+          <RouterPage />
+        </Router>
       </div>
-    </Provider>
+    </div>
   );
 }
 
