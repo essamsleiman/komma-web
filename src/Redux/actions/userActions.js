@@ -3,7 +3,7 @@ import axios from "axios";
 
 export function fetchUser() {
   return function (dispatch) {
-    fetch("http://localhost:5000/auth/success", {
+    fetch("http://login.getkomma.com/auth/success", {
       method: "GET",
       credentials: "include",
     })

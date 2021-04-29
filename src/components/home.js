@@ -35,7 +35,7 @@ function Home(props) {
     } 
 
     // axios post request to add the new event into here.
-    axios.post("http://localhost:5000/events/add", fields).then((response) => {
+    axios.post("http://login.getkomma.com/events/add", fields).then((response) => {
       console.log("hit response", response);
     }, (error) => {
       console.log("hit error :(", error);
@@ -88,7 +88,7 @@ function Home(props) {
             <button 
               className="google-button" 
               onClick={() => {
-                window.open("http://localhost:5000/auth/google", "_self");
+                window.open("http://login.getkomma.com/auth/google", "_self");
               }}
             >
               <img src={googleCompanyLogo} className="google-company-logo" />

@@ -17,7 +17,7 @@ function Navbar(props) {
     if (props.user.user != undefined) 
       window.location="/create";
     else 
-      window.open("http://localhost:5000/auth/google", "_self");
+      window.open("http://login.getkomma.com/auth/google", "_self");
   } 
 
   return (

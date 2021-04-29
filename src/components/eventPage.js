@@ -11,7 +11,7 @@ function EventPage(props) {
 
     useEffect(() => {
         // axios call to get the data:
-        axios.get(`http://localhost:5000/events/get/${eventID}`).then((response) => {
+        axios.get(`http://login.getkomma.com/events/get/${eventID}`).then((response) => {
             if (response) {
                 console.log("hit response in eventPage", response);
                 eventInfo = response.data;

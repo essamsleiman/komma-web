@@ -4,7 +4,7 @@ import axios from "axios";
 export function fetchCalendar(accessToken) {
   return function (dispatch) {
     axios
-      .get("http://localhost:5000/auth/events", {
+      .get("http://login.getkomma.com/auth/events", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

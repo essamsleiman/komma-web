@@ -122,10 +122,10 @@ function TopBar(props) {
                       console.log(props.urlId.substring(14))
                       console.log(props.urlId)
                       axios
-                      .get(`http://localhost:5000/auth/reroute/${props.urlId.substring(14)}`)
+                      .get(`http://login.getkomma.com/auth/reroute/${props.urlId.substring(14)}`)
                       .then(() => {
                         console.log("in .then")
-                        window.open("http://localhost:5000/auth/google", "_self");
+                        window.open("http://login.getkomma.com/auth/google", "_self");
 
                       });
                     }}

@@ -446,7 +446,7 @@ router.route("/update/:id").post((req, res) => {
 function generateCalendarEvent(event, url) {
   if (event.respondentName.length - 1 >= event.respondedSentAfter) {
     axios
-      .post(`http://localhost:5000/events/create/${url}`)
+      .post(`http://login.getkomma.com/events/create/${url}`)
       .then((res) => {
         console.log("Event Creation Success");
       })

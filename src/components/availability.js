@@ -169,7 +169,7 @@ function Availability(props) {
   useEffect(() => {
     props.fetchUser()
     axios
-      .get(`http://localhost:5000/events/get/${eventID}`)
+      .get(`http://login.getkomma.com/events/get/${eventID}`)
       .then((responseEvent) => {
         if (responseEvent) {
           // console.log("hit response in eventPage", responseEvent);
@@ -180,7 +180,7 @@ function Availability(props) {
         } else {
           console.log("hit error in eventPage axios call");
         }
-        fetch("http://localhost:5000/auth/success", {
+        fetch("http://login.getkomma.com/auth/success", {
           method: "GET",
           credentials: "include",
         })
@@ -210,7 +210,7 @@ function Availability(props) {
               end.setDate(end.getDate() + responseEvent.data.maxTimeRange + 1);
 
               axios
-                .get(`http://localhost:5000/calendar/get`, {
+                .get(`http://login.getkomma.com/calendar/get`, {
                 params: {
                   // access and refresh tokens being passed in
                   access: responseJson.user.accessToken,
