@@ -13,37 +13,31 @@ import axios from "axios";
 import RouterPage from "./components/RouterPage.js";
 
 function App() {
-
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth); 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     function handleResize() {
-      // console.log('resized to: ', window.innerWidth, 'x', window.innerHeight) 
-      setScreenWidth(window.innerWidth); 
+      // console.log('resized to: ', window.innerWidth, 'x', window.innerHeight)
+      setScreenWidth(window.innerWidth);
     }
-  
-    window.addEventListener('resize', handleResize)
-  })
 
-  console.log(window.location); 
+    window.addEventListener("resize", handleResize);
+  });
+
+  console.log(window.location);
 
   return (
     <Provider store={store}>
       <div id="background">
-        <div id="content-container"> 
-          { window.location.pathname != "/privacy_policy" && window.location.pathname != "/terms_of_service" ? 
+        <div id="content-container">
+          {window.location.pathname != "/privacy_policy" &&
+          window.location.pathname != "/terms_of_service" ? (
             <div id="bg-circle"></div>
-          :
-            null
-          }
+          ) : null}
           <Navbar />
-          { screenWidth > 700 ? 
-          (<Router>
-              <RouterPage />
-            </Router>)
-          :
-            <h3>Unfortunately, Komma isn't ready for mobile viewports yet. Check back soon!</h3> 
-          }
+          <Router>
+            <RouterPage />
+          </Router>
         </div>
       </div>
     </Provider>
