@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/home.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-import { fetchUser } from "../../src/Redux/actions/userActions";
-import { fetchCalendar } from "../../src/Redux/actions/calendarActions";
+// import { fetchUser } from "../../src/Redux/actions/userActions";
+// import { fetchCalendar } from "../../src/Redux/actions/calendarActions";
 
 import googleCompanyLogo from "../img/google_company_logo.png";
 

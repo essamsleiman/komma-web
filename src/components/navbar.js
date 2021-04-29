@@ -3,15 +3,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/navbar.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import komma_logo from "../img/komma_logo.svg";
-import PropTypes from "prop-types";
-import { fetchUser } from "../../src/Redux/actions/userActions";
-import { connect } from "react-redux";
+// import PropTypes from "prop-types";
+// import { fetchUser } from "../../src/Redux/actions/userActions";
+// import { connect } from "react-redux";
 
-function Navbar(props) {
+export default function Navbar(props) {
 
-  useEffect(() => {
-   props.fetchUser()
-  }, []);
+  // useEffect(() => {
+  //  props.fetchUser()
+  // }, []);
 
   function createNewMeeting() { 
     // if (props.user.user != undefined) 
@@ -46,14 +46,16 @@ function Navbar(props) {
   );
 }
 
-Navbar.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
-  user: PropTypes.array.isRequired,
+// Navbar.propTypes = {
+//   fetchUser: PropTypes.func.isRequired,
+//   user: PropTypes.array.isRequired,
   
-};
+// };
 
-const mapStateToProps = (state) => ({
-  user: state.user.user,
-});
+// const mapStateToProps = (state) => ({
+//   user: state.user.user,
+// });
 
-export default connect(mapStateToProps, { fetchUser })(Navbar);
+// export default connect(mapStateToProps, { fetchUser })(Navbar);
+
+
