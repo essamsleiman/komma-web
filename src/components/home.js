@@ -66,21 +66,32 @@ export default function Home(props) {
         <div className="col-md-5">
           <div className="shadow-card">
             <p className="welcome-text">
-              Thanks for checking out the Komma preview as part of PLASMA Demo Day 2021. We are currently in beta, so platform functionality may be limited. This limited preview will close after the event. We would love for you to join our beta waitlist below for continued access to the platform. Have any bugs, feature requests, or general feedback? We'd love to hear from you.
+              Thanks for checking out the Komma as part of PLASMA Demo Day 2021. Our site will be launching next week in out first beta version. Sign up with the form below to join the beta waitlist and use the platform before our official launch!
             </p>
-              <div className="row">
-              <form action="https://forms.gle/DWAw2XHY9tuAu5VT8" style={{marginRight: "1rem"}}>
+            <div className="row">
+              <form target="_blank" action="https://forms.gle/DWAw2XHY9tuAu5VT8" style={{marginRight: "1rem"}}>
                 <button className="solid-button">Beta Sign Up</button>
               </form>
-              <form action="https://forms.gle/Fqwz6CS5FuACRxTS6">
+              {/* <form target="_blank" action="https://forms.gle/Fqwz6CS5FuACRxTS6">
                 <button className="solid-button">Feedback Form</button>
-              </form>
+              </form> */}
             </div>
           </div>
         </div>
       </div>
 
       <div className="row justify-content-center">
+        <div className="col-md-7">
+          <div className="shadow-card">
+            <p className="welcome-text">
+              Check out our video below to learn more about Komma and see a demo!
+            </p>
+            <iframe className="video-embed" src="https://www.youtube.com/embed/QG2nPoob260" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+
+      {/* <div className="row justify-content-center">
         <div className="col-md-5">
           <div className="shadow-card">
             <h4 className="welcome-text">Find a time for a group meeting, without the back and forth. Sign in to get started.</h4>
@@ -89,7 +100,7 @@ export default function Home(props) {
               className="google-button" 
               onClick={() => {
                 console.log("NO")
-                // window.open("http://login.getkomma.com/auth/google", "_self");
+                window.open("http://login.getkomma.com/auth/google", "_self");
               }}
             >
               <img src={googleCompanyLogo} className="google-company-logo" />
@@ -97,7 +108,7 @@ export default function Home(props) {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
