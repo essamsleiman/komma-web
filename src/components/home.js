@@ -16,43 +16,43 @@ import googleCompanyLogo from "../img/google_company_logo.png";
 const cookies = new Cookies();
 var eventId = "123";
 
-function Home(props) {
+export default function Home(props) {
   let history = useHistory();
 
   // create event testing function
-  function createEvent() {
-    var fields = {
-      name : "James' New Event",
-      hostname : "James R. Junaidi",
-      meetingInviteLink : "",
-      googleMeetLink : "",
+  // function createEvent() {
+  //   var fields = {
+  //     name : "James' New Event",
+  //     hostname : "James R. Junaidi",
+  //     meetingInviteLink : "",
+  //     googleMeetLink : "",
     
-      title : "The event",
-      description : "random desc.",
-      location : "United States",
-      minTimeRange : "2021-04-01T09:00:00-07:00",
-      maxTimeRange : "2021-04-01T09:00:00-09:00",
-    } 
+  //     title : "The event",
+  //     description : "random desc.",
+  //     location : "United States",
+  //     minTimeRange : "2021-04-01T09:00:00-07:00",
+  //     maxTimeRange : "2021-04-01T09:00:00-09:00",
+  //   } 
 
-    // axios post request to add the new event into here.
-    axios.post("http://login.getkomma.com/events/add", fields).then((response) => {
-      console.log("hit response", response);
-    }, (error) => {
-      console.log("hit error :(", error);
-    });
-  }
+  //   // axios post request to add the new event into here.
+  //   // axios.post("http://login.getkomma.com/events/add", fields).then((response) => {
+  //   //   console.log("hit response", response);
+  //   // }, (error) => {
+  //   //   console.log("hit error :(", error);
+  //   // });
+  // }
 
   function signin() {}
-  console.log("COOKIE", document.cookie);
-  useEffect(() => {
+  // console.log("COOKIE", document.cookie);
+  // useEffect(() => {
 
 
-    console.log("hit fetchuser", props.fetchUser());
-  }, []);
+  //   // console.log("hit fetchuser", props.fetchUser());
+  // }, []);
 
-  if (props.calendar)
-    console.log("CALENDAR REDUX: ", props.calendar.events);
-  console.log("USER REDUX: ", props.user.accessToken);
+  // if (props.calendar)
+  //   console.log("CALENDAR REDUX: ", props.calendar.events);
+  // console.log("USER REDUX: ", props.user.accessToken);
 
   return (
     <div className="home-wrapper">
@@ -102,16 +102,17 @@ function Home(props) {
   );
 }
 
-Home.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
-  user: PropTypes.array.isRequired,
-  fetchCalendar: PropTypes.func.isRequired,
-  calendar: PropTypes.array.isRequired,
-};
+// Home.propTypes = {
+//   fetchUser: PropTypes.func.isRequired,
+//   user: PropTypes.array.isRequired,
+//   fetchCalendar: PropTypes.func.isRequired,
+//   calendar: PropTypes.array.isRequired,
+// };
 
-const mapStateToProps = (state) => ({
-  calendar: state.calendar.calendar.data,
-  user: state.user.user,
-});
+// const mapStateToProps = (state) => ({
+//   calendar: state.calendar.calendar.data,
+//   user: state.user.user,
+// });
 
-export default connect(mapStateToProps, { fetchUser, fetchCalendar })(Home);
+// export default connect(mapStateToProps, { fetchUser, fetchCalendar })(Home);
+// export default Home
