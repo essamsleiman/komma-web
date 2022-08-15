@@ -14,7 +14,6 @@ In 2020, the Komma team joined the [UC Davis Plasma Startup Accelerator](https:/
 After the program, we released our application as a Beta, but eventually halted the project as we struggled to find product-market fit. Learned a lot along the process!
 
 
-![Alt text](/img/secondpage.png)
 
 
 ## Quick Start
@@ -41,6 +40,8 @@ After the program, we released our application as a Beta, but eventually halted 
    cd ..\frontend\
    npm start
    ```
+
+![Alt text](/img/secondpage.png)
 
 
 <!-- ![alt text](https://github.com/essamsleiman/komma-web/blob/main/img/Screen Shot 2022-08-15 at 2.07.14 PM.png?raw=true) -->
