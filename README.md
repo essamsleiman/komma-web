@@ -32,6 +32,7 @@ Komma simplifies the way people schedule group meetings.
    ```
 
 
+![alt text](https://github.com/essamsleiman/komma-web/blob/main/img/Screen Shot 2022-08-15 at 2.07.14 PM.png?raw=true)
 
 
 <!-- ORIGINAL AUTO-GENERATED README CAN BE FOUND BELOW
