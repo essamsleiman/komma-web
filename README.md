@@ -2,6 +2,9 @@
 
 Development Team @ Komma: Essam Sleiman, James Junaidi, Edward Chew, Omid Mogasemi
 
+![Alt text](/img/team.png)
+
+
 ## About
 
 Komma simplifies the way sales representatives schedule group meetings. Essam Sleiman, James Junaidi, Edward Chew, Omid Mogasemi came together in their freshman year at UC Davis to develop a side project: Komma. Especially due to the remote culture during the pandemic, we noticed meetings were scheduled inefficiently and wanted to solve this problem. 
