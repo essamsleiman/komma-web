@@ -4,7 +4,15 @@ Development Team @ Komma: Essam Sleiman, James Junaidi, Edward Chew, Omid Mogase
 
 ## About
 
-Komma simplifies the way people schedule group meetings.
+Komma simplifies the way sales representatives schedule group meetings. Essam Sleiman, James Junaidi, Edward Chew, Omid Mogasemi came together in their freshman year at UC Davis to develop a side project: Komma. Especially due to the remote culture during the pandemic, we noticed meetings were scheduled inefficiently and wanted to solve this problem. 
+
+In 2020, the Komma team joined the [UC Davis Plasma Startup Accelerator](https://startup.ucdavis.edu/plasma/), a 12 week program for students to convert an idea into product. 
+
+After the program, we released our application as a Beta, but eventually halted the project as we struggled to find product-market fit. Learned a lot along the process!
+
+
+![Alt text](/img/secondpage.png)
+
 
 ## Quick Start
 
@@ -33,7 +41,8 @@ Komma simplifies the way people schedule group meetings.
 
 
 <!-- ![alt text](https://github.com/essamsleiman/komma-web/blob/main/img/Screen Shot 2022-08-15 at 2.07.14 PM.png?raw=true) -->
-![Alt text](secondpage.png)
+<!-- <img src="/img/secondpage.png" alt="Alt text" title="Optional title">
+ -->
 
 <!-- ORIGINAL AUTO-GENERATED README CAN BE FOUND BELOW
 ## Available Scripts
