@@ -7,13 +7,15 @@ Development Team @ Komma: Essam Sleiman, James Junaidi, Edward Chew, Omid Mogase
 
 ## About
 
-Komma simplifies the way sales representatives schedule group meetings. Essam Sleiman, James Junaidi, Edward Chew, Omid Mogasemi came together in their freshman year at UC Davis to develop a side project: Komma. Especially due to the remote culture during the pandemic, we noticed meetings were scheduled inefficiently and wanted to solve this problem. 
+**Komma was built to simplify how sales teams schedule group meetings — a problem that became even more urgent with the rise of remote work.**
 
-In 2020, the Komma team joined the [UC Davis Plasma Startup Accelerator](https://startup.ucdavis.edu/plasma/), a 12 week program for students to convert an idea into product. 
+Essam Sleiman, James Junaidi, Edward Chew, and Omid Mogasemi teamed up during their freshman year to build Komma, driven by the frustration they experienced trying to coordinate meetings across time zones and teams. Recognizing the inefficiencies in existing scheduling tools, they set out to create a smarter, more seamless solution tailored for sales workflows.
 
-After the program, we released our application as a Beta, but eventually halted the project as we struggled to find product-market fit. Learned a lot along the process!
+In 2020, the team was accepted into the [Plasma Startup Accelerator](https://startup.ucdavis.edu/plasma/), a competitive 12-week program designed to help student founders turn early ideas into real ventures with initial funding. There, we rapidly iterated on the product, conducted user research, and built a functioning prototype.
 
+Following the accelerator, Komma launched a public beta, gaining early traction and feedback from sales teams navigating remote-first environments. While we ultimately decided to wind down the startup, we learned a ton from the art of user interviews and prototype development to shipping product and learning how to operate as a founding team.
 
+The experience shaped how we build today: user-first, fast-moving, and obsessed with solving real problems.
 
 
 ## Quick Start
